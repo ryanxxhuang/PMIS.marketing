@@ -2,3 +2,6 @@ node_modules/
 dist/
 .astro/
 .DS_Store
+
+# 稽核工具暫存
+.playwright-mcp/
