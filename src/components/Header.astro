@@ -18,21 +18,17 @@ const links: NavLink[] = [
   { key: 'features', label: '功能全覽', href: '/features/' },
   { key: 'security', label: 'AI 邊界與資安', href: '/security/' },
 ];
-// 「關於」段 2026-08-25 簡化並下移到頁尾前,不再進導覽;
-// 三方協作是內頁回首頁的入口
-if (page !== 'demo' && page !== 'landing') {
-  links.push({ key: 'roles', label: '三方協作', href: '/#roles' });
-}
+// 四頁導覽一致:同一組連結 + 登入 + CTA。
+// (2026-08-25:內頁原本多一個「三方協作」、預約頁原本沒有 CTA,
+//  使用者反映「每換一頁按鈕都不一樣」,故統一)
 ---
 
 <header class="site-header">
   <div class="wrap bar">
     <a class="brand" href="/">
-      <span class="mark">
-        <svg width="24" height="24" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 12.4 L34.4 30.4 L13.6 30.4 Z" fill="none" stroke="#ffffff" stroke-opacity=".5" stroke-width="3" stroke-linejoin="round"></path><circle cx="24" cy="12.4" r="5.2" fill="#ffffff"></circle><circle cx="34.4" cy="30.4" r="5.2" fill="#ffffff"></circle><circle cx="13.6" cy="30.4" r="5.2" fill="#fdd663"></circle></svg>
-      </span>
+      <span class="mark"><svg width="32" height="32" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 12.4 L34.4 30.4 L13.6 30.4 Z" fill="none" stroke="#dadce0" stroke-width="3" stroke-linejoin="round"></path><circle cx="24" cy="12.4" r="5.2" fill="#1a73e8"></circle><circle cx="34.4" cy="30.4" r="5.2" fill="#ea4335"></circle><circle cx="13.6" cy="30.4" r="5.2" fill="#fbbc04"></circle></svg></span>
       <span class="lockup">
-        <span class="name">Gov<span class="ai">Agent</span></span>
+        <span class="name">GovAgent</span>
         <span class="tag">公共工程專案管理</span>
       </span>
     </a>
@@ -49,7 +45,7 @@ if (page !== 'demo' && page !== 'landing') {
       {/* 登入是對 handoff 設計的必要增補:產品搬到 app 子網域後,
           既有使用者從根網域需要回到系統的路(720px 以下由 footer 的登入承接) */}
       <a class="navlink" href={SITE.appUrl}>登入</a>
-      {page !== 'demo' && <a class="cta" href="/demo/">{SITE.ctaLabel}</a>}
+      <a class="cta" href="/demo/">{SITE.ctaLabel}</a>
     </nav>
   </div>
 </header>
@@ -86,16 +82,13 @@ if (page !== 'demo' && page !== 'landing') {
     text-decoration: none;
   }
 
+  /* 品牌標誌用三色本體(機關藍／監造紅／廠商黃 = 三方),
+     不加藍底方塊 —— 那會蓋掉三色的語意。配色同 public/brand/pmis-mark.svg */
   .mark {
-    width: 34px;
-    height: 34px;
-    border-radius: 10px;
-    background: #0b57d0;
     display: flex;
     align-items: center;
     justify-content: center;
     flex: none;
-    box-shadow: 0 1px 2px rgba(11, 87, 208, .35);
   }
 
   .lockup {
@@ -109,7 +102,6 @@ if (page !== 'demo' && page !== 'landing') {
     font-weight: 500;
     letter-spacing: -.02em;
   }
-  .ai { color: var(--color-accent); }
   .tag {
     font-size: 10.5px;
     color: var(--color-neutral-700);

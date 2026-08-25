@@ -19,21 +19,8 @@ const { note = '畫面中的專案、金額、人名與統計數字為示範資�
   <div class="footer-inner">
     <div class="footer-brand">
       {/* 藍底反白的標誌，必須 inline 才能吃到白色描邊，不改成引用 public/brand 的檔案 */}
-      <span class="footer-mark">
-        <svg width="21" height="21" viewBox="0 0 48 48" aria-hidden="true">
-          <path
-            d="M24 12.4 L34.4 30.4 L13.6 30.4 Z"
-            fill="none"
-            stroke="#ffffff"
-            stroke-opacity=".5"
-            stroke-width="3"
-            stroke-linejoin="round"></path>
-          <circle cx="24" cy="12.4" r="5.2" fill="#ffffff"></circle>
-          <circle cx="34.4" cy="30.4" r="5.2" fill="#ffffff"></circle>
-          <circle cx="13.6" cy="30.4" r="5.2" fill="#fdd663"></circle>
-        </svg>
-      </span>
-      <span class="footer-wordmark">Gov<span class="footer-wordmark-ai">Agent</span></span>
+      <span class="footer-mark"><svg width="28" height="28" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 12.4 L34.4 30.4 L13.6 30.4 Z" fill="none" stroke="#dadce0" stroke-width="3" stroke-linejoin="round"></path><circle cx="24" cy="12.4" r="5.2" fill="#1a73e8"></circle><circle cx="34.4" cy="30.4" r="5.2" fill="#ea4335"></circle><circle cx="13.6" cy="30.4" r="5.2" fill="#fbbc04"></circle></svg></span>
+      <span class="footer-wordmark">GovAgent</span>
       <span class="footer-tagline">公共工程專案管理</span>
     </div>
 
@@ -80,10 +67,6 @@ const { note = '畫面中的專案、金額、人名與統計數字為示範資�
 
   /* #0b57d0 同 --color-accent；照原型維持字面值，與標誌內的 #fdd663 一致 */
   .footer-mark {
-    width: 30px;
-    height: 30px;
-    border-radius: 9px;
-    background: #0b57d0;
     display: flex;
     align-items: center;
     justify-content: center;
