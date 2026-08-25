@@ -241,9 +241,10 @@ const concerns = [
   const openedAt = Date.now();
   let submitting = false;
 
+  // 先讓 role="alert" 進入無障礙樹,再寫入內容,螢幕閱讀器才會播報
   const showError = (msg: string) => {
-    errorText.textContent = msg;
     errorBox.hidden = false;
+    errorText.textContent = msg;
   };
 
   const doSubmit = async () => {
@@ -295,7 +296,9 @@ const concerns = [
     if (!ready()) return;
     doSubmit();
   });
-  retryBtn.addEventListener('click', doSubmit);
+  retryBtn.addEventListener('click', () => {
+    if (ready()) doSubmit();
+  });
 
   // 原型 reset:清 name/org/email 與已選議題,身分保留
   againBtn.addEventListener('click', () => {
@@ -519,6 +522,8 @@ const concerns = [
   }
 
   /* 失敗狀態:#fce8e6 底 + error 圖示 + 重試鈕 */
+  /* hidden 屬性必須壓過 display:flex,否則錯誤條會常駐(2026-08-25 線上事故) */
+  .submit-error[hidden] { display: none; }
   .submit-error {
     margin-top: 22px;
     padding: 12px 16px;

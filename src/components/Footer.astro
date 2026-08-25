@@ -12,7 +12,7 @@ interface Props {
   note?: string;
 }
 
-const { note = '畫面中的專案、金額與人名為示範資料。' } = Astro.props;
+const { note = '畫面中的專案、金額、人名與統計數字為示範資料。' } = Astro.props;
 ---
 
 <footer class="site-footer">
@@ -46,6 +46,12 @@ const { note = '畫面中的專案、金額與人名為示範資料。' } = Astr
     </nav>
 
     <div class="footer-note">{note}</div>
+  </div>
+
+  {/* 機關法制／政風會問「gov-agent.ai 是不是官方網站」。這句原在舊站(c7afb85),
+      Astro 重寫時遺失,2026-08-25 補回。公司登記名稱與統編待補。 */}
+  <div class="footer-legal">
+    <p>本網站由民間資訊服務廠商經營，非政府機關，與任何政府機關無隸屬或代理關係。</p>
   </div>
 </footer>
 
@@ -109,6 +115,18 @@ const { note = '畫面中的專案、金額與人名為示範資料。' } = Astr
 
   .footer-note {
     font-size: 11.5px;
+    color: var(--color-neutral-700);
+  }
+
+  .footer-legal {
+    max-width: 1180px;
+    margin: 18px auto 0;
+    padding-top: 16px;
+    border-top: 1px solid var(--g-line);
+  }
+  .footer-legal p {
+    font-size: 11.5px;
+    line-height: 1.75;
     color: var(--color-neutral-700);
   }
 

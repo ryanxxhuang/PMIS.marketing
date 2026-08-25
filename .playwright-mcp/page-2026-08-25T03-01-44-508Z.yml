@@ -1,0 +1,438 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "PMIS.ai 公共工程專案管理" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e11]:
+          - generic [ref=e12]: PMIS.ai
+          - generic [ref=e13]: 公共工程專案管理
+      - navigation "主導覽" [ref=e14]:
+        - link "功能全覽" [ref=e15] [cursor=pointer]:
+          - /url: /features
+        - link "AI 邊界與資安" [ref=e16] [cursor=pointer]:
+          - /url: /security
+        - link "誰做的" [ref=e17] [cursor=pointer]:
+          - /url: "#founder"
+        - link "登入" [ref=e18] [cursor=pointer]:
+          - /url: https://app.gov-agent.ai
+        - link "預約線上示範" [ref=e19] [cursor=pointer]:
+          - /url: /demo
+  - main [ref=e20]:
+    - generic [ref=e22]:
+      - generic [ref=e23]:
+        - generic [ref=e24]:
+          - generic [ref=e25]: architecture
+          - text: 公共工程 · 廠商／監造／機關三方協作
+        - heading "廠商、監造、機關 在同一份契約事實上協作。" [level=1] [ref=e26]: 廠商、監造、機關在同一份契約事實上協作。
+        - paragraph [ref=e27]: PMIS.ai 把 PCCES 標單、施工日誌、查驗、估驗計價與送審接成一條資料鏈。AI 只做查詢、彙整與草稿；核定、判定、結案與驗收，永遠是人的。
+        - generic [ref=e28]:
+          - link "預約線上示範" [ref=e29] [cursor=pointer]:
+            - /url: /demo
+            - text: 預約線上示範
+            - generic [ref=e30]: arrow_forward
+          - link "誰做的" [ref=e31] [cursor=pointer]:
+            - /url: "#founder"
+            - generic [ref=e32]: person
+            - text: 誰做的
+        - generic [ref=e33]:
+          - generic [ref=e34]:
+            - generic [ref=e35]: shield
+            - text: 資通系統防護基準 · 普通級
+          - generic [ref=e36]:
+            - generic [ref=e37]: location_on
+            - text: 個資境內存放，未境外傳輸
+          - generic [ref=e38]:
+            - generic [ref=e39]: history
+            - text: 操作全程留存稽核軌跡
+      - img "PMIS 產品畫面:監造角色的今日待辦,含指標卡、待辦清單、風險警示與 AI 已代辦" [ref=e40]:
+        - generic [ref=e43]:
+          - complementary [ref=e44]:
+            - generic [ref=e45]:
+              - generic [ref=e46]: menu
+              - generic [ref=e52]: PMIS
+              - generic [ref=e53]: .ai
+            - generic [ref=e54]:
+              - generic [ref=e55]: auto_awesome
+              - text: 問 PMIS
+            - generic [ref=e56]: 工作面
+            - generic [ref=e57]:
+              - generic [ref=e58]: grid_view
+              - text: 今日待辦
+              - generic [ref=e59]: "6"
+            - generic [ref=e60]:
+              - generic [ref=e61]: engineering
+              - text: 現場與品質
+              - generic [ref=e62]: "4"
+            - generic [ref=e63]:
+              - generic [ref=e64]: rate_review
+              - text: 審查與協作
+              - generic [ref=e65]: "7"
+            - generic [ref=e66]:
+              - generic [ref=e67]: payments
+              - text: 進度與金流
+              - generic [ref=e68]: "2"
+            - generic [ref=e69]:
+              - generic [ref=e70]: folder
+              - text: 文件與結案
+            - generic [ref=e71]:
+              - generic [ref=e72]: checklist
+              - text: 跨案總覽
+            - generic [ref=e74]:
+              - generic [ref=e75]: verified_user
+              - text: 正式模式 · 稽核中
+          - main [ref=e76]:
+            - generic [ref=e77]:
+              - generic [ref=e78]:
+                - generic [ref=e79]: folder_open
+                - generic [ref=e80]: 桃園市立圖書館新建工程
+                - generic [ref=e81]: arrow_drop_down
+              - generic [ref=e82]:
+                - generic [ref=e83]: search
+                - generic [ref=e84]: 問 PMIS：工項、送審、缺失、契約……
+                - generic [ref=e85]: tune
+              - generic [ref=e86]:
+                - generic [ref=e87]: dark_mode
+                - generic [ref=e88]: notifications
+                - generic [ref=e89]: help
+                - generic [ref=e90]:
+                  - generic [ref=e91]: 王
+                  - generic [ref=e92]:
+                    - generic [ref=e93]: 王建國
+                    - generic [ref=e94]: 宏觀工程顧問 · 監造工程師
+            - generic [ref=e95]:
+              - generic [ref=e96]: 今日待辦
+              - paragraph [ref=e97]: 球現在在你手上的 6 件事，依法定期限與契約罰則排序。
+              - generic [ref=e98]:
+                - generic [ref=e99]: 現在輪到我
+                - generic [ref=e100]: 等待對方
+                - generic [ref=e101]: 風險警示
+            - generic [ref=e102]:
+              - generic [ref=e103]:
+                - generic [ref=e104]:
+                  - generic [ref=e105]: 累計實際進度
+                  - generic [ref=e106]: 19.9%
+                  - generic [ref=e107]: 目標 30.5% · 落後 10.6%
+                - generic [ref=e108]:
+                  - generic [ref=e109]: 發包工程費
+                  - generic [ref=e110]: 722,624,067
+                  - generic [ref=e111]: NT$ · 含物調
+                - generic [ref=e112]:
+                  - generic [ref=e113]: 累計估驗
+                  - generic [ref=e114]: 144,126,702
+                  - generic [ref=e115]: NT$ · 第 5 期待核定
+                - generic [ref=e116]:
+                  - generic [ref=e117]: 剩餘工期
+                  - generic [ref=e118]: "218"
+                  - generic [ref=e119]: 天 · 含核定展延 30 天
+              - generic [ref=e120]:
+                - generic [ref=e121]:
+                  - generic [ref=e122]:
+                    - generic [ref=e123]: 現在輪到我
+                    - generic [ref=e124]: Ball in court · 監造
+                  - generic [ref=e125]:
+                    - generic [ref=e126]: 還有 1 天
+                    - generic [ref=e127]:
+                      - generic [ref=e128]: 4F 以上結構體施工計畫
+                      - generic [ref=e129]: 待監造審定 · 到期 2026-08-20
+                    - generic [ref=e130]: SUB-002
+                  - generic [ref=e131]:
+                    - generic [ref=e132]: 還有 4 天
+                    - generic [ref=e133]:
+                      - generic [ref=e134]: 3F 樑柱接頭鋼筋與機電套管衝突
+                      - generic [ref=e135]: 待監造／設計回覆 · 到期 2026-08-23
+                    - generic [ref=e136]: RFI-002
+                  - generic [ref=e137]:
+                    - generic [ref=e138]: 還有 5 天
+                    - generic [ref=e139]:
+                      - generic [ref=e140]: 外牆窯燒磚 材料送審（修正版）
+                      - generic [ref=e141]: 待監造審定 · 第 2 版
+                    - generic [ref=e142]: SUB-003
+                  - generic [ref=e143]:
+                    - generic [ref=e144]: 審查中
+                    - generic [ref=e145]:
+                      - generic [ref=e146]: 第 5 期估驗計價
+                      - generic [ref=e147]: 待監造核定 · 差異 3 項待確認
+                    - generic [ref=e148]: VAL-005
+                  - generic [ref=e149]:
+                    - generic [ref=e150]: 今日到期
+                    - generic [ref=e151]:
+                      - generic [ref=e152]: 4F 柱牆鋼筋查驗
+                      - generic [ref=e153]: 待監造查驗 · ITP 停留點
+                    - generic [ref=e154]: ITP-041
+                - generic [ref=e155]:
+                  - generic [ref=e156]:
+                    - generic [ref=e157]:
+                      - generic [ref=e158]:
+                        - generic [ref=e159]: warning
+                        - text: 風險警示
+                      - generic [ref=e160]: AI · 每日 06:00
+                    - generic [ref=e161]:
+                      - generic [ref=e162]:
+                        - generic [ref=e163]: 風險 高
+                        - generic [ref=e164]: 缺失 · 逾期 2 天
+                      - generic [ref=e165]: 3F 西側牆面蜂窩未改善
+                      - generic [ref=e166]: 依據：缺失單 DEF-018 · 契約第 12 條改善期限 7 日
+                    - generic [ref=e167]:
+                      - generic [ref=e168]:
+                        - generic [ref=e169]: 風險 中
+                        - generic [ref=e170]: 工安 · 今日到期
+                      - generic [ref=e171]: 4F 臨邊開口未設護欄
+                      - generic [ref=e172]: 依據：自主檢查表 8/19 · 營造安全衛生設施標準第 19 條
+                  - generic [ref=e173]:
+                    - generic [ref=e175]:
+                      - generic [ref=e176]: auto_awesome
+                      - text: AI 今日已代辦
+                    - generic [ref=e177]:
+                      - generic [ref=e178]: 施工日誌草稿
+                      - generic [ref=e179]: 1 份
+                    - generic [ref=e180]:
+                      - generic [ref=e181]: 契約重點抽取
+                      - generic [ref=e182]: 12 條
+                    - generic [ref=e183]:
+                      - generic [ref=e184]: 估驗差異比對
+                      - generic [ref=e185]: 3 項
+                    - generic [ref=e186]: 每一項都可展開比對來源段落；核定前不寫入契約規則。
+    - generic [ref=e189]:
+      - generic [ref=e190]:
+        - generic [ref=e191]: Ryan Huang
+        - generic [ref=e192]: 創辦人 · 土木本科出身，補了資工與商管
+        - generic [ref=e193]:
+          - img "UCLA · MBA" [ref=e194]
+          - img "Georgia Tech · MSCS" [ref=e195]
+        - generic [ref=e196]: UCLA MBA · Georgia Tech 資訊工程碩士交通大學、中央大學 土木工程
+        - link "ryanxhuang1212@gmail.com" [ref=e197] [cursor=pointer]:
+          - /url: mailto:ryanxhuang1212@gmail.com
+          - generic [ref=e198]: mail
+          - text: ryanxhuang1212@gmail.com
+      - generic [ref=e199]:
+        - generic [ref=e200]: 誰做的
+        - heading "監造、機關、系統，三邊我都待過" [level=2] [ref=e201]
+        - paragraph [ref=e202]: 這套系統不是外包做的。從資料模型到 AI 邊界，都是我自己決定的——因為這三種立場我都親自坐過。
+        - blockquote [ref=e203]:
+          - paragraph [ref=e204]: 「我自己用過大型顧問公司的 PMIS，很痛苦。」
+          - paragraph [ref=e205]: 所以初衷不是再推一套系統、讓現場工程師多填一份表，而是把重複的內業拿掉：AI 出草稿，工程師只做覆核與簽名。
+        - paragraph [ref=e206]: 土木、資工與商管的訓練在同一個人身上：看得懂標單、寫得出系統、談得了採購。UCLA 為美國公立大學排名長年前二；Georgia Tech 工程研究所全美第 4、資訊工程研究所全美第 7（U.S. News 2026）。
+        - generic [ref=e207]:
+          - generic [ref=e208]:
+            - generic [ref=e209]: 監造這一側
+            - heading "台灣世曦工程顧問｜監造" [level=3] [ref=e210]
+            - generic [ref=e211]: 查驗、送審、估驗覆核都自己做過；監造報表與缺失追蹤的工時，我自己耗過。
+          - generic [ref=e212]:
+            - generic [ref=e213]: 機關這一側
+            - heading "公務機關｜4 年" [level=3] [ref=e214]
+            - generic [ref=e215]: 走過簽辦、審查、發包到驗收，知道承辦人真正會被卡在哪一關。
+          - generic [ref=e216]:
+            - generic [ref=e217]: 系統這一側
+            - heading "AI Agent 新創｜產品經理" [level=3] [ref=e218]
+            - generic [ref=e219]: 這套系統是我自己做的，從資料模型到 AI 邊界都自己決定。
+    - generic [ref=e221]:
+      - generic [ref=e222]:
+        - generic [ref=e223]: 三方協作
+        - heading "三方各有立場，事實只能有一份" [level=2] [ref=e224]
+        - paragraph [ref=e225]: 標誌上的三個點是機關、監造與廠商，灰線是同一份契約。三方在同一個案子裡，看同一份資料，各自只有自己該有的權限——權限與稽核留痕由資料庫強制執行：監造改不了廠商送出的原始填報，廠商也關不掉監造開立的缺失。
+      - generic [ref=e226]:
+        - generic [ref=e227]:
+          - heading "機關 Agent" [level=3] [ref=e230]
+          - paragraph [ref=e231]: 不必再追問監造與廠商在做什麼：進度、缺失、期限與付款一目瞭然。看不到廠商成本與毛利。
+          - generic [ref=e232]:
+            - generic [ref=e233]: 法定期限
+            - generic [ref=e234]: 付款與驗收
+            - generic [ref=e235]: 跨文件稽核
+        - generic [ref=e236]:
+          - heading "監造 Agent" [level=3] [ref=e239]
+          - paragraph [ref=e240]: 查驗、送審審查、缺失複查、估驗覆核。不經手請款，判定與簽認仍由工程師本人做。
+          - generic [ref=e241]:
+            - generic [ref=e242]: ITP 停留點
+            - generic [ref=e243]: 送審審查
+            - generic [ref=e244]: 估驗覆核
+        - generic [ref=e245]:
+          - heading "廠商 Agent" [level=3] [ref=e248]
+          - paragraph [ref=e249]: 現場填報、施工日誌、估驗、成本、品質與工安。現場與品管是公司內部分工，不是權限角色。
+          - generic [ref=e250]:
+            - generic [ref=e251]: 施工日誌
+            - generic [ref=e252]: 自主檢查
+            - generic [ref=e253]: 估驗請款
+    - generic [ref=e255]:
+      - generic [ref=e256]:
+        - generic [ref=e257]:
+          - generic [ref=e258]: 產品範圍
+          - heading "六個工作面，一條資料鏈" [level=2] [ref=e259]
+          - paragraph [ref=e260]: 數量與財務資料以工項串接：標單長出工項，工項長出日誌，日誌長出估驗，估驗長出請款與進度。品質與工安的佐證掛回同一個工項。
+        - link "功能全覽" [ref=e261] [cursor=pointer]:
+          - /url: /features
+          - text: 功能全覽
+          - generic [ref=e262]: arrow_forward
+      - generic [ref=e263]:
+        - generic [ref=e264]:
+          - generic [ref=e265]: grid_view
+          - heading "今日待辦" [level=3] [ref=e266]
+          - paragraph [ref=e267]: 球在誰手上、還剩幾天、依據哪一條。逾期、今日到期與其餘用固定色票區分。
+        - generic [ref=e268]:
+          - generic [ref=e269]: engineering
+          - heading "現場與品質" [level=3] [ref=e270]
+          - paragraph [ref=e271]: 施工日誌、品質查驗、ITP 檢驗停留點、自主檢查、取樣試驗、缺失與工安管理。
+        - generic [ref=e272]:
+          - generic [ref=e273]: rate_review
+          - heading "審查與協作" [level=3] [ref=e274]
+          - paragraph [ref=e275]: 契約重點與履約需求、送審文件佇列、工程疑義 RFI、變更設計。每條要求都指回原文頁碼。
+        - generic [ref=e276]:
+          - generic [ref=e277]: payments
+          - heading "進度與金流" [level=3] [ref=e278]
+          - paragraph [ref=e279]: PCCES 標單、估驗計價、請款收款、保留款、成本、S 曲線與逐工項排程。
+        - generic [ref=e280]:
+          - generic [ref=e281]: folder
+          - heading "文件與結案" [level=3] [ref=e282]
+          - paragraph [ref=e283]: 施工月報、監造報表、驗收結算與稽核留痕。文件版本與頁面級佐證都留著。
+        - generic [ref=e284]:
+          - generic [ref=e285]: checklist
+          - heading "跨案總覽" [level=3] [ref=e286]
+          - paragraph [ref=e287]: 一位監造主管同時看多案的計畫、實際、已計價與風險，落後幅度自動分級。
+    - generic [ref=e289]:
+      - generic [ref=e290]:
+        - generic [ref=e291]: AI 的邊界
+        - heading "AI 只做草稿" [level=2] [ref=e292]
+        - paragraph [ref=e293]: 政府客戶第一個問題是「AI 會不會自己核定」。答案是不會，而且不是靠提示詞約束——Agent 的工具箱裡根本沒有核定、判定、結案與驗收這些工具。
+      - generic [ref=e294]:
+        - generic [ref=e295]:
+          - generic [ref=e296]: 紅線 01
+          - heading "AI 只產生草稿" [level=3] [ref=e297]
+          - paragraph [ref=e298]: 核定、判定、結案、驗收、凍結——這些動作不在工具白名單裡。草稿寫入待覆核清單，由人接受或拒絕。
+        - generic [ref=e299]:
+          - generic [ref=e300]: 紅線 02
+          - heading "數字由確定性引擎算" [level=3] [ref=e301]
+          - paragraph [ref=e302]: 金額、期限與合格判定由程式或資料庫 Trigger 執行。AI 可以複述金額，但不自己乘除，也不編條號。
+        - generic [ref=e303]:
+          - generic [ref=e304]: 紅線 03
+          - heading "每個動作都留痕" [level=3] [ref=e305]
+          - paragraph [ref=e306]: 角色、種類、目標、理由、佐證與人的覆核結果都記下來。這同時是稽核軌跡，也是「AI 建議採納率」這個能對外交代的指標。
+        - generic [ref=e307]:
+          - generic [ref=e308]: 紅線 04
+          - heading "每個 AI 功能可獨立開關" [level=3] [ref=e309]
+          - paragraph [ref=e310]: 閘門在伺服器端，不是把前端按鈕藏起來。每次呼叫都記錄功能、使用者、專案與成本；出事能單獨關掉一個功能。
+      - generic [ref=e311]:
+        - generic [ref=e312]: auto_awesome
+        - paragraph [ref=e313]: 文件解析的結果也一樣：AI 抽出的履約要求標著信賴度與來源頁碼，只有經人審查、成為「已核定」要求後才具權威性。
+    - generic [ref=e315]:
+      - generic [ref=e316]:
+        - generic [ref=e317]: 資安與稽核
+        - heading "安全邊界寫在資料庫裡" [level=2] [ref=e318]
+        - paragraph [ref=e319]: 權限不是前端隱藏按鈕。多租戶的資料列級安全性（RLS）、狀態轉移 Guard Trigger 與 Audit Trigger 是真正的邊界；前端隱藏只是體驗。
+        - generic [ref=e320]:
+          - generic [ref=e321]:
+            - generic [ref=e322]: lock
+            - paragraph [ref=e323]:
+              - strong [ref=e324]: 資料列級安全性
+              - text: ：每個查詢都在資料庫層被限制在使用者所屬的專案與角色範圍內。
+          - generic [ref=e325]:
+            - generic [ref=e326]: gavel
+            - paragraph [ref=e327]:
+              - strong [ref=e328]: 狀態轉移 Guard
+              - text: ：估驗、送審、缺失的狀態只能依契約流程前進，繞過介面也不行。
+          - generic [ref=e329]:
+            - generic [ref=e330]: history
+            - paragraph [ref=e331]:
+              - strong [ref=e332]: 不可竄改稽核軌跡
+              - text: ：由資料庫 Trigger 寫入，供審計、政風與監察調閱。
+          - generic [ref=e333]:
+            - generic [ref=e334]: hub
+            - paragraph [ref=e335]:
+              - strong [ref=e336]: 佐證鏈
+              - text: ：「這個結論是哪些文件、哪一頁支撐的」可以逐層點回去。
+        - link "完整資安說明" [ref=e337] [cursor=pointer]:
+          - /url: /security
+          - text: 完整資安說明
+          - generic [ref=e338]: arrow_forward
+      - generic [ref=e339]:
+        - generic [ref=e340]: 這些邊界有測試在守
+        - generic [ref=e341]:
+          - generic [ref=e342]:
+            - generic [ref=e343]: "530"
+            - generic [ref=e344]: 單元測試項，涵蓋計價、期限與罰則等確定性引擎
+          - generic [ref=e345]:
+            - generic [ref=e346]: "23"
+            - generic [ref=e347]: 組資料庫測試，專門驗證資料列級安全性與狀態轉移
+          - generic [ref=e348]:
+            - generic [ref=e349]: "19"
+            - generic [ref=e350]: 端到端流程測試，含三角色實際後端冒煙測試
+          - generic [ref=e351]:
+            - generic [ref=e352]: "16"
+            - generic [ref=e353]: 個 AI 功能，每一個都能單獨開關與計量
+        - paragraph [ref=e354]: 2026-08 基線，隨版本更新。示範時可以現場跑給你看。
+    - generic [ref=e356]:
+      - generic [ref=e357]: 常見問題
+      - heading "機關與事務所最常問的五件事" [level=2] [ref=e358]
+      - generic [ref=e359]:
+        - group [ref=e360]:
+          - generic "需要機關先開放外連或雲端嗎？" [ref=e361] [cursor=pointer]:
+            - generic [ref=e362]: expand_more
+            - text: 需要機關先開放外連或雲端嗎？
+        - group [ref=e363]:
+          - generic "標單要重新打一次嗎？" [ref=e364] [cursor=pointer]:
+            - generic [ref=e365]: expand_more
+            - text: 標單要重新打一次嗎？
+        - group [ref=e366]:
+          - generic "廠商會看到我們的審查意見或機關的內部資料嗎？" [ref=e367] [cursor=pointer]:
+            - generic [ref=e368]: expand_more
+            - text: 廠商會看到我們的審查意見或機關的內部資料嗎？
+        - group [ref=e369]:
+          - generic "AI 講錯怎麼辦？" [ref=e370] [cursor=pointer]:
+            - generic [ref=e371]: expand_more
+            - text: AI 講錯怎麼辦？
+        - group [ref=e372]:
+          - generic "導入要多久？舊案能不能中途接進來？" [ref=e373] [cursor=pointer]:
+            - generic [ref=e374]: expand_more
+            - text: 導入要多久？舊案能不能中途接進來？
+    - generic [ref=e376]:
+      - generic [ref=e377]:
+        - heading "用你自己的案子看一次" [level=2] [ref=e378]
+        - paragraph [ref=e379]: 30 分鐘線上示範。帶一份 PCCES 標單或契約 PDF，我們現場匯入，走完一次「文件 → 履約要求 → 工項 → 估驗」，不用你先簽任何東西。
+        - paragraph [ref=e380]: 目前有兩家建築師事務所與一個政府機關在導入洽談中。
+        - generic [ref=e381]:
+          - link "預約線上示範" [ref=e382] [cursor=pointer]:
+            - /url: /demo
+            - text: 預約線上示範
+            - generic [ref=e383]: arrow_forward
+          - link "ryanxhuang1212@gmail.com" [ref=e384] [cursor=pointer]:
+            - /url: mailto:ryanxhuang1212@gmail.com
+            - generic [ref=e385]: mail
+            - text: ryanxhuang1212@gmail.com
+      - generic [ref=e386]:
+        - generic [ref=e387]: 示範會走完這四步
+        - generic [ref=e388]:
+          - generic [ref=e389]:
+            - generic [ref=e390]: "01"
+            - generic [ref=e391]:
+              - generic [ref=e392]: 匯入你的標單或契約
+              - generic [ref=e393]: PCCES XML、PDF 或 Word
+          - generic [ref=e394]:
+            - generic [ref=e395]: "02"
+            - generic [ref=e396]:
+              - generic [ref=e397]: 看 AI 抽出的履約要求
+              - generic [ref=e398]: 附條號、頁碼與信賴度，逐條核定
+          - generic [ref=e399]:
+            - generic [ref=e400]: "03"
+            - generic [ref=e401]:
+              - generic [ref=e402]: 跑一期估驗計價
+              - generic [ref=e403]: 數量、累計百分比與金額由引擎計算
+          - generic [ref=e404]:
+            - generic [ref=e405]: "04"
+            - generic [ref=e406]:
+              - generic [ref=e407]: 看三方各自的畫面
+              - generic [ref=e408]: 同一份資料，三種可見範圍
+  - contentinfo [ref=e409]:
+    - generic [ref=e410]:
+      - generic [ref=e411]:
+        - generic [ref=e418]: PMIS.ai
+        - generic [ref=e419]: 公共工程專案管理
+      - navigation [ref=e420]:
+        - link "功能全覽" [ref=e421] [cursor=pointer]:
+          - /url: /features
+        - link "AI 邊界與資安" [ref=e422] [cursor=pointer]:
+          - /url: /security
+        - link "預約示範" [ref=e423] [cursor=pointer]:
+          - /url: /demo
+        - link "登入" [ref=e424] [cursor=pointer]:
+          - /url: https://app.gov-agent.ai
+        - link "聯絡" [ref=e425] [cursor=pointer]:
+          - /url: mailto:ryanxhuang1212@gmail.com
+      - generic [ref=e426]: 畫面中的專案、金額與人名為示範資料。

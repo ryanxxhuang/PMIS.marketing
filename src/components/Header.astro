@@ -5,8 +5,9 @@
 // 預約頁只留兩個連結、不放 CTA(目的頁就是自己)。
 import { SITE } from '../config';
 
+// '404' 走內頁分支:landing 分支的 #founder 是同頁錨點,在 404 頁沒有對應的 id
 interface Props {
-  page?: 'landing' | 'features' | 'security' | 'demo';
+  page?: 'landing' | 'features' | 'security' | 'demo' | '404';
 }
 
 const { page = 'landing' } = Astro.props;
