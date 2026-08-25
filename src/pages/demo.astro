@@ -34,7 +34,7 @@ const concerns = [
 
 <Base
   title="預約線上示範 — GovAgent"
-  description="給監造顧問公司與機關承辦人的線上示範：帶你自己的標單或契約，30 分鐘看一次 AI 抽出履約要求、跑一期估驗計價與三方畫面，不用先簽約。"
+  description="給公共工程機關、監造與廠商的線上示範：帶你自己的標單或契約，30 分鐘看一次 AI 抽出履約要求、跑一期估驗計價與三方畫面，不用先簽約。"
 >
   <Header page="demo" />
   <main id="main" tabindex="-1" class="demo-main">
@@ -311,7 +311,8 @@ const concerns = [
 
   // 原型 reset:清 name/org/email 與已選議題,身分保留
   againBtn.addEventListener('click', () => {
-    [nameInput, orgInput, emailInput].forEach((el) => (el.value = ''));
+    // 電話與備註也要清 —— 否則下一位填表的人會帶著前一位的資料送出
+    [nameInput, orgInput, emailInput, phoneInput, noteInput].forEach((el) => (el.value = ''));
     topicBtns.forEach((b) => {
       b.classList.remove('is-on');
       b.setAttribute('aria-pressed', 'false');
@@ -508,6 +509,9 @@ const concerns = [
     margin-top: 26px;
   }
   .submit-btn {
+    /* 未填欄位時 .submit-hint 較長,nowrap 才不會把「送出預約」擠成兩行(360-412px) */
+    white-space: nowrap;
+    flex: none;
     height: 46px;
     padding: 0 28px;
     border-radius: 100px;
