@@ -28,14 +28,17 @@ const todos = [
 ];
 
 const risks = [
-  { tone: 'danger', level: '風險 高', meta: '缺失 · 逾期 2 天', title: '3F 西側牆面蜂窩未改善', src: '依據：缺失單 DEF-018 · 契約第 12 條改善期限 7 日' },
-  { tone: 'warn', level: '風險 中', meta: '工安 · 今日到期', title: '4F 臨邊開口未設護欄', src: '依據：自主檢查表 8/19 · 營造安全衛生設施標準第 19 條' },
+  { tone: 'danger', level: '風險 高', meta: '缺失 · 逾期 2 天', title: '3F 西側牆面蜂窩未改善', src: '3F 西側牆面蜂窩（逾期 2 天）' },
+  { tone: 'warn', level: '風險 中', meta: '工安 · 今日到期', title: '4F 臨邊開口未設護欄', src: '4F 臨邊開口未設護欄（今日到期）' },
 ];
 
+// 種類必須是產品 agentRole.js 的 KIND_LABEL 五種之一:
+// 日誌草稿 / 查驗草稿 / 審查意見 / 稽核提示 / 交接事項。
+// (原設計稿寫的「契約重點抽取」「估驗差異比對」在產品裡不會出現在這張卡)
 const aiDone = [
-  { label: '施工日誌草稿', value: '1 份' },
-  { label: '契約重點抽取', value: '12 條' },
-  { label: '估驗差異比對', value: '3 項' },
+  { label: '日誌草稿', value: '1 份' },
+  { label: '查驗草稿', value: '2 件' },
+  { label: '審查意見', value: '1 份' },
 ];
 ---
 
@@ -135,7 +138,7 @@ const aiDone = [
           <div class="card">
             <div class="card-head card-head--center">
               <span class="card-title card-title--icon"><span class="msy risk-icon" aria-hidden="true">warning</span>風險警示</span>
-              <span class="card-meta card-meta--dark">AI · 每日 06:00</span>
+              <span class="card-meta card-meta--dark">依全案資料即時計算</span>
             </div>
             {
               risks.map((r) => (
@@ -163,7 +166,7 @@ const aiDone = [
                 </div>
               ))
             }
-            <div class="ai-foot">每一項都可展開比對來源段落；核定前不寫入契約規則。</div>
+            <div class="ai-foot">待覆核 4 件，到收件匣逐筆處理；未接受前不寫入任何業務資料表。</div>
           </div>
         </div>
       </div>

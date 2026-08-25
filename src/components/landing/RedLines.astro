@@ -15,12 +15,18 @@ const redLines = [
   {
     no: '紅線 02',
     title: '數字由確定性引擎算',
-    desc: '金額、期限與合格判定由程式或資料庫 Trigger 執行。AI 可以複述金額，但不自己乘除，也不編條號。',
+    // 2026-08-25:原文「也不編條號」與 parse-contract/extract-requirements 的實際輸出不符
+    // (source_clause 由模型產生且未經程式驗證,只有 quotation 有逐字比對)。
+    // 收斂成守得住的說法。
+    desc: '金額、期限與合格判定由程式或資料庫 Trigger 執行。AI 可以複述金額，但不自己乘除；審查要點的依據只能引本案已解析的履約需求，不編契約條號。',
   },
   {
     no: '紅線 03',
     title: '每個動作都留痕',
-    desc: '角色、種類、目標、理由、佐證與人的覆核結果都記下來。這同時是稽核軌跡，也是「AI 建議採納率」這個能對外交代的指標。',
+    // 2026-08-25:原文後半宣稱「AI 建議採納率」是可對外交代的指標,
+    // 但產品並未實作該指標(agent_actions 有 status/resolved_at 足以計算,
+    // 但無任何程式產出此數字)。移除不實聲稱,其餘一字未動。
+    desc: '角色、種類、目標、理由、佐證與人的覆核結果都記下來。這同時是稽核軌跡。',
   },
   {
     no: '紅線 04',
@@ -33,11 +39,27 @@ const redLines = [
 <section class="section section--ground">
   <div class="wrap">
     <div class="rl-intro">
-      <div class="kicker">AI 的邊界</div>
-      <h2 class="section-h2">AI 只做草稿</h2>
+      <div class="kicker">誰做哪一段</div>
+      <h2 class="section-h2">AI 起草，程式算數，人核定</h2>
       <p class="section-desc">
-        政府客戶第一個問題是「AI 會不會自己核定」。答案是不會，而且不是靠提示詞約束——Agent 的工具箱裡根本沒有核定、判定、結案與驗收這些工具。
+        這條分工不是為了給 AI 設限，是為了讓草稿能用。金額與期限由程式算，所以草稿裡的數字你不必重算一遍；引註由程式驗，所以你點一下就跳到原文那一頁；核定、判定、結案與驗收不在 Agent 的工具清單裡，所以你簽的名還是你的。
       </p>
+    </div>
+
+    {/* 三段分工帶:只有 AI 那欄用 AI 面板色,沿用 /security 頁「第三步是唯一 AI 色」的規則 */}
+    <div class="rl-lanes">
+      <div class="rl-lane rl-lane--ai">
+        <div class="rl-lane-title">AI 起草</div>
+        <p class="rl-lane-text">讀文件、看照片、彙整資料、寫草稿與建議。產出物一律進待覆核清單，不進業務資料表。</p>
+      </div>
+      <div class="rl-lane">
+        <div class="rl-lane-title">確定性引擎算數</div>
+        <p class="rl-lane-text">金額、數量、期限、合格判定與跨文件對帳。不經過模型。</p>
+      </div>
+      <div class="rl-lane">
+        <div class="rl-lane-title">人核定</div>
+        <p class="rl-lane-text">接受、修改或拒絕。判定與簽名由本人執行，每一次都寫進不可竄改的稽核軌跡。</p>
+      </div>
     </div>
 
     <div class="split rl-grid">
@@ -55,13 +77,47 @@ const redLines = [
     <div class="rl-note">
       <span class="msy rl-note-icon" aria-hidden="true">auto_awesome</span>
       <p class="rl-note-text">
-        文件解析的結果也一樣：AI 抽出的履約要求標著信賴度與來源頁碼，只有經人審查、成為「已核定」要求後才具權威性。
+        AI 抽出的每一條履約要求，都附著它引用的那段原文與頁碼。系統會把這段文字正規化後，拿去跟那一頁入庫的文字逐字比對：對得上才標為已驗證；出現在別頁，判為未驗證，不會替它改頁碼；引文短於六個字，一律不算通過。這件事不是 AI 自評，是程式做的——而且資料庫還多擋一層：任何人，包括有審查權的人，直接寫入「已驗證」旗標都會被拒絕。
       </p>
     </div>
   </div>
 </section>
 
 <style>
+  /* 三段分工帶:AI / 引擎 / 人 */
+  .rl-lanes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 32px;
+  }
+  @media (max-width: 760px) {
+    .rl-lanes { grid-template-columns: 1fr; }
+  }
+  .rl-lane {
+    border: 1px solid var(--g-line);
+    border-radius: 12px;
+    padding: 18px;
+    background: #fff;
+  }
+  .rl-lane--ai {
+    background: var(--ai-tint);
+    border-color: transparent;
+  }
+  .rl-lane-title {
+    font-size: 14.5px;
+    font-family: var(--font-heading);
+    font-weight: 500;
+  }
+  .rl-lane--ai .rl-lane-title { color: var(--ai-text); }
+  .rl-lane-text {
+    margin-top: 8px;
+    font-size: 12.5px;
+    line-height: 1.8;
+    color: var(--color-neutral-700);
+  }
+  .rl-lane--ai .rl-lane-text { color: var(--ai-text); }
+
   .rl-intro {
     max-width: 660px;
   }

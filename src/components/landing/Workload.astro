@@ -1,0 +1,161 @@
+---
+// 「四件內業」段(2026-08-25 新增)。
+//
+// 這一段回答訪客最想知道的事:「我明天會少做什麼?」
+// 每張卡固定三列:系統先做完 / 你要做的 / 不做的。
+// 第三列是刻意自曝其短 —— 監造技師的職業本能是查核,
+// 先講清楚做不到的部分,其餘部分才有人信。**不要為了精簡刪掉它**,
+// 尤其是送審那張:產品 v1 只追蹤流程、未附文件本體,
+// 涉及文件實質內容一律標「需監造核對文件」(review-submittal/index.ts:6-7)。
+//
+// 每一句都對得上產品的實際行為,證據見各卡註解。
+const jobs = [
+  {
+    icon: 'rate_review',
+    title: '廠商送審進來，審查要點先列好',
+    // review-submittal/index.ts:4「監造最大時間殺手的自動化」、:17-36 schema
+    done: '依本案已解析的履約需求，產出 6 到 12 點審查要點，每點標明依據與狀態——已於送審敘明、需補件、需監造核對文件、不適用。附一段審查意見草稿，以及建議判定：核准、核備、退回補正、需補充後再核。',
+    yours: '增刪要點、改寫意見、做出判定。建議只是建議。',
+    // :59-66 system prompt 的範圍判定與「不得臆斷已符合」
+    not: '每一點的依據只能寫本案已解析的履約需求標題，不編契約條號。凡涉及圖說尺寸、計算書、試驗數值等文件實質內容，一律標「需監造核對文件」，不臆斷已符合。',
+  },
+  {
+    icon: 'gavel',
+    title: '契約與規範，逐條變成帶頁碼的履約要求',
+    // extract-requirements/index.ts:76-120 欄位
+    done: '讀完契約與規範，逐條列出履約要求：負責方是機關、監造還是廠商，適用哪個階段，期限的觸發點與天數，允收標準，應留存什麼佐證。每條附一段原文引註、頁碼與條款。',
+    yours: '逐條核定。只有經人核定的要求才具權威性；期限類的要求核定後才會實體化成期限提醒。',
+    // sourceVerify.ts:2-5, 44-55, 92;:488 status = verified ? draft_ai : needs_review
+    not: 'AI 不能宣告自己引對了。引註由程式回到那一頁入庫的文字逐字比對，對得上才標為已驗證；出現在別頁判為未驗證，不會替它改頁碼。沒通過的不進草稿，直接送人工審查。',
+  },
+  {
+    icon: 'payments',
+    title: '估驗對量，程式逐工項把對不起來的挑出來',
+    // integrityAudit.js:58/67/76/86/95/107 六條發現標題逐字沿用
+    done: '逐工項比對估驗、施工日誌、查驗與混凝土試體，列出六類發現——估驗超前施工日誌逾 5%、估驗無施工日誌佐證、查驗不合格工項仍計價、混凝土澆置未見取樣試體、試體強度不合格、累計完成逾八成卻尚無查驗申請。',
+    yours: '逐項查證與處置。',
+    // integrityAudit.js:1-3「全確定性 —— 錢與稽核的發現不能靠 AI 幻覺或漏抓」
+    not: '這六類發現全部由程式精確比對得出，AI 不參與判定，只負責把已經算好的發現寫成一段稽核意見。沒有發現的時候，連 AI 都不呼叫。',
+  },
+  {
+    icon: 'folder',
+    title: '本月的監造報表，自動彙整成草稿',
+    // supervisorReport.js:1-2「全確定性(無需後端)…唯讀:只產草稿,不送出」
+    done: '把當月的施工日誌、查驗、缺失、送審與進度自動彙整成監造報表草稿，連監造意見都先擬一段。',
+    yours: '覆核、修改，再列印用印。',
+    not: '這一項完全不呼叫語言模型，是程式彙整出來的——所以不會有幻覺，也不算 token。',
+  },
+];
+---
+
+<section class="section">
+  <div class="wrap">
+    <div class="wl-intro">
+      <div class="kicker">內業自動化</div>
+      <h2 class="section-h2">監造每週在做的四件內業，系統先做完第一遍</h2>
+      <p class="section-desc">
+        下面四件事，產品現在就做得到。每一項都標出系統做到哪裡、哪一步一定要你自己來。
+      </p>
+    </div>
+
+    <div class="g-auto wl-grid">
+      {
+        jobs.map((j) => (
+          <div class="wl-card">
+            <span class="msy wl-icon" aria-hidden="true">{j.icon}</span>
+            <h3 class="wl-title">{j.title}</h3>
+
+            <div class="wl-row">
+              <div class="wl-label wl-label--done">系統先做完</div>
+              <p class="wl-text">{j.done}</p>
+            </div>
+
+            <div class="wl-row">
+              <div class="wl-label wl-label--yours">你要做的</div>
+              <p class="wl-text">{j.yours}</p>
+            </div>
+
+            <div class="wl-row wl-row--not">
+              <div class="wl-label wl-label--not">不做的</div>
+              <p class="wl-text wl-text--not">{j.not}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .wl-intro { max-width: 660px; }
+  .wl-grid { margin-top: 40px; }
+
+  /* 覆寫 .g-auto 的 repeat(auto-fit, minmax(258px,1fr))。
+     四張卡碰到 auto-fit 的三欄那一階必然掉一張:862–1139px 這段會排成 3+1,
+     第四張獨自佔第二列、右邊留近 600px 空白且比同列的卡矮一大截,
+     看起來像版面壞掉。這一段寬度涵蓋 iPad 橫向與 1024×768 的會議室投影,不能留。
+     所以只走 1 → 2 → 4 欄,跳過三欄。display:grid 與 gap:20px 仍沿用 .g-auto。 */
+  .wl-grid { grid-template-columns: 1fr; }
+
+  @media (min-width: 600px) {
+    .wl-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  /* 1140px 起 .wrap 內寬足夠讓四欄各 ≥ 258px(與 auto-fit 原本進四欄的點相同) */
+  @media (min-width: 1140px) {
+    .wl-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  .wl-card {
+    background: #fff;
+    border: 1px solid var(--g-line);
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+    padding: 22px 22px 20px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .wl-icon {
+    font-size: 26px;
+    color: var(--color-accent);
+  }
+
+  .wl-title {
+    font-size: 16.5px;
+    font-family: var(--font-heading);
+    font-weight: 500;
+    margin-top: 14px;
+  }
+
+  .wl-row { margin-top: 16px; }
+
+  .wl-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .04em;
+    margin-bottom: 5px;
+  }
+  .wl-label--done { color: var(--color-accent-700); }
+  .wl-label--yours { color: var(--c-ok-text); }
+  .wl-label--not { color: var(--color-neutral-700); }
+
+  .wl-text {
+    font-size: 13px;
+    line-height: 1.85;
+    color: var(--color-neutral-800);
+  }
+
+  /* 「不做的」:左側細線 + 弱色,視覺上退一階但不隱藏 */
+  .wl-row--not {
+    margin-top: auto;
+    padding-top: 16px;
+    border-left: 2px solid var(--color-divider);
+    padding-left: 12px;
+    margin-left: -2px;
+  }
+  .wl-text--not {
+    font-size: 12px;
+    line-height: 1.8;
+    color: var(--color-neutral-700);
+  }
+</style>

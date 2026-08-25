@@ -6,6 +6,7 @@
 //   ucla.png 是 4K 圖只顯示 46px。handoff README:379 也把校徽列為上線前待確認,
 //   並指出保守作法是只留文字學歷)
 // - 刪掉引言卡、排名數字(U.S. News 每年會過期)、三張經歷卡
+//   (2026-08-25 補回:設計稿指定的那句省工使命宣言,改成輕量引言,不做回引言卡)
 // - 原型把這段放在第二段當作最強說服點(README 1.2),使用者選擇改為低調呈現
 //
 // 保留的是三邊經歷這個事實本身 —— 那是產品可信度的來源,不是自我介紹。
@@ -20,6 +21,9 @@ import { SITE } from '../../config';
     </div>
 
     <div class="about-body">
+      <p class="about-lede">
+        初衷不是再推一套系統、讓現場工程師多填一份表，而是把重複的內業拿掉：AI 出草稿，工程師只做覆核與簽名。
+      </p>
       <p class="about-desc">
         這套系統不是外包做的。從資料模型到 AI 邊界，都是我自己決定的——因為這三種立場我都親自坐過：在<strong
           class="about-em">台灣世曦工程顧問</strong
@@ -55,6 +59,17 @@ import { SITE } from '../../config';
     font-size: clamp(23px, 2.4vw, 26px);
     line-height: 1.3;
     margin-top: 16px;
+  }
+
+  /* 全站唯一一句省工使命宣言。輕量引言：左側細線＋內距，不做成引言卡 */
+  .about-lede {
+    border-left: 2px solid var(--color-accent);
+    padding-left: 18px;
+    margin-bottom: 20px;
+    font-size: 13.5px;
+    line-height: 1.9;
+    color: var(--color-neutral-800);
+    max-width: 660px;
   }
 
   .about-desc {

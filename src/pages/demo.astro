@@ -11,7 +11,7 @@ import Footer from '../components/Footer.astro';
 import { SITE, DEMO_API } from '../config';
 
 const roles = [
-  { id: 'supervisor', label: '監造單位', icon: 'rate_review', desc: '技師事務所、工程顧問公司', org: '事務所／公司名稱（必填）' },
+  { id: 'supervisor', label: '監造單位', icon: 'rate_review', desc: '建築師事務所、工程顧問公司', org: '事務所／公司名稱（必填）' },
   { id: 'owner', label: '機關業主', icon: 'account_balance', desc: '主辦機關承辦人或主管', org: '機關名稱（必填）' },
   { id: 'contractor', label: '施工廠商', icon: 'engineering', desc: '營造廠專案人員', org: '公司名稱（必填）' },
 ];
@@ -40,15 +40,18 @@ const concerns = [
   <main id="main" tabindex="-1" class="demo-main">
     <div class="demo-grid">
       <div class="form-card">
+        {/* 成功區塊在 DOM 中排在 form 之前,所以這裡用 h1 而不是 h2:
+            同頁兩個 h1 但永遠只有一個可見,送出後這句才是本頁的標題。
+            tabindex="-1" 供送出成功後把焦點移進來(見下方 script)。 */}
         <div class="form-success" hidden>
           <span class="msy msy-f success-icon" aria-hidden="true">check_circle</span>
-          <h2 class="success-title">已收到，我會在一個工作日內回信</h2>
+          <h1 class="success-title" tabindex="-1">已收到，我會在一個工作日內回信</h1>
           <p class="success-desc">回信會附上兩、三個可以的時段，以及示範前要準備的東西（一份 PCCES 標單或契約 PDF 就夠）。</p>
           <button type="button" class="again-btn">再填一份</button>
         </div>
 
         <form class="form-body" novalidate>
-          <h1 class="form-title">預約線上示範</h1>
+          <h1 class="form-title" tabindex="-1">預約線上示範</h1>
           <p class="form-lede">30 分鐘，帶你自己的案子看一次。不用先簽任何東西。</p>
 
           <div class="role-group">
@@ -195,6 +198,8 @@ const concerns = [
   const submitBtn = form.querySelector<HTMLButtonElement>('.submit-btn')!;
   const hint = form.querySelector<HTMLElement>('.submit-hint')!;
   const againBtn = document.querySelector<HTMLButtonElement>('.again-btn')!;
+  const successTitle = success.querySelector<HTMLElement>('.success-title')!;
+  const formTitle = form.querySelector<HTMLElement>('.form-title')!;
 
   const ready = () =>
     nameInput.value.trim() !== '' &&
@@ -280,6 +285,12 @@ const concerns = [
       }
       form.hidden = true;
       success.hidden = false;
+      // 表單一藏起來,文件高度會塌掉(手機 2632→1622px),瀏覽器把 scrollY 夾回去後
+      // 成功訊息會落在視窗上方看不到的地方 —— 送出後完全沒有回饋。
+      // 焦點移進標題同時解決兩件事:視覺上把這一塊帶到眼前,螢幕閱讀器也會念出
+      // 「已收到…」(唯一的 role="status" 在已 hidden 的 form 裡,不會播報)。
+      successTitle.focus();
+      success.scrollIntoView({ block: 'center' });
     } catch {
       showError('網路連線不穩，請確認連線後再試一次。');
     } finally {
@@ -308,6 +319,12 @@ const concerns = [
     refresh();
     success.hidden = true;
     form.hidden = false;
+    // 回到表單同樣要把焦點帶回來(否則 activeElement 變成 BODY)。
+    // 送焦點到 h1 而不是第一個輸入框:不會在手機上硬叫出虛擬鍵盤,螢幕閱讀器會
+    // 重念一次「預約線上示範」,而且捲到表單頂端看得到仍保留的身分選擇;
+    // 接著按 Tab 是身分三選一 → 姓名,順序自然。
+    formTitle.focus();
+    form.scrollIntoView({ block: 'start' });
   });
 
   refresh();
@@ -338,6 +355,10 @@ const concerns = [
   }
 
   .form-title { font-size: 32px; line-height: 1.3; }
+
+  /* 「再填一份」捲回表單時用 block:'start';站頂是 66px 的 sticky header,
+     留 90px 讓標題不會被壓在它下面 */
+  .form-body { scroll-margin-top: 90px; }
 
   .form-lede {
     margin: 14px 0 0;

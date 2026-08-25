@@ -3,14 +3,17 @@
 //
 // 字型方案:
 // - Noto Sans TC 從 Google Fonts 載入(family 名就是 "Noto Sans TC"，
-//   fontsource 的 "Variable" 後綴問題不適用)。
+//   fontsource 的 "Variable" 後綴問題不適用)。刻意不 self-host:那是 18 個
+//   子集檔約 1.1 MB，託管成本高;而且中文字型的 fallback 是優雅的
+//   (退到系統的蘋方／微軟正黑)，CDN 被擋時只是換一套字，不會壞掉。
 // - Google Sans 系列非公開授權、不能 self-host:不發出請求，
 //   只留在 font-family stack 裡，使用者本機有裝才吃到。
 //
 // 圖示方案:
-// - Material Symbols Outlined 可變字型，用 icon_names 參數只訂閱用到的
-//   字符(38 個)，避免 3.5 MB 的完整字型檔;display=block 依 README。
-// - icon_names 必須按字母排序，新增圖示時要維持順序。
+// - Material Symbols Outlined 已 self-host 於 public/fonts/(@font-face 在
+//   global.css)，這裡不發任何圖示相關的 CDN 請求。圖示用 ligature 名稱當
+//   文字內容，CDN 被擋會直接顯示成 "shield"、"arrow_forward" 等英文字，
+//   對禁外連 CDN 的機關內網是硬傷——理由與重抓訂閱檔的方式見 global.css。
 import '../styles/global.css';
 
 interface Props {
@@ -25,20 +28,6 @@ const { title, description, noindex = false } = Astro.props;
 
 // canonical:site 設定於 astro.config.mjs
 const canonical = noindex ? null : new URL(Astro.url.pathname, Astro.site);
-
-const ICON_NAMES = [
-  'account_balance', 'architecture', 'arrow_drop_down', 'arrow_forward',
-  'auto_awesome', 'block', 'check', 'check_circle', 'checklist', 'code',
-  'dark_mode', 'description', 'engineering', 'error', 'expand_more',
-  'folder', 'folder_open', 'gavel', 'grid_view', 'handshake', 'help',
-  'history', 'hub', 'location_on', 'lock', 'mail', 'menu', 'notifications',
-  'payments', 'person', 'photo_camera', 'progress_activity', 'rate_review',
-  'school', 'search', 'shield', 'tune', 'verified_user', 'warning',
-].join(',');
-
-// 字軸只訂閱實際用到的值:opsz 24 / wght 400 / GRAD 0 固定,只有 FILL 需要 0..1 兩態
-// (global.css 的 .msy/.msy-f 寫死這三軸)。完整可變軸 48,568 B → 7,668 B,視覺零差異。
-const symbolsHref = `https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0&icon_names=${ICON_NAMES}&display=block`;
 ---
 
 <!doctype html>
@@ -82,7 +71,6 @@ const symbolsHref = `https://fonts.googleapis.com/css2?family=Material+Symbols+O
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
-    <link href={symbolsHref} rel="stylesheet" />
   </head>
   <body>
     {/* 跳過導覽:視覺上隱藏,鍵盤 focus 時才出現。各頁 <main> 帶 id="main" */}

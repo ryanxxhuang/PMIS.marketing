@@ -105,7 +105,37 @@ summary::-webkit-details-marker { display: none; }
   font-feature-settings: "tnum";
 }
 
-/* Material Symbols Outlined（可變字軸，選取態用 FILL 1） */
+/* Material Symbols Outlined（可變字軸，選取態用 FILL 1）
+ *
+ * 圖示字型 self-host，不走 Google Fonts CDN。理由：Material Symbols 用 ligature
+ * 名稱當文字內容（<span class="msy">shield</span>），字型載不到時瀏覽器會直接
+ * 把 "shield"、"arrow_forward" 當英文字畫出來——而本站主客群正是禁止外連 CDN
+ * 的機關內網（/security 頁也明講「字型與圖示可自行託管」）。
+ *
+ * 訂閱檔 7,668 B：字軸已收斂成實際用到的值（opsz 24 / wght 400 / GRAD 0 固定，
+ * 只有 FILL 需要 0..1 兩態，見下方 .msy/.msy-f），且只含 39 個實際使用的字符，
+ * 相對完整可變字型 3.5 MB。
+ *
+ * 新增／移除圖示時要重抓訂閱檔（icon_names 需按字母排序）：
+ *   curl -H 'User-Agent: Mozilla/5.0 ... Chrome/126.0.0.0 ...' \
+ *     'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0&icon_names=account_balance,architecture,arrow_drop_down,arrow_forward,auto_awesome,block,check,check_circle,checklist,code,dark_mode,description,engineering,error,expand_more,folder,folder_open,gavel,grid_view,handshake,help,history,hub,location_on,lock,mail,menu,notifications,payments,person,photo_camera,progress_activity,rate_review,school,search,shield,tune,verified_user,warning&display=block'
+ * 再把回傳 CSS 裡的 woff2 URL 下載成 public/fonts/material-symbols-subset.woff2。
+ * 一定要帶瀏覽器 UA，否則 Google 會回 truetype 版本，檔案大得多。
+ *
+ * 取捨：Noto Sans TC 仍留在 Google Fonts（見 Base.astro）。中文字型是 18 個
+ * 子集檔約 1.1 MB，self-host 成本高；而且它的 fallback 是優雅的（退到系統的
+ * 蘋方／微軟正黑），不會像圖示那樣變成英文單字。
+ *
+ * font-display: block 依設計稿 README 指定——讓圖示在字型載入前不顯示，
+ * 避免閃出 ligature 的英文字。 */
+@font-face {
+  font-family: "Material Symbols Outlined";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("/fonts/material-symbols-subset.woff2") format("woff2");
+}
+
 .msy {
   font-family: "Material Symbols Outlined";
   font-weight: 400;

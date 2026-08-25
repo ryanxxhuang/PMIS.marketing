@@ -1,0 +1,193 @@
+---
+// 「AI 從一張現場照片讀到什麼」段(2026-08-25)。
+//
+// ⚠️ 產品現況(2026-08-25 使用者確認):照片辨識**可以**,自動填表**還不行**。
+// 所以本段只呈現「辨識結果」,不宣稱任何欄位已被寫進表單。
+// 收件匣的措辭是「待你確認後帶入」,不是「已帶入」。
+// 等填表真的能動,把 dp-form-head 與收件匣那兩句改掉即可升級。
+//
+// 判定(合格/不合格)一律留給人 —— 這是產品紅線,不隨功能進度改變。
+const fields = [
+  { label: '查驗項目', value: '4F 柱牆鋼筋查驗', src: '讀自白板', tone: 'ai' },
+  { label: '查驗位置', value: '4F 東側 C3～C7 構面', src: '讀自白板', tone: 'ai' },
+  { label: '查驗日期', value: '2026-08-24', src: '讀自白板', tone: 'ai' },
+  { label: '板上工項', value: '柱牆鋼筋組立 SD420W', src: '讀自白板', tone: 'ai' },
+  { label: '對應標單工項', value: '03-02 鋼筋加工組立 SD420W', src: '比對標單', tone: 'ai' },
+  { label: '查驗結果', value: null, src: '不辨識，由你判定', tone: 'warn' },
+];
+---
+
+<section class="section section--ground">
+  <div class="wrap">
+    <div class="dp-intro">
+      <div class="kicker">AI 做了什麼</div>
+      <h2 class="section-h2">AI 從一張現場照片，讀到這些</h2>
+      <p class="section-desc">
+        查驗時本來就要拍照，照片裡通常有一塊寫著查驗項目、位置與日期的白板。把那張照片丟進來，AI 讀出板上的字，並比對本案標單找出對應的工項。合格與否不在它的工具裡——那一格它不碰。
+      </p>
+    </div>
+
+    <div class="split dp-split">
+      <div class="dp-form">
+        <div class="dp-form-head">AI 從這張照片讀到的</div>
+        {
+          fields.map((f) => (
+            <div class="dp-row">
+              <div class="dp-field">{f.label}</div>
+              <div class:list={['dp-value', !f.value && 'dp-value--empty']}>
+                {f.value ?? '（空白）'}
+              </div>
+              <span class:list={['dp-src', `dp-src--${f.tone}`]}>{f.src}</span>
+            </div>
+          ))
+        }
+        <p class="dp-note">查驗結果那一格是刻意空的。照片能證明查驗做了什麼、在哪裡，不能代替工程師判定合不合格。</p>
+      </div>
+
+      <div class="dp-inbox">
+        <div class="dp-inbox-head">
+          <span class="msy dp-inbox-icon" aria-hidden="true">auto_awesome</span>已辨識，待你確認後帶入
+        </div>
+        <p class="dp-inbox-summary">
+          從 1 張現場照片讀出 5 個欄位，並對應到標單工項 03-02。
+        </p>
+        <p class="dp-inbox-basis">
+          依據：照片中白板的文字、本案標單工項清單
+        </p>
+        {/* 靜態示意,不是可點按鈕 */}
+        <div class="dp-actions" aria-hidden="true">
+          <span class="dp-btn dp-btn--accept">確認帶入</span>
+          <span class="dp-btn">重新辨識</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="dp-foot">
+      辨識結果只有你看得到，你不確認就不會進到任何一張業務資料表。這不是介面規則，是資料庫權限：AI 的產出一律寫在待覆核清單，一般使用者對那張表沒有寫入權限，狀態轉移限本人執行且終態不可逆，每一次處理都寫進稽核軌跡。
+    </p>
+  </div>
+</section>
+
+<style>
+  .dp-intro { max-width: 700px; }
+  .dp-split { margin-top: 40px; gap: 24px; }
+
+  /* ---------- 左:模擬的日誌表單 ---------- */
+  .dp-form {
+    background: #fff;
+    border: 1px solid var(--g-line);
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+  .dp-form-head {
+    padding: 13px 18px;
+    border-bottom: 1px solid var(--color-divider);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-neutral-800);
+  }
+  .dp-row {
+    display: grid;
+    grid-template-columns: 104px 1fr auto;
+    gap: 12px;
+    align-items: start;
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--g-line);
+  }
+  .dp-row:last-of-type { border-bottom: 0; }
+  .dp-field {
+    font-size: 11.5px;
+    color: var(--color-neutral-700);
+    line-height: 1.7;
+  }
+  .dp-value {
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: var(--color-neutral-900);
+    min-width: 0;
+  }
+  .dp-value--empty { color: var(--color-neutral-700); }
+  .dp-src {
+    height: 20px;
+    padding: 0 7px;
+    border-radius: 6px;
+    font-size: 10.5px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    flex: none;
+  }
+  .dp-src--ai { background: var(--ai-tint); color: var(--ai-text); }
+  .dp-src--mute { background: var(--color-neutral-200); color: var(--color-neutral-700); }
+  .dp-src--warn { background: var(--c-warn-tint); color: var(--c-warn); }
+  .dp-note {
+    padding: 12px 18px 14px;
+    border-top: 1px solid var(--color-divider);
+    font-size: 11.5px;
+    line-height: 1.8;
+    color: var(--color-neutral-700);
+    background: var(--g-ground);
+  }
+
+  /* ---------- 右:草稿收件匣 ---------- */
+  .dp-inbox {
+    background: #fff;
+    border: 1px solid var(--g-line);
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+    padding: 20px 22px 22px;
+    align-self: start;
+  }
+  .dp-inbox-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: var(--font-heading);
+  }
+  .dp-inbox-icon { font-size: 19px; color: var(--ai); }
+  .dp-inbox-summary {
+    margin-top: 14px;
+    font-size: 13.5px;
+    line-height: 1.85;
+    color: var(--color-neutral-900);
+  }
+  .dp-inbox-basis {
+    margin-top: 10px;
+    font-size: 12px;
+    line-height: 1.8;
+    color: var(--color-neutral-700);
+  }
+  .dp-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 18px;
+  }
+  .dp-btn {
+    height: 34px;
+    padding: 0 18px;
+    border-radius: 100px;
+    border: 1px solid var(--color-divider);
+    color: var(--color-neutral-800);
+    font-size: 12.5px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+  }
+  .dp-btn--accept {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #fff;
+  }
+
+  .dp-foot {
+    margin-top: 24px;
+    font-size: 12.5px;
+    line-height: 1.85;
+    color: var(--color-neutral-700);
+    max-width: 900px;
+  }
+</style>

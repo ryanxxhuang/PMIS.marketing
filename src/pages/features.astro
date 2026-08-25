@@ -32,7 +32,7 @@ const sections = [
       },
       {
         t: '風險警示',
-        d: '每日清晨由 AI 彙整：分級、分類、依據的文件與條號，以及兩個可以直接做的動作。分級高／中／低對應危險／注意／正常三種色票。',
+        d: '依全案資料即時比對算出：逾期缺失、試體到齡未取樣、進度落後等，分級高／中／低對應危險／注意／正常三種色票。這一項不呼叫語言模型。',
       },
       {
         t: '四張指標卡',
@@ -40,7 +40,7 @@ const sections = [
       },
       {
         t: 'AI 今日已代辦',
-        d: '今天 AI 幫你擬了幾份日誌草稿、抽了幾條契約重點、比對了幾項估驗差異。每一項都能展開比對來源段落。',
+        d: '今天 AI 擬了幾份日誌草稿、查驗草稿與審查意見。待覆核的到收件匣逐筆處理，未接受前不寫入任何業務資料表。',
       },
     ],
   },
@@ -52,7 +52,7 @@ const sections = [
     items: [
       {
         t: '施工日誌',
-        d: '施作項目、位置、人力、機具與查驗狀態。AI 依昨日進度、今日照片與中央氣象署觀測資料擬草稿，人確認後送簽。',
+        d: '施作項目、位置、人力、機具與查驗狀態。AI 依昨日進度、今日照片與中央氣象署鄉鎮預報擬草稿，人確認後送簽。',
       },
       {
         t: 'ITP 檢驗停留點',
@@ -220,6 +220,37 @@ const valuationRows = [
   { level: 'child', no: '03-02', item: '鋼筋加工組立 SD420W', qty: '2,180 t', period: '186', pct: '28.4', amount: '7,626,000' },
   { level: 'child', no: '03-03', item: '結構用模板（含支撐）', qty: '38,600 m²', period: '3,120', pct: '26.1', amount: '2,432,500' },
 ];
+
+// AI 功能清冊(頁尾段,供機關承辦列印／另存 PDF 附進內部簽辦)。
+//
+// name 逐字沿用產品端功能註冊表的 label(PMIS/src/lib/aiFeatures.js,與
+// supabase/functions/_shared/aiFeatures.ts 同步;執行期真相是 DB 的
+// public.ai_features)。**不要在這裡改寫功能名稱** —— 名稱是機關拿去對帳用的,
+// 與後台的功能開關清單、用量報表的 feature_key 一一對應。
+// llm 對應註冊表的 isLlm 欄:false = 不打語言模型、token 與成本記 0。
+// 註冊表共 17 筆,assistant.chat「AI 問答助理」已於 W3-3 退場
+// (defaultEnabled:false,列保留只為用量歷史對帳),故本清冊為 16 項。
+//
+// what 是依各 supabase function 的實際行為寫的一句話,只寫產品做得到的:
+// 拿不準的一律往保守寫(如「草稿」「建議」「仍由人核定」)。
+const aiInventory = [
+  { name: 'AI Agent 主控台', what: '依角色白名單查本案資料回答，查詢工具只讀不寫，草稿只進收件匣。', llm: true },
+  { name: '契約解析(時程/罰則)', what: '讀契約檔抽出時程義務：觸發點、期限、責任方、罰則與出處頁碼。', llm: true },
+  { name: '文件自動分類', what: '規則分類器沒把握時的第二意見，不發明新類型，信心低就進待確認。', llm: true },
+  { name: '規範需求抽取', what: '從文件頁文字抽出履約要求草案，出處由程式比對驗證，核定仍是人。', llm: true },
+  { name: '送審文件讀取', what: '讀送審文件本體，逐項比對契約要求，標出符合、不符或需人工確認。', llm: true },
+  { name: '監造送審審查意見', what: '依履約要求產出審查要點與意見草稿，附建議判定，最終由監造裁量。', llm: true },
+  { name: 'RFI 回覆草稿', what: '依契約要求擬回覆草稿，研判工期與費用影響，並標記是否需設計釋疑。', llm: true },
+  { name: '機關稽核意見草稿', what: '把程式算出的勾稽異常寫成意見與建議，異常判定本身不由 AI 做。', llm: true },
+  { name: '施工月報草稿', what: '用當月彙整數據擬本月檢討與下月工作計畫兩欄草稿，人改完再出。', llm: true },
+  { name: '估驗施工說明草稿', what: '用本期工項、照片說明與日誌摘要，寫一段本期施工說明供佐證。', llm: true },
+  { name: '工程告示板辨識', what: '辨識現場照片中白板／告示板上的手寫文字，回填表單欄位，仍由人確認。', llm: true },
+  { name: '缺失照片描述', what: '看缺失照片產出標題、描述、嚴重度與改善建議，只寫照片看得到的。', llm: true },
+  { name: '施工照片分類', what: '批次辨識現場照片，產出照片簿說明、類別與工項關鍵詞供比對標單。', llm: true },
+  { name: '工安照片判讀', what: '判讀照片中的職安危害，法規只從內建清單引用名稱，不編造條號。', llm: true },
+  { name: '天氣帶入(中央氣象署)', what: '用工地座標查中央氣象署鄉鎮預報，帶入當日上午與下午天氣。', llm: false },
+  { name: '每日 agent 早報', what: '每天依角色寄出球在你手上的清單，沒有你的事就不寄信。', llm: false },
+];
 ---
 
 <Base
@@ -275,7 +306,10 @@ const valuationRows = [
                       <h3 class="dcard-title num">契約重點 · 已核定 12 條</h3>
                       <span class="dcard-meta num">來源：工程契約書 v2 · 施工規範</span>
                     </div>
-                    <div class="tbl-scroll">
+                    {/* ≤860px 會變成 overflow-x:auto 的捲動區,沒有 tabindex 鍵盤就
+                        捲不動(Safari 完全碰不到)——WCAG 2.1.1。role=region 讓它成為
+                        landmark,三個捲動區各有唯一的 aria-label。 */}
+                    <div class="tbl-scroll" tabindex="0" role="region" aria-label="契約重點表，可左右捲動">
                       <table class="ct">
                         <thead>
                           <tr>
@@ -313,7 +347,7 @@ const valuationRows = [
                       <h3 class="dcard-title num">第 5 期估驗計價</h3>
                       <span class="chip chip--info">待監造核定</span>
                     </div>
-                    <div class="tbl-scroll">
+                    <div class="tbl-scroll" tabindex="0" role="region" aria-label="第 5 期估驗計價表，可左右捲動">
                       <table class="vt">
                         <colgroup>
                           <col class="vt-c1" />
@@ -402,6 +436,70 @@ const valuationRows = [
         ))
       }
     </div>
+
+    {/* AI 功能清冊:@media print 會把本頁其餘部分整段拿掉,只留這一段成一份乾淨的
+        列印／PDF —— 機關承辦要把它附進內部簽辦。id 供外部直接連到本段。 */}
+    <section class="ail" id="ai-inventory" aria-labelledby="ail-h2">
+      <div class="wrap">
+        <div class="ail-head">
+          <span class="msy ail-icon" aria-hidden="true">auto_awesome</span>
+          <div class="pg-kicker">AI 功能清冊</div>
+          <h2 class="ail-h2 num" id="ail-h2">16 個 AI 功能，一項一項列給你看</h2>
+          <p class="ail-lede num">
+            AI 不是一顆按鈕，是嵌在既有工作流各節點的 16
+            個模組。每一個都能單獨關閉，關閉的判斷在伺服器端，不是把前端按鈕藏起來。每一次呼叫都留下功能、使用者、專案、耗時與成本；連被閘門擋下的呼叫都會記錄。其中兩項根本不呼叫語言模型：天氣帶入走中央氣象署
+            API，每日早報是確定性產生的——寄錯的信收不回來，這裡刻意不用 AI。
+          </p>
+        </div>
+
+        <div class="dcard">
+          <div class="tbl-scroll" tabindex="0" role="region" aria-label="AI 功能清冊表，可左右捲動">
+            <table class="ail-t">
+              <colgroup>
+                <col class="ail-c1" />
+                <col />
+                <col class="ail-c3" />
+                <col class="ail-c4" />
+              </colgroup>
+              <thead>
+                <tr>
+                  <th scope="col">功能</th>
+                  <th scope="col">做什麼</th>
+                  <th scope="col">語言模型</th>
+                  <th scope="col">可否單獨關閉</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  aiInventory.map((f) => (
+                    <tr>
+                      <td class="ail-name">{f.name}</td>
+                      <td class="ail-what">{f.what}</td>
+                      <td>
+                        <span class:list={['chip', f.llm ? 'chip--ai' : 'chip--off']}>
+                          {f.llm ? '是' : '否'}
+                        </span>
+                      </td>
+                      <td>
+                        <span class="chip chip--ok">可</span>
+                      </td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* 產品的 aiFeatures 註冊表有 minPlan 分級(trial/standard/pro),
+            這張表不列方案欄(站上沒有價格頁,列了會引出無法在此回答的問題),
+            但也不能讓人以為 16 項都隨手可用 —— 用這句把事實講清楚。 */}
+        <p class="ail-note">
+          這張表可以直接附進機關的內部簽辦。逐項揭露用了什麼、逐項可以關掉，對應的是行政院及所屬機關（構）使用生成式
+          AI 參考指引裡「適當揭露」與「掌握自主權與控制權」兩項要求。實際開通哪幾項依方案與貴單位的資安要求而定，示範時會逐項確認。
+        </p>
+      </div>
+    </section>
 
     <section class="pg-cta">
       <div class="pg-cta-inner">
@@ -553,6 +651,14 @@ const valuationRows = [
     box-shadow: var(--shadow-sm);
   }
 
+  /* 捲動區加了 tabindex="0" 就會拿到 global 的 :focus-visible(2px 外框、offset 2px),
+     但 .dcard 是 overflow:hidden,外擴的框會被整圈裁掉看不見。
+     改成 offset -2px 畫在容器內側,焦點位置才看得出來。 */
+  .tbl-scroll:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: -2px;
+  }
+
   .dcard-head {
     padding: 13px 18px;
     border-bottom: 1px solid var(--color-divider);
@@ -596,6 +702,16 @@ const valuationRows = [
   .chip--info {
     background: var(--color-accent-100);
     color: var(--c-info-text);
+  }
+  /* AI 功能清冊「語言模型」欄:是=AI 面板色票,否=中性 chip
+     (刻意不用 .chip--info——那是「狀態」色,這裡表達的是「有沒有打模型」) */
+  .chip--ai {
+    background: var(--ai-tint);
+    color: var(--ai-text);
+  }
+  .chip--off {
+    background: var(--g-chip);
+    color: var(--color-neutral-700);
   }
 
   /* ---------- 契約重點表 ---------- */
@@ -820,6 +936,102 @@ const valuationRows = [
     color: var(--color-neutral-700);
   }
 
+  /* ---------- AI 功能清冊 ---------- */
+
+  /* 上緣線是刻意的:最後一個 .fsec 沒有下緣線,清冊靠這條線與上方六個工作面切開,
+     讀者(與列印出來的那一頁)才看得出這是一份獨立的附件式清單 */
+  .ail {
+    padding: 64px 0 88px;
+    border-top: 1px solid var(--g-line);
+  }
+
+  /* 說明文字沿用頁首 760px 的行長,不跟著表格拉到 1180px */
+  .ail-head {
+    max-width: 760px;
+  }
+
+  .ail-icon {
+    font-size: 28px;
+    color: var(--ai);
+  }
+
+  .ail-h2 {
+    font-size: 26px;
+    margin-top: 12px;
+  }
+
+  .ail-lede {
+    margin: 14px 0 0;
+    font-size: 13.5px;
+    line-height: 1.9;
+    color: var(--color-neutral-800);
+  }
+
+  /* 四欄:功能／做什麼／語言模型／可否單獨關閉。作法同 .ct(不用 table-layout:fixed,
+     中文欄寬交給瀏覽器分配,colgroup 只給提示) */
+  .ail-t {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+  }
+
+  .ail-c1 { width: 176px; }
+  .ail-c3 { width: 92px; }
+  .ail-c4 { width: 120px; }
+
+  /* 表頭底色是字面值,不進 token(同 .ct / .vt) */
+  .ail-t thead tr {
+    background: #f8f9fa;
+  }
+
+  .ail-t th {
+    text-align: left;
+    padding: 9px 12px;
+    font-weight: 500;
+    font-size: 11px;
+    color: var(--color-neutral-700);
+    border-bottom: 1px solid var(--g-line);
+    white-space: nowrap;
+  }
+
+  .ail-t td {
+    padding: 11px 12px;
+    border-bottom: 1px solid var(--g-line);
+    vertical-align: top;
+  }
+
+  /* 首尾欄與卡片內距對齊(18px) */
+  .ail-t th:first-child,
+  .ail-t th:last-child,
+  .ail-t td:first-child,
+  .ail-t td:last-child {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .ail-t tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  /* 功能名逐字沿用產品端註冊表,不折行(折行會讓人以為是兩個功能) */
+  .ail-name {
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .ail-what {
+    line-height: 1.75;
+    color: var(--color-neutral-800);
+  }
+
+  .ail-note {
+    max-width: 760px;
+    margin: 16px 0 0;
+    font-size: 11.5px;
+    line-height: 1.85;
+    color: var(--color-neutral-700);
+  }
+
   /* ---------- 頁尾 CTA 帶 ---------- */
 
   .pg-cta {
@@ -878,6 +1090,11 @@ const valuationRows = [
     .tbl-scroll table {
       min-width: 620px;
     }
+    /* 清冊四欄的自然寬度比另外兩張表寬(176+92+120 三欄固定,還要留給說明欄),
+       620px 會把「做什麼」擠成一字一行 */
+    .tbl-scroll .ail-t {
+      min-width: 700px;
+    }
   }
 
   @media (max-width: 720px) {
@@ -885,11 +1102,119 @@ const valuationRows = [
       font-size: 32px;
     }
     .fsec-h2,
+    .ail-h2,
     .pg-cta-h2 {
       font-size: 23px;
     }
     .fsec-items {
       grid-template-columns: 1fr;
+    }
+  }
+
+  /* ---------- 列印:只留 AI 功能清冊 ---------- */
+
+  /* 機關承辦要把清冊那一段另存 PDF 附進內部簽辦,所以列印時把導覽、頁首、六個
+     工作面、頁尾 CTA 與站尾整段移除。
+     用 display:none 而不是 body *{visibility:hidden} + 該段 visible:後者會把被
+     隱藏元素的版面空間留在紙上(整頁空白 + 清冊被推到第三頁),display:none 直接
+     不參與版面,列印結果從第一頁第一行就是清冊。
+     Header/Footer/skip-link 是別的元件輸出的節點,scoped style 選不到,要 :global()。
+     本區塊放在最後,靠來源順序覆蓋上面的 max-width 查詢(列印時的頁寬通常 < 860px,
+     那組規則會同時命中)。 */
+  @media print {
+    @page {
+      margin: 14mm;
+    }
+
+    :global(html),
+    :global(body) {
+      background: #fff;
+      color: #000;
+    }
+
+    :global(.skip-link),
+    :global(.site-header),
+    :global(.site-footer),
+    .pg-head,
+    .fsec,
+    .pg-cta {
+      display: none !important;
+    }
+
+    .ail {
+      padding: 0;
+      border-top: 0;
+    }
+
+    /* 圖示是裝飾,紙本不需要(圖示字型也未必在列印時載入完成) */
+    .ail-icon {
+      display: none;
+    }
+
+    /* 紙上沒有視窗寬度限制,行長交給頁面邊界 */
+    .ail .wrap {
+      max-width: none;
+      padding: 0;
+    }
+
+    .ail-head,
+    .ail-note {
+      max-width: none;
+    }
+
+    .pg-kicker,
+    .ail-h2,
+    .ail-lede,
+    .ail-note,
+    .ail-t th,
+    .ail-t td,
+    .ail-what {
+      color: #000;
+    }
+
+    .dcard {
+      margin-top: 20px;
+      border: 1px solid #000;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    /* 多數列印設定不輸出背景色,所以結構改由框線與字重承載 */
+    .ail-t thead tr {
+      background: transparent;
+    }
+    .ail-t th {
+      border-bottom: 1px solid #000;
+    }
+    .ail-t td {
+      border-bottom: 1px solid #999;
+    }
+
+    /* 色票在紙上只剩文字,補一圈框線讓「是／否／可」仍讀得出是三個獨立標記 */
+    .chip {
+      height: auto;
+      padding: 1px 6px;
+      background: transparent !important;
+      color: #000 !important;
+      border: 1px solid #000;
+    }
+
+    /* 橫向捲動在紙上沒有意義:放掉 min-width,讓 16 列完整攤平 */
+    .tbl-scroll {
+      overflow: visible !important;
+    }
+    .tbl-scroll .ail-t,
+    .tbl-scroll table {
+      min-width: 0 !important;
+    }
+
+    /* 一列不要被跨頁切成兩半;表頭在續頁重印 */
+    .ail-t tr {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .ail-t thead {
+      display: table-header-group;
     }
   }
 </style>
