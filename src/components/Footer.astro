@@ -1,0 +1,124 @@
+---
+// 共用頁尾。視覺照 handoff「PMIS.ai 官網.dc.html」的 footer 原型 1:1 重建，
+// inline style 改寫成下方 scoped class，值未做任何調整。
+//
+// note：頁尾右側的輔助文字。landing／功能全覽／資安頁用預設值；
+// 預約示範頁傳入「此表單為設計稿，尚未接後端。」（見 handoff 預約示範.dc.html）。
+//
+// 連結不指定顏色 —— global.css 已定義 a 的預設色與 hover（主色／深主色＋底線）。
+import { SITE } from '../config';
+
+interface Props {
+  note?: string;
+}
+
+const { note = '畫面中的專案、金額與人名為示範資料。' } = Astro.props;
+---
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      {/* 藍底反白的標誌，必須 inline 才能吃到白色描邊，不改成引用 public/brand 的檔案 */}
+      <span class="footer-mark">
+        <svg width="21" height="21" viewBox="0 0 48 48" aria-hidden="true">
+          <path
+            d="M24 12.4 L34.4 30.4 L13.6 30.4 Z"
+            fill="none"
+            stroke="#ffffff"
+            stroke-opacity=".5"
+            stroke-width="3"
+            stroke-linejoin="round"></path>
+          <circle cx="24" cy="12.4" r="5.2" fill="#ffffff"></circle>
+          <circle cx="34.4" cy="30.4" r="5.2" fill="#ffffff"></circle>
+          <circle cx="13.6" cy="30.4" r="5.2" fill="#fdd663"></circle>
+        </svg>
+      </span>
+      <span class="footer-wordmark">PMIS<span class="footer-wordmark-ai">.ai</span></span>
+      <span class="footer-tagline">公共工程專案管理</span>
+    </div>
+
+    <nav class="footer-nav">
+      <a href="/features">功能全覽</a>
+      <a href="/security">AI 邊界與資安</a>
+      <a href="/demo">預約示範</a>
+      <a href={SITE.appUrl}>登入</a>
+      <a href={`mailto:${SITE.contactEmail}`}>聯絡</a>
+    </nav>
+
+    <div class="footer-note">{note}</div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: #fff;
+    padding: 40px 24px;
+    border-top: 1px solid var(--g-line);
+  }
+
+  .footer-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+    justify-content: space-between;
+  }
+
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+  }
+
+  /* #0b57d0 同 --color-accent；照原型維持字面值，與標誌內的 #fdd663 一致 */
+  .footer-mark {
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    background: #0b57d0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+  }
+
+  .footer-wordmark {
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+
+  .footer-wordmark-ai {
+    color: var(--color-accent);
+  }
+
+  .footer-tagline {
+    font-size: 12px;
+    color: var(--color-neutral-700);
+  }
+
+  .footer-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+    font-size: 12.5px;
+  }
+
+  .footer-note {
+    font-size: 11.5px;
+    color: var(--color-neutral-700);
+  }
+
+  /* a11y：768px 以下觸控目標 ≥ 44px。只撐高連結的可點區域，
+     間距（gap 22px）與字級（12.5px）維持原型值。 */
+  @media (max-width: 768px) {
+    .footer-nav a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+    }
+  }
+</style>

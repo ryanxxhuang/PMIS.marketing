@@ -1,0 +1,137 @@
+---
+// landing「三方協作」段落。視覺照 handoff「PMIS.ai 官網.dc.html」第 335–372 行 1:1 重建，
+// inline style 改寫成下方 scoped class，值未做任何調整；文案逐字沿用。
+//
+// 外框用 global.css 的 .section / .section--ground / .wrap / .kicker /
+// .section-h2 / .section-desc / .g-auto，其餘卡片樣式在本檔 scoped。
+//
+// 卡片開頭的圓點用品牌四色字面值（機關 #1a73e8、監造 #ea4335、廠商 #fbbc04）——
+// 品牌四色不進 token，比照 Footer.astro 標誌的做法。
+
+const roles = [
+  {
+    key: 'agency',
+    title: '機關 Agent',
+    desc: '不必再追問監造與廠商在做什麼：進度、缺失、期限與付款一目瞭然。看不到廠商成本與毛利。',
+    chips: ['法定期限', '付款與驗收', '跨文件稽核'],
+  },
+  {
+    key: 'supervisor',
+    title: '監造 Agent',
+    desc: '查驗、送審審查、缺失複查、估驗覆核。不經手請款，判定與簽認仍由工程師本人做。',
+    chips: ['ITP 停留點', '送審審查', '估驗覆核'],
+  },
+  {
+    key: 'contractor',
+    title: '廠商 Agent',
+    desc: '現場填報、施工日誌、估驗、成本、品質與工安。現場與品管是公司內部分工，不是權限角色。',
+    chips: ['施工日誌', '自主檢查', '估驗請款'],
+  },
+];
+---
+
+<section class="section section--ground" id="roles">
+  <div class="wrap">
+    <div class="roles-intro">
+      <div class="kicker">三方協作</div>
+      <h2 class="section-h2">三方各有立場，事實只能有一份</h2>
+      <p class="section-desc">
+        標誌上的三個點是機關、監造與廠商，灰線是同一份契約。三方在同一個案子裡，看同一份資料，各自只有自己該有的權限——權限與稽核留痕由資料庫強制執行：監造改不了廠商送出的原始填報，廠商也關不掉監造開立的缺失。
+      </p>
+    </div>
+
+    <div class="g-auto roles-grid">
+      {
+        roles.map((role) => (
+          <div class="role-card">
+            <div class="role-head">
+              <span class={`role-dot role-dot--${role.key}`}></span>
+              <h3 class="role-title">{role.title}</h3>
+            </div>
+            <p class="role-desc">{role.desc}</p>
+            <div class="role-chips">
+              {role.chips.map((chip) => (
+                <span class="role-chip">{chip}</span>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .roles-intro {
+    max-width: 640px;
+  }
+
+  .roles-grid {
+    margin-top: 40px;
+  }
+
+  .role-card {
+    background: #fff;
+    border: 1px solid var(--g-line);
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+    padding: 22px 22px 20px;
+  }
+
+  .role-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .role-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex: none;
+  }
+
+  /* 品牌四色字面值，不進 token */
+  .role-dot--agency {
+    background: #1a73e8;
+  }
+  .role-dot--supervisor {
+    background: #ea4335;
+  }
+  .role-dot--contractor {
+    background: #fbbc04;
+  }
+
+  .role-title {
+    font-size: 18px;
+    font-family: var(--font-heading);
+    font-weight: 500;
+  }
+
+  .role-desc {
+    margin-top: 12px;
+    font-size: 13.5px;
+    line-height: 1.85;
+    color: var(--color-neutral-800);
+  }
+
+  .role-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 16px;
+  }
+
+  /* mute 色票：--g-chip 底、--color-neutral-700 字 */
+  .role-chip {
+    height: 22px;
+    padding: 0 8px;
+    border-radius: 6px;
+    background: var(--g-chip);
+    color: var(--color-neutral-700);
+    font-size: 11px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+  }
+</style>

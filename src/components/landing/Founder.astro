@@ -1,0 +1,205 @@
+---
+// Landing「誰做的」段(README 1.2 / 原型 #founder)。
+// 白底、左右欄 300px 1fr(.split-founder,920px 以下收單欄)。
+// 這一段的資訊密度是刻意壓低的 —— 加內容回來之前先看 README 1.2 的註記。
+import { SITE } from '../../config';
+---
+
+<section id="founder" class="section">
+  <div class="wrap">
+    <div class="split-founder">
+      <div class="founder-bio">
+        <div class="bio-name">{SITE.founderName}</div>
+        <div class="bio-title">{SITE.founderTitle}</div>
+        <div class="bio-logos">
+          <img
+            class="bio-logo bio-logo--ucla"
+            src="/logos/ucla.png"
+            alt="UCLA · MBA"
+            title="UCLA · MBA"
+          />
+          <img
+            class="bio-logo bio-logo--gt"
+            src="/logos/georgia-tech.png"
+            alt="Georgia Tech · MSCS"
+            title="Georgia Tech · MSCS"
+          />
+        </div>
+        <div class="bio-edu">UCLA MBA · Georgia Tech 資訊工程碩士<br />交通大學、中央大學 土木工程</div>
+        <a class="bio-mail" href={`mailto:${SITE.contactEmail}`}><span class="msy bio-mail-icon" aria-hidden="true">mail</span>{SITE.contactEmail}</a>
+      </div>
+
+      <div class="founder-story">
+        <div class="kicker">誰做的</div>
+        <h2 class="founder-h2">監造、機關、系統，三邊我都待過</h2>
+        <p class="founder-desc">這套系統不是外包做的。從資料模型到 AI 邊界，都是我自己決定的——因為這三種立場我都親自坐過。</p>
+
+        <blockquote class="founder-quote">
+          <p class="quote-line">「我自己用過大型顧問公司的 PMIS，很痛苦。」</p>
+          <p class="quote-note">所以初衷不是再推一套系統、讓現場工程師多填一份表，而是把重複的內業拿掉：AI 出草稿，工程師只做覆核與簽名。</p>
+        </blockquote>
+
+        <p class="founder-rank">土木、資工與商管的訓練在同一個人身上：看得懂標單、寫得出系統、談得了採購。<br />UCLA 為美國公立大學排名長年前二；Georgia Tech 工程研究所全美第 4、資訊工程研究所全美第 7（U.S. News 2026）。</p>
+
+        <div class="g-auto founder-tracks">
+          <div class="track">
+            <span class="track-tag track-tag--ok">監造這一側</span>
+            <h3 class="track-h3">台灣世曦工程顧問｜監造</h3>
+            <div class="track-desc">查驗、送審、估驗覆核都自己做過；監造報表與缺失追蹤的工時，我自己耗過。</div>
+          </div>
+          <div class="track">
+            <span class="track-tag track-tag--info">機關這一側</span>
+            <h3 class="track-h3">公務機關｜4 年</h3>
+            <div class="track-desc">走過簽辦、審查、發包到驗收，知道承辦人真正會被卡在哪一關。</div>
+          </div>
+          <div class="track">
+            <span class="track-tag track-tag--purple">系統這一側</span>
+            <h3 class="track-h3">AI Agent 新創｜產品經理</h3>
+            <div class="track-desc">這套系統是我自己做的，從資料模型到 AI 邊界都自己決定。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ---------- 左欄：姓名 → 頭銜 → 分隔線 → logo → 學歷 → 信箱 ---------- */
+
+  .bio-name {
+    font-size: 26px;
+    font-family: var(--font-display);
+    letter-spacing: -.015em;
+  }
+
+  .bio-title {
+    font-size: 12.5px;
+    color: var(--color-neutral-700);
+    margin-top: 6px;
+    line-height: 1.7;
+  }
+
+  .bio-logos {
+    margin-top: 22px;
+    padding-top: 20px;
+    border-top: 1px solid var(--g-line);
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .bio-logo {
+    width: auto;
+    object-fit: contain;
+  }
+  .bio-logo--ucla { height: 26px; }
+  .bio-logo--gt { height: 30px; }
+
+  .bio-edu {
+    font-size: 12px;
+    color: var(--color-neutral-700);
+    line-height: 1.85;
+    margin-top: 14px;
+  }
+
+  .bio-mail {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 20px;
+    font-size: 12.5px;
+  }
+  .bio-mail-icon { font-size: 16px; }
+
+  /* ---------- 右欄：kicker → H2 → 說明 → 引言卡 → 排名說明 → 三張經歷卡 ---------- */
+
+  /* 原型此處 clamp 上限是 38px，比工具類 .section-h2 的 36px 大，故自訂 */
+  .founder-h2 {
+    font-size: clamp(28px, 3.6vw, 38px);
+    line-height: 1.3;
+    margin-top: 16px;
+  }
+
+  .founder-desc {
+    margin: 18px 0 0;
+    font-size: clamp(14.5px, 1.5vw, 15.5px);
+    line-height: 1.9;
+    color: var(--color-neutral-800);
+    max-width: 660px;
+  }
+
+  /* 引言卡：左側 3px 主色實線、#f8fafd 底、右側圓角 12px */
+  .founder-quote {
+    margin: 28px 0 0;
+    padding: 22px 24px;
+    border-left: 3px solid var(--color-accent);
+    background: var(--g-ground);
+    border-radius: 0 12px 12px 0;
+  }
+
+  .quote-line {
+    font-size: clamp(15px, 1.7vw, 17px);
+    line-height: 1.85;
+    font-weight: 500;
+  }
+
+  .quote-note {
+    margin-top: 12px;
+    font-size: 13.5px;
+    line-height: 1.9;
+    color: var(--color-neutral-800);
+  }
+
+  .founder-rank {
+    margin-top: 22px;
+    font-size: 13.5px;
+    line-height: 1.9;
+    color: var(--color-neutral-700);
+  }
+
+  .founder-tracks { margin-top: 24px; }
+
+  .track {
+    border: 1px solid var(--g-line);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* 色票一律顏色＋文字並存 */
+  .track-tag {
+    height: 24px;
+    padding: 0 10px;
+    border-radius: 6px;
+    font-size: 11.5px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+  }
+  .track-tag--ok {
+    background: var(--c-ok-tint);
+    color: var(--c-ok-text);
+  }
+  .track-tag--info {
+    background: var(--color-accent-100);
+    color: var(--c-info-text);
+  }
+  .track-tag--purple {
+    background: var(--c-purple-tint);
+    color: var(--c-purple-text);
+  }
+
+  .track-h3 {
+    font-size: 17px;
+    font-family: var(--font-heading);
+    font-weight: 500;
+    margin-top: 12px;
+  }
+
+  .track-desc {
+    font-size: 13px;
+    line-height: 1.8;
+    margin-top: 10px;
+    color: var(--color-neutral-800);
+  }
+</style>

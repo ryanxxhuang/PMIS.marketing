@@ -1,0 +1,164 @@
+---
+// Hero(原型 1.1):kicker chip、H1、說明、雙鈕、信任列 + 產品畫面。
+//
+// 產品畫面是 1440×908 的固定內容整體等比縮放(不能用 calc(100cqi/1440px),
+// CSS 不允許長度相除,所以用 media query 階梯調 --s);760px 以下換成
+// 330px 手機版畫面,不縮放桌機版。兩張圖的切換照 README:桌機版
+// display:block/none、手機版 none/flex。
+import { SITE } from '../../config';
+import AppshotDesktop from './AppshotDesktop.astro';
+import AppshotPhone from './AppshotPhone.astro';
+---
+
+<section id="top" class="hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <div class="hero-chip">
+        <span class="msy hero-chip-icon" aria-hidden="true">architecture</span>公共工程 · 廠商／監造／機關三方協作
+      </div>
+      <h1 class="hero-h1">廠商、監造、機關<br />在同一份契約事實上協作。</h1>
+      <p class="hero-desc">PMIS.ai 把 PCCES 標單、施工日誌、查驗、估驗計價與送審接成一條資料鏈。AI 只做查詢、彙整與草稿；核定、判定、結案與驗收，永遠是人的。</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary hero-cta" href="/demo">{SITE.ctaLabel}<span class="msy hero-btn-icon" aria-hidden="true">arrow_forward</span></a>
+        <a class="btn btn-outline hero-alt" href="#founder"><span class="msy hero-btn-icon" aria-hidden="true">person</span>誰做的</a>
+      </div>
+      <div class="hero-trust">
+        <span><span class="msy hero-trust-icon" aria-hidden="true">shield</span>資通系統防護基準 · 普通級</span>
+        <span><span class="msy hero-trust-icon" aria-hidden="true">location_on</span>個資境內存放，未境外傳輸</span>
+        <span><span class="msy hero-trust-icon" aria-hidden="true">history</span>操作全程留存稽核軌跡</span>
+      </div>
+    </div>
+
+    <div class="only-wide" role="img" aria-label="PMIS 產品畫面:監造角色的今日待辦,含指標卡、待辦清單、風險警示與 AI 已代辦">
+      <div class="appshot">
+        <div class="appshot-scale">
+          <AppshotDesktop />
+        </div>
+      </div>
+    </div>
+
+    <div class="only-narrow" role="img" aria-label="PMIS 手機版畫面:今日待辦清單與 AI 已代辦摘要">
+      <AppshotPhone />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    background: linear-gradient(180deg, #ffffff 0%, var(--g-ground) 100%);
+    padding: clamp(48px, 7vw, 80px) 0 0;
+    border-bottom: 1px solid var(--g-line);
+  }
+
+  .hero-copy { max-width: 800px; }
+
+  .hero-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    height: 28px;
+    padding: 0 14px;
+    border-radius: 100px;
+    background: #fff;
+    border: 1px solid var(--color-accent-200);
+    color: var(--color-accent-800);
+    font-size: 11.5px;
+    font-weight: 500;
+  }
+  .hero-chip-icon {
+    font-size: 15px;
+    color: var(--color-accent);
+  }
+
+  .hero-h1 {
+    font-size: clamp(32px, 5.4vw, 54px);
+    line-height: 1.18;
+    margin: 22px 0 0;
+  }
+
+  .hero-desc {
+    margin: 22px 0 0;
+    font-size: clamp(15px, 1.6vw, 16.5px);
+    line-height: 1.85;
+    color: var(--color-neutral-800);
+    max-width: 700px;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-top: 30px;
+  }
+  .hero-cta {
+    height: 46px;
+    padding: 0 26px;
+    font-size: 15px;
+    box-shadow: 0 1px 3px rgba(11, 87, 208, .3);
+  }
+  .hero-alt {
+    height: 46px;
+    padding: 0 22px;
+    font-size: 15px;
+  }
+  .hero-btn-icon { font-size: 18px; }
+
+  .hero-trust {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-top: 26px;
+    font-size: 12.5px;
+    color: var(--color-neutral-700);
+  }
+  .hero-trust > span {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .hero-trust-icon {
+    font-size: 17px;
+    color: var(--c-ok);
+  }
+
+  /* ---------- 產品畫面:1440×908 整體等比縮放 ---------- */
+
+  /* 縮放階梯:≥1168px 時內容 1120px 寬 */
+  .only-wide { --s: 0.7778; margin-top: clamp(36px, 5vw, 52px); }
+  @media (max-width: 1167px) { .only-wide { --s: 0.6778; } }
+  @media (max-width: 1023px) { .only-wide { --s: 0.5917; } }
+  @media (max-width: 899px)  { .only-wide { --s: 0.4944; } }
+
+  .appshot {
+    width: calc(1440px * var(--s));
+    height: calc(908px * var(--s));
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--g-line);
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    border-bottom: 0;
+    box-shadow: var(--shadow-lg);
+    background: #fff;
+  }
+  .appshot-scale {
+    width: 1440px;
+    height: 908px;
+    transform: scale(var(--s));
+    transform-origin: top left;
+  }
+
+  /* 760px 以下換手機版畫面 */
+  .only-narrow { display: none; }
+  @media (max-width: 759px) {
+    .only-wide { display: none; }
+    .only-narrow {
+      display: flex;
+      justify-content: center;
+      margin-top: 36px;
+      padding-bottom: 40px;
+    }
+  }
+</style>

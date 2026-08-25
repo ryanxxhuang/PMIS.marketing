@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/classical-c3a7ec3f-48c4-4361-bfe0-ea5ce74fdad9/styles.css">
+<script src="_ds/classical-c3a7ec3f-48c4-4361-bfe0-ea5ce74fdad9/_ds_bundle.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Text:wght@400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" rel="stylesheet">
+<style>
+  :root {
+    --color-text:#202124; --color-accent:#0b57d0; --color-divider:#dadce0;
+    --color-neutral-200:#f1f3f4; --color-neutral-300:#e8eaed; --color-neutral-400:#dadce0;
+    --color-neutral-600:#80868b; --color-neutral-700:#5f6368; --color-neutral-800:#3c4043; --color-neutral-900:#202124;
+    --color-accent-100:#ecf3fe; --color-accent-200:#d3e3fd; --color-accent-700:#0842a0; --color-accent-800:#062e6f; --color-accent-900:#041e49;
+    --c-danger-text:#a50e0e; --c-danger-tint:#fce8e6;
+    --c-warn-text:#b06000; --c-warn-tint:#fef7e0;
+    --c-ok:#146c2e; --c-ok-text:#137333; --c-ok-tint:#e6f4ea;
+    --ai:#0b57d0; --ai-tint:#ecf3fe; --ai-text:#062e6f;
+    --font-heading:"Google Sans Text","Noto Sans TC",system-ui,sans-serif;
+    --font-body:"Google Sans Text","Noto Sans TC",system-ui,sans-serif;
+    --font-display:"Google Sans Display","Google Sans","Google Sans Text","Noto Sans TC",system-ui,sans-serif;
+    --g-card:#ffffff; --g-line:#e3e6ea; --g-ground:#f8fafd; --g-chip:#f1f3f4; --g-search:#ecf3fe;
+    --shadow-sm:0 1px 2px rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.08);
+    --shadow-lg:0 2px 6px rgba(60,64,67,.3), 0 8px 24px 6px rgba(60,64,67,.12);
+  }
+  body { margin:0; background:#ffffff; color:var(--color-text); font-family:var(--font-body); font-size:14px; -webkit-font-smoothing:antialiased; }
+  h1,h2,h3,h4 { font-family:var(--font-display); letter-spacing:-.012em; font-weight:400; margin:0; }
+  a { color:var(--color-accent); text-decoration:none; }
+  a:hover { color:var(--color-accent-700); text-decoration:underline; }
+  p { margin:0; }
+  .num { font-variant-numeric:tabular-nums; font-feature-settings:"tnum"; }
+  .msy { font-family:"Material Symbols Outlined"; font-weight:400; font-style:normal; line-height:1; letter-spacing:normal; text-transform:none; display:inline-block; white-space:nowrap; direction:ltr; font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24; }
+  .msy-f { font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24; }
+  .plate { border:1px solid var(--color-divider); border-radius:8px; overflow:hidden; }
+  ::selection { background:var(--color-accent-200); }
+  :focus-visible { outline:2px solid #1a73e8; outline-offset:2px; }
+  /* responsive: collapse the fixed grids and let wide tables scroll */
+  @media (max-width:1080px) {
+    [style*="grid-template-columns:280px 1fr"] { grid-template-columns:1fr !important; gap:22px !important; }
+  }
+  @media (max-width:860px) {
+    [style*="grid-template-columns:1fr 1fr"],
+    [style*="grid-template-columns:repeat(3,1fr)"],
+    [style*="grid-template-columns:repeat(4,1fr)"] { grid-template-columns:repeat(auto-fit,minmax(180px,1fr)) !important; }
+    div[style*="overflow:hidden"] { overflow-x:auto !important; }
+    table { min-width:620px; }
+  }
+  @media (max-width:720px) {
+    h1 { font-size:32px !important; }
+    h2 { font-size:23px !important; }
+    [style*="grid-template-columns:1fr 1fr"] { grid-template-columns:1fr !important; }
+    .navlink { display:none !important; }
+  }
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#fff">
+
+<header style="position:sticky;top:0;z-index:20;height:64px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--g-line);display:flex;align-items:center">
+  <div style="width:100%;max-width:1180px;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:28px">
+    <a href="PMIS.ai 官網.dc.html" style="display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--color-text)">
+      <span style="width:34px;height:34px;border-radius:10px;background:#0b57d0;display:flex;align-items:center;justify-content:center;flex:none;box-shadow:0 1px 2px rgba(11,87,208,.35)"><svg width="24" height="24" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 12.4 L34.4 30.4 L13.6 30.4 Z" fill="none" stroke="#ffffff" stroke-opacity=".5" stroke-width="3" stroke-linejoin="round"></path><circle cx="24" cy="12.4" r="5.2" fill="#ffffff"></circle><circle cx="34.4" cy="30.4" r="5.2" fill="#ffffff"></circle><circle cx="13.6" cy="30.4" r="5.2" fill="#fdd663"></circle></svg></span>
+      <span style="font-family:var(--font-heading);font-size:20px;font-weight:500;letter-spacing:-.01em">PMIS<span style="color:var(--color-accent)">.ai</span></span>
+      <span style="font-size:11.5px;color:var(--color-neutral-700);padding-left:2px">公共工程</span>
+    </a>
+    <nav style="margin-left:auto;display:flex;align-items:center;gap:4px">
+      <span style="height:36px;padding:0 12px;border-radius:100px;background:var(--color-accent-100);display:flex;align-items:center;font-size:13.5px;font-weight:500;color:#174ea6">功能全覽</span>
+      <a href="AI 邊界與資安.dc.html" style="height:36px;padding:0 12px;border-radius:100px;display:flex;align-items:center;font-size:13.5px;color:var(--color-neutral-800);text-decoration:none" style-hover="background:var(--color-neutral-200);text-decoration:none">AI 邊界與資安</a>
+      <a href="PMIS.ai 官網.dc.html#roles" style="height:36px;padding:0 12px;border-radius:100px;display:flex;align-items:center;font-size:13.5px;color:var(--color-neutral-800);text-decoration:none" style-hover="background:var(--color-neutral-200);text-decoration:none">三方協作</a>
+      <a href="預約示範.dc.html" style="margin-left:10px;height:38px;padding:0 20px;border-radius:100px;background:var(--color-accent);color:#fff;display:flex;align-items:center;font-size:13.5px;font-weight:500;text-decoration:none" style-hover="background:var(--color-accent-700);color:#fff;text-decoration:none">預約線上示範</a>
+    </nav>
+  </div>
+</header>
+
+<section style="padding:64px 24px 48px;border-bottom:1px solid var(--g-line);background:linear-gradient(180deg,#fff,var(--g-ground))">
+  <div style="max-width:1180px;margin:0 auto;max-width:760px">
+    <div style="font-size:11.5px;font-weight:500;color:var(--color-accent-700)">功能全覽</div>
+    <h1 style="font-size:44px;line-height:1.22;margin-top:14px">六個工作面，加上一個問答入口</h1>
+    <p style="margin:20px 0 0;font-size:16px;line-height:1.9;color:var(--color-neutral-800)">導覽的資訊架構就是工程的實際流程。每個工作面下面是分頁，不是新的一層權限。以下逐個說明各工作面實際做的事。</p>
+  </div>
+</section>
+
+<div style="max-width:1180px;margin:0 auto;padding:0 24px">
+
+<section style="padding:64px 0;border-bottom:1px solid var(--g-line)">
+  <div style="display:grid;grid-template-columns:280px 1fr;gap:48px;align-items:start">
+    <div>
+      <span class="msy" style="font-size:28px;color:var(--color-accent)">grid_view</span>
+      <h2 style="font-size:26px;margin-top:12px">今日待辦</h2>
+      <p style="margin:12px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-700)">登入後的第一頁。不是儀表板，是一份「今天輪到你」的清單。</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+      <div>
+        <h3 style="font-size:15px;font-family:var(--font-heading);font-weight:500">現在輪到我 · 等待對方</h3>
+        <p style="margin:8px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-800)">每件事都標明球在誰手上、還剩幾天、依據哪一條契約或法規期限。逾期、今日到期與其餘用固定的三種色票，顏色與文字並存。</p>
+      </div>
+      <div>
+        <h3 style="font-size:15px;font-family:var(--font-heading);font-weight:500">風險警示</h3>
+        <p style="margin:8px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-800)">每日清晨由 AI 彙整：分級、分類、依據的文件與條號，以及兩個可以直接做的動作。分級高／中／低對應危險／注意／正常三種色票。</p>
+      </div>
+      <div>
+        <h3 style="font-size:15px;font-family:var(--font-heading);font-weight:500">四張指標卡</h3>
+        <p style="margin:8px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-800)">累計實際進度與目標差距、發包工程費、累計估驗、剩餘工期。數字全部由確定性引擎計算，欄位隨角色不同。</p>
+      </div>
+      <div>
+        <h3 style="font-size:15px;font-family:var(--font-heading);font-weight:500">AI 今日已代辦</h3>
+        <p style="margin:8px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-800)">今天 AI 幫你擬了幾份日誌草稿、抽了幾條契約重點、比對了幾項估驗差異。每一項都能展開比對來源段落。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:64px 0;border-bottom:1px solid var(--g-line)">
+  <div style="display:grid;grid-template-columns:280px 1fr;gap:48px;align-items:start">
+    <div>
+      <span class="msy" style="font-size:28px;color:var(--color-accent)">engineering</span>
+      <h2 style="font-size:26px;margin-top:12px">現場與品質</h2>
+      <p style="margin:12px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-700)">分頁：品質查驗、檢驗停留點、工安。手機版有獨立的現場介面。</p>
+    </div>
+    <div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <div>
+          <h3 style="font-size:15px;font-family:var(--font-heading);font-weight:500">施工日誌</h3>
+          <p style="margin:8px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-800)">施作項目、位置、人力、機具與查驗狀態。AI 依昨日進度、今日照片與中央氣象署觀測資料擬草稿，人確認後送簽。</p>
+        </div>
+        <div>
+          <h3 style="font-size:15px;font-family:var(--font-heading);font-weight:500">ITP 檢驗停留點</h3>
+          <p style="margin:8px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-800)">查驗計畫的停留點與自主檢查表，含取樣試驗齡期追蹤。到齡與逾期都會出現在待辦裡。</p>
+        </div>
+        <div>
+          <h3 style="font-size:15px;font-family:var(--font-heading);font-weight:500">缺失與工安</h3>
+          <p style="margin:8px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-800)">缺失單有改善期限、責任方與複驗紀錄，照片可直接在上面標註。工安檢查與缺失走同一套流程。</p>
+        </div>
+        <div>
+          <h3 style="font-size:15px;font-family:var(--font-heading);font-weight:500">照片即佐證</h3>
+          <p style="margin:8px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-800)">保留拍攝時間並對應到工項，成為查驗與估驗的佐證。AI 會標出疑似不符規範的照片，但開立缺失仍是人的動作。</p>
+        </div>
+      </div>
+      <div style="margin-top:24px;padding:16px 18px;background:var(--g-ground);border:1px solid var(--g-line);border-radius:12px;display:flex;gap:12px;align-items:flex-start">
+        <span class="msy" style="font-size:20px;color:var(--color-neutral-700);flex:none">photo_camera</span>
+        <p style="font-size:13px;line-height:1.85;color:var(--color-neutral-800)">上傳的現場照片會保留拍攝時間並對應到工項，成為查驗與估驗的佐證，不只是相簿。AI 會標出疑似不符規範的照片，但開立缺失仍是人的動作。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:64px 0;border-bottom:1px solid var(--g-line)">
+  <div style="display:grid;grid-template-columns:280px 1fr;gap:48px;align-items:start">
+    <div>
+      <span class="msy" style="font-size:28px;color:var(--color-accent)">rate_review</span>
+      <h2 style="font-size:26px;margin-top:12px">審查與協作</h2>
+      <p style="margin:12px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-700)">分頁：送審文件、工程疑義、變更設計。契約重點是整個系統的權威來源之一。</p>
+    </div>
+    <div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <div>
+          <h3 style="font-size:15px;font-family:var(--font-heading);font-weight:500">契約文件 → 履約要求</h3>
+          <p style="margin:8px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-800)">契約、規範與圖說上傳後解析成一條一條的履約要求：條號、要求內容、來源頁碼、責任方、期限與信賴度。只有經人核定的要求才具權威性。</p>
+        </div>
+        <div>
+          <h3 style="font-size:15px;font-family:var(--font-heading);font-weight:500">送審文件佇列</h3>
+          <p style="margin:8px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-800)">版本、審查狀態、審查期限與退回理由。AI 審查助理列出與契約要求不符的段落，附出處。</p>
+        </div>
+        <div>
+          <h3 style="font-size:15px;font-family:var(--font-heading);font-weight:500">工程疑義 RFI</h3>
+          <p style="margin:8px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-800)">提問、待回覆天數、回覆與後續動作，串到工項與變更設計。逾期未回覆會進入風險警示。</p>
+        </div>
+        <div>
+          <h3 style="font-size:15px;font-family:var(--font-heading);font-weight:500">變更設計</h3>
+          <p style="margin:8px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-800)">增減項與金額影響掛回原工項，變更後的數量直接反映在後續估驗與 S 曲線上。</p>
+        </div>
+      </div>
+      <div style="margin-top:28px;border:1px solid var(--g-line);border-radius:12px;overflow:hidden;background:#fff;box-shadow:var(--shadow-sm)">
+        <div style="padding:13px 18px;border-bottom:1px solid var(--color-divider);display:flex;justify-content:space-between;align-items:baseline">
+          <h3 style="margin:0;font-size:15px;font-weight:500;font-family:var(--font-heading)">契約重點 · 已核定 12 條</h3>
+          <span style="font-size:11px;color:var(--color-neutral-600)">來源：工程契約書 v2 · 施工規範</span>
+        </div>
+        <table style="width:100%;border-collapse:collapse;font-size:12.5px">
+          <thead><tr style="background:#f8f9fa">
+            <th style="text-align:left;padding:9px 18px;font-weight:500;font-size:11px;color:var(--color-neutral-700);border-bottom:1px solid var(--g-line)">條號</th>
+            <th style="text-align:left;padding:9px 12px;font-weight:500;font-size:11px;color:var(--color-neutral-700);border-bottom:1px solid var(--g-line)">履約要求</th>
+            <th style="text-align:left;padding:9px 12px;font-weight:500;font-size:11px;color:var(--color-neutral-700);border-bottom:1px solid var(--g-line)">責任方</th>
+            <th style="text-align:left;padding:9px 12px;font-weight:500;font-size:11px;color:var(--color-neutral-700);border-bottom:1px solid var(--g-line)">期限</th>
+            <th style="text-align:left;padding:9px 18px;font-weight:500;font-size:11px;color:var(--color-neutral-700);border-bottom:1px solid var(--g-line)">信賴度</th>
+          </tr></thead>
+          <tbody>
+            <tr><td class="num" style="padding:11px 18px;border-bottom:1px solid var(--g-line);color:var(--color-neutral-700)">第 9 條</td><td style="padding:11px 12px;border-bottom:1px solid var(--g-line)">估驗計價每月一次，監造應於收件後 7 日內完成審核<span style="display:block;font-size:11px;color:var(--color-neutral-600);margin-top:3px">契約書 p.14</span></td><td style="padding:11px 12px;border-bottom:1px solid var(--g-line)">監造</td><td class="num" style="padding:11px 12px;border-bottom:1px solid var(--g-line)">7 日</td><td style="padding:11px 18px;border-bottom:1px solid var(--g-line)"><span style="height:22px;padding:0 8px;border-radius:6px;background:var(--c-ok-tint);color:var(--c-ok-text);font-size:11px;font-weight:500;display:inline-flex;align-items:center">高 · 已核定</span></td></tr>
+            <tr><td class="num" style="padding:11px 18px;border-bottom:1px solid var(--g-line);color:var(--color-neutral-700)">第 12 條</td><td style="padding:11px 12px;border-bottom:1px solid var(--g-line)">缺失改善期限 7 日，逾期依日計罰<span style="display:block;font-size:11px;color:var(--color-neutral-600);margin-top:3px">契約書 p.18</span></td><td style="padding:11px 12px;border-bottom:1px solid var(--g-line)">廠商</td><td class="num" style="padding:11px 12px;border-bottom:1px solid var(--g-line)">7 日</td><td style="padding:11px 18px;border-bottom:1px solid var(--g-line)"><span style="height:22px;padding:0 8px;border-radius:6px;background:var(--c-ok-tint);color:var(--c-ok-text);font-size:11px;font-weight:500;display:inline-flex;align-items:center">高 · 已核定</span></td></tr>
+            <tr><td class="num" style="padding:11px 18px;color:var(--color-neutral-700)">規範 3.4</td><td style="padding:11px 12px">鋼線網搭接長度不得小於 27 cm<span style="display:block;font-size:11px;color:var(--color-neutral-600);margin-top:3px">施工規範 p.203</span></td><td style="padding:11px 12px">廠商</td><td class="num" style="padding:11px 12px">—</td><td style="padding:11px 18px"><span style="height:22px;padding:0 8px;border-radius:6px;background:var(--c-warn-tint);color:var(--c-warn-text);font-size:11px;font-weight:500;display:inline-flex;align-items:center">中 · 待核定</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:64px 0;border-bottom:1px solid var(--g-line)">
+  <div style="display:grid;grid-template-columns:280px 1fr;gap:48px;align-items:start">
+    <div>
+      <span class="msy" style="font-size:28px;color:var(--color-accent)">payments</span>
+      <h2 style="font-size:26px;margin-top:12px">進度與金流</h2>
+      <p style="margin:12px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-700)">分頁：估驗計價、請款收款、S 曲線。所有金額由確定性引擎計算。</p>
+    </div>
+    <div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <div>
+          <h3 style="font-size:15px;font-family:var(--font-heading);font-weight:500">PCCES 標單匯入</h3>
+          <p style="margin:8px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-800)">標單 XML 直接匯入成工項樹，數量、單價與階層都帶進來。不用重新打一次。</p>
+        </div>
+        <div>
+          <h3 style="font-size:15px;font-family:var(--font-heading);font-weight:500">估驗計價</h3>
+          <p style="margin:8px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-800)">本期數量、累計百分比與本期金額逐工項計算，父層合計自動彙總。AI 只負責指出「本期與上期差異異常」的項目。</p>
+        </div>
+        <div>
+          <h3 style="font-size:15px;font-family:var(--font-heading);font-weight:500">請款、收款與保留款</h3>
+          <p style="margin:8px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-800)">從估驗核定到請款、收款與保留款扣抵，狀態只能依契約流程前進。</p>
+        </div>
+        <div>
+          <h3 style="font-size:15px;font-family:var(--font-heading);font-weight:500">S 曲線與逐工項排程</h3>
+          <p style="margin:8px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-800)">計畫與實際兩條線，落後幅度自動分級。排程掛在工項上，不是另一份獨立的甘特圖。</p>
+        </div>
+      </div>
+      <div style="margin-top:28px;border:1px solid var(--g-line);border-radius:12px;overflow:hidden;background:#fff;box-shadow:var(--shadow-sm)">
+        <div style="padding:13px 18px;border-bottom:1px solid var(--color-divider);display:flex;justify-content:space-between;align-items:baseline">
+          <h3 style="margin:0;font-size:15px;font-weight:500;font-family:var(--font-heading)">第 5 期估驗計價</h3>
+          <span style="height:22px;padding:0 8px;border-radius:6px;background:var(--color-accent-100);color:#174ea6;font-size:11px;font-weight:500;display:inline-flex;align-items:center">待監造核定</span>
+        </div>
+        <table style="width:100%;border-collapse:collapse;table-layout:fixed;font-size:12.5px">
+          <colgroup><col style="width:88px"><col><col style="width:104px"><col style="width:88px"><col style="width:78px"><col style="width:126px"></colgroup>
+          <thead><tr style="background:#f8f9fa">
+            <th style="text-align:left;padding:9px 18px;font-weight:500;font-size:11px;color:var(--color-neutral-700);border-bottom:1px solid var(--g-line)">項次</th>
+            <th style="text-align:left;padding:9px 8px;font-weight:500;font-size:11px;color:var(--color-neutral-700);border-bottom:1px solid var(--g-line)">工項</th>
+            <th style="text-align:right;padding:9px 8px;font-weight:500;font-size:11px;color:var(--color-neutral-700);border-bottom:1px solid var(--g-line)">契約數量</th>
+            <th style="text-align:right;padding:9px 8px;font-weight:500;font-size:11px;color:var(--color-neutral-700);border-bottom:1px solid var(--g-line)">本期</th>
+            <th style="text-align:right;padding:9px 8px;font-weight:500;font-size:11px;color:var(--color-neutral-700);border-bottom:1px solid var(--g-line)">累計 %</th>
+            <th style="text-align:right;padding:9px 18px;font-weight:500;font-size:11px;color:var(--color-neutral-700);border-bottom:1px solid var(--g-line)">本期金額</th>
+          </tr></thead>
+          <tbody>
+            <tr style="background:#f8f9fa"><td class="num" style="padding:10px 18px;border-bottom:1px solid var(--g-line);color:var(--color-neutral-700)">03</td><td style="padding:10px 8px;border-bottom:1px solid var(--g-line);font-weight:500">結構工程</td><td class="num" style="padding:10px 8px;border-bottom:1px solid var(--g-line);text-align:right">—</td><td class="num" style="padding:10px 8px;border-bottom:1px solid var(--g-line);text-align:right">—</td><td class="num" style="padding:10px 8px;border-bottom:1px solid var(--g-line);text-align:right">31.2</td><td class="num" style="padding:10px 18px;border-bottom:1px solid var(--g-line);text-align:right;font-weight:500">28,410,500</td></tr>
+            <tr><td class="num" style="padding:10px 18px;border-bottom:1px solid var(--g-line);color:var(--color-neutral-700)">03-01</td><td style="padding:10px 8px;border-bottom:1px solid var(--g-line);white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><span style="display:inline-block;width:18px"></span><span>場鑄結構用混凝土 fc=280</span></td><td class="num" style="padding:10px 8px;border-bottom:1px solid var(--g-line);text-align:right">12,480 m³</td><td class="num" style="padding:10px 8px;border-bottom:1px solid var(--g-line);text-align:right">1,240</td><td class="num" style="padding:10px 8px;border-bottom:1px solid var(--g-line);text-align:right">34.8</td><td class="num" style="padding:10px 18px;border-bottom:1px solid var(--g-line);text-align:right">18,352,000</td></tr>
+            <tr><td class="num" style="padding:10px 18px;border-bottom:1px solid var(--g-line);color:var(--color-neutral-700)">03-02</td><td style="padding:10px 8px;border-bottom:1px solid var(--g-line);white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><span style="display:inline-block;width:18px"></span><span>鋼筋加工組立 SD420W</span></td><td class="num" style="padding:10px 8px;border-bottom:1px solid var(--g-line);text-align:right">2,180 t</td><td class="num" style="padding:10px 8px;border-bottom:1px solid var(--g-line);text-align:right">186</td><td class="num" style="padding:10px 8px;border-bottom:1px solid var(--g-line);text-align:right">28.4</td><td class="num" style="padding:10px 18px;border-bottom:1px solid var(--g-line);text-align:right">7,626,000</td></tr>
+            <tr><td class="num" style="padding:10px 18px;border-bottom:1px solid var(--g-line);color:var(--color-neutral-700)">03-03</td><td style="padding:10px 8px;border-bottom:1px solid var(--g-line);white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><span style="display:inline-block;width:18px"></span><span>結構用模板（含支撐）</span></td><td class="num" style="padding:10px 8px;border-bottom:1px solid var(--g-line);text-align:right">38,600 m²</td><td class="num" style="padding:10px 8px;border-bottom:1px solid var(--g-line);text-align:right">3,120</td><td class="num" style="padding:10px 8px;border-bottom:1px solid var(--g-line);text-align:right">26.1</td><td class="num" style="padding:10px 18px;border-bottom:1px solid var(--g-line);text-align:right">2,432,500</td></tr>
+            <tr style="background:var(--g-chip)"><td class="num" style="padding:11px 18px;font-weight:500">合計</td><td style="padding:11px 8px"></td><td style="padding:11px 8px"></td><td style="padding:11px 8px"></td><td class="num" style="padding:11px 8px;text-align:right;font-weight:500">19.9</td><td class="num" style="padding:11px 18px;text-align:right;font-weight:500">28,410,500</td></tr>
+          </tbody>
+        </table>
+        <div style="padding:13px 18px;border-top:1px solid var(--g-line);background:var(--ai-tint);display:flex;gap:12px;align-items:flex-start">
+          <span class="msy" style="font-size:18px;color:var(--ai);flex:none">auto_awesome</span>
+          <p style="font-size:12.5px;line-height:1.8;color:var(--ai-text)">03-03 本期數量為上期的 2.4 倍，與 8 月施工日誌記載的模板組立面積不符 3,120 / 1,290 m²。建議調閱日誌與現場照片後再核定。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:64px 0;border-bottom:1px solid var(--g-line)">
+  <div style="display:grid;grid-template-columns:280px 1fr;gap:48px;align-items:start">
+    <div>
+      <span class="msy" style="font-size:28px;color:var(--color-accent)">folder</span>
+      <h2 style="font-size:26px;margin-top:12px">文件與結案</h2>
+      <p style="margin:12px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-700)">分頁：施工月報、監造報表、驗收結算。</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+      <div>
+        <h3 style="font-size:15px;font-family:var(--font-heading);font-weight:500">文件庫與版本</h3>
+        <p style="margin:8px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-800)">上傳者、分類、版本與 AI 處理狀態一目了然。解析到頁面層級，引用時能指回具體頁碼。</p>
+      </div>
+      <div>
+        <h3 style="font-size:15px;font-family:var(--font-heading);font-weight:500">施工月報與監造報表</h3>
+        <p style="margin:8px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-800)">本月的日誌、查驗、估驗與缺失資料自動彙成草稿，人改完再出。這是監造顧問公司省時間最明顯的一處。</p>
+      </div>
+      <div>
+        <h3 style="font-size:15px;font-family:var(--font-heading);font-weight:500">驗收結算</h3>
+        <p style="margin:8px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-800)">初驗、複驗、結算與保固的時序與待補項目。缺失未結案不會讓流程往前跳。</p>
+      </div>
+      <div>
+        <h3 style="font-size:15px;font-family:var(--font-heading);font-weight:500">稽核留痕</h3>
+        <p style="margin:8px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-800)">誰在什麼時候改了什麼、依據哪份文件，由資料庫寫入且不可竄改，供審計與政風調閱。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:64px 0;border-bottom:1px solid var(--g-line)">
+  <div style="display:grid;grid-template-columns:280px 1fr;gap:48px;align-items:start">
+    <div>
+      <span class="msy" style="font-size:28px;color:var(--color-accent)">checklist</span>
+      <h2 style="font-size:26px;margin-top:12px">跨案總覽</h2>
+      <p style="margin:12px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-700)">分頁：活動紀錄、三方成員。給同時管多案的人。</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+      <div>
+        <h3 style="font-size:15px;font-family:var(--font-heading);font-weight:500">跨案表格</h3>
+        <p style="margin:8px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-800)">專案與階段、廠商、契約金額、計畫、實際、已計價與風險並排。實際進度依落後幅度取三種文字色，風險欄為色票。</p>
+      </div>
+      <div>
+        <h3 style="font-size:15px;font-family:var(--font-heading);font-weight:500">跨案例外事項</h3>
+        <p style="margin:8px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-800)">哪幾案有逾期缺失、逾期未回覆的 RFI、待核定的估驗。主管不必逐案點進去。</p>
+      </div>
+      <div>
+        <h3 style="font-size:15px;font-family:var(--font-heading);font-weight:500">活動紀錄</h3>
+        <p style="margin:8px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-800)">時間與事件的單一時序，與稽核軌跡同源。</p>
+      </div>
+      <div>
+        <h3 style="font-size:15px;font-family:var(--font-heading);font-weight:500">三方成員</h3>
+        <p style="margin:8px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-800)">機關、監造、廠商三方在本案的成員與可見範圍。身分在註冊時選定，之後只有專案建立者能調整。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:64px 0 88px">
+  <div style="display:grid;grid-template-columns:280px 1fr;gap:48px;align-items:start">
+    <div>
+      <span class="msy" style="font-size:28px;color:var(--ai)">auto_awesome</span>
+      <h2 style="font-size:26px;margin-top:12px">問 PMIS</h2>
+      <p style="margin:12px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-700)">全域問答入口。三個角色各有自己的工具白名單。</p>
+    </div>
+    <div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <div>
+          <h3 style="font-size:15px;font-family:var(--font-heading);font-weight:500">只依本案資料回答</h3>
+          <p style="margin:8px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-800)">回答只依本案資料與工具回傳的內容，附來源連結。查不到就說查不到，不會靜默當成沒有。</p>
+        </div>
+        <div>
+          <h3 style="font-size:15px;font-family:var(--font-heading);font-weight:500">取用資料 · 工具軌跡</h3>
+          <p style="margin:8px 0 0;font-size:13.5px;line-height:1.9;color:var(--color-neutral-800)">每個回答底下列出它查了哪些工具、取了哪些資料。你可以驗證，也可以拿去交代。</p>
+        </div>
+      </div>
+      <div style="margin-top:28px;border:1px solid var(--g-line);border-radius:12px;background:#fff;box-shadow:var(--shadow-sm);padding:20px 22px">
+        <div style="display:flex;justify-content:flex-end">
+          <div style="max-width:70%;border:1px solid var(--color-divider);border-radius:12px;padding:11px 14px;font-size:13.5px;line-height:1.8">第 5 期估驗可以核定嗎？有什麼要先確認的？</div>
+        </div>
+        <div style="margin-top:18px;font-size:13.5px;line-height:1.9;color:var(--color-neutral-900)">
+          <p>目前有三件事建議先確認：</p>
+          <ol style="margin:10px 0 0;padding-left:22px;display:flex;flex-direction:column;gap:8px">
+            <li>03-03 結構用模板本期 3,120 m²，8 月施工日誌合計 1,290 m²，差異 1,830 m²（<a href="#">日誌 8/01–8/19</a>）。</li>
+            <li>缺失單 DEF-018「3F 西側牆面蜂窩」尚未複驗合格，契約第 12 條改善期限已逾期 2 日（<a href="#">契約書 p.18</a>）。</li>
+            <li>4F 柱牆鋼筋查驗為 ITP 停留點，尚未簽認（<a href="#">ITP-041</a>）。</li>
+          </ol>
+          <p style="margin-top:12px">本期金額 NT$ 28,410,500 由計價引擎計算，未包含上述爭議項的調整。</p>
+        </div>
+        <div style="margin-top:16px;padding:12px 14px;background:var(--g-ground);border-radius:8px;font-size:11.5px;line-height:1.8;color:var(--color-neutral-700)">
+          取用資料 · 工具軌跡：valuation.get(period=5) · daily_logs.range(2026-08-01, 2026-08-19) · defects.open() · itp.pending() · requirements.get(clause=12)
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<section style="background:var(--g-ground);padding:64px 24px;border-top:1px solid var(--g-line)">
+  <div style="max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px">
+    <div>
+      <h2 style="font-size:28px">帶你自己的標單來試</h2>
+      <p style="margin:10px 0 0;font-size:14.5px;line-height:1.85;color:var(--color-neutral-800)">30 分鐘線上示範，現場匯入你的 PCCES 標單或契約 PDF。</p>
+    </div>
+    <a href="預約示範.dc.html" style="height:46px;padding:0 26px;border-radius:100px;background:var(--color-accent);color:#fff;display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:500;text-decoration:none" style-hover="background:var(--color-accent-700);color:#fff;text-decoration:none">預約線上示範<span class="msy" style="font-size:19px">arrow_forward</span></a>
+  </div>
+</section>
+
+<footer style="background:#fff;padding:36px 24px;border-top:1px solid var(--g-line)">
+  <div style="max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:20px;justify-content:space-between">
+    <a href="PMIS.ai 官網.dc.html" style="display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--color-text)">
+      <svg width="22" height="22" viewBox="0 0 48 48" style="flex:none" aria-hidden="true"><path d="M24 12.4 L34.4 30.4 L13.6 30.4 Z" fill="none" stroke="#dadce0" stroke-width="3.6" stroke-linejoin="round"></path><circle cx="24" cy="12.4" r="5.8" fill="#1a73e8"></circle><circle cx="34.4" cy="30.4" r="5.8" fill="#ea4335"></circle><circle cx="13.6" cy="30.4" r="5.8" fill="#fbbc04"></circle></svg>
+      <span style="font-family:var(--font-heading);font-size:16px;font-weight:500">PMIS<span style="color:var(--color-accent)">.ai</span></span>
+    </a>
+    <div style="font-size:11.5px;color:var(--color-neutral-700)">畫面中的專案、金額與人名為示範資料。</div>
+  </div>
+</footer>
+
+</div>
+</x-dc>
+</body>
+</html>

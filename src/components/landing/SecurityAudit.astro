@@ -1,0 +1,192 @@
+---
+// landing「資安與稽核」段落。視覺照 handoff「PMIS.ai 官網.dc.html」第 455–492 行 1:1 重建，
+// inline style 改寫成下方 scoped class，值未做任何調整；文案逐字沿用。
+//
+// 外框用 global.css 的 .section / .wrap / .split / .kicker / .section-h2 /
+// .section-desc / .btn + .btn-outline / .num / .msy，其餘樣式在本檔 scoped。
+//
+// 「完整資安說明」在原型指向 handoff 檔「AI 邊界與資安.dc.html」，站上對應 /security
+// （與 Header／Footer 的路由一致）。
+//
+// 右欄的測試數字對應產品既定原則，數值與說明不得改動。
+const guards = [
+  {
+    icon: 'lock',
+    term: '資料列級安全性',
+    desc: '每個查詢都在資料庫層被限制在使用者所屬的專案與角色範圍內。',
+  },
+  {
+    icon: 'gavel',
+    term: '狀態轉移 Guard',
+    desc: '估驗、送審、缺失的狀態只能依契約流程前進，繞過介面也不行。',
+  },
+  {
+    icon: 'history',
+    term: '不可竄改稽核軌跡',
+    desc: '由資料庫 Trigger 寫入，供審計、政風與監察調閱。',
+  },
+  {
+    icon: 'hub',
+    term: '佐證鏈',
+    desc: '「這個結論是哪些文件、哪一頁支撐的」可以逐層點回去。',
+  },
+];
+
+const tests = [
+  { num: '530', desc: '單元測試項，涵蓋計價、期限與罰則等確定性引擎' },
+  { num: '23', desc: '組資料庫測試，專門驗證資料列級安全性與狀態轉移' },
+  { num: '19', desc: '端到端流程測試，含三角色實際後端冒煙測試' },
+  { num: '16', desc: '個 AI 功能，每一個都能單獨開關與計量' },
+];
+---
+
+<section class="section sec">
+  <div class="wrap split">
+    <div>
+      <div class="kicker">資安與稽核</div>
+      <h2 class="section-h2">安全邊界寫在資料庫裡</h2>
+      <p class="section-desc">
+        權限不是前端隱藏按鈕。多租戶的資料列級安全性（RLS）、狀態轉移 Guard Trigger 與 Audit Trigger
+        是真正的邊界；前端隱藏只是體驗。
+      </p>
+
+      <div class="sec-list">
+        {
+          guards.map((guard) => (
+            <div class="sec-item">
+              <span class="msy sec-icon" aria-hidden="true">{guard.icon}</span>
+              <p class="sec-text"><strong class="sec-term">{guard.term}</strong>：{guard.desc}</p>
+            </div>
+          ))
+        }
+      </div>
+
+      <a class="btn btn-outline sec-link" href="/security">完整資安說明<span class="msy sec-link-icon" aria-hidden="true">arrow_forward</span></a>
+    </div>
+
+    <div class="tests">
+      <div class="tests-title">這些邊界有測試在守</div>
+      <div class="tests-list">
+        {
+          tests.map((test) => (
+            <div class="tests-row">
+              <div class="num tests-num">{test.num}</div>
+              <div class="tests-desc">{test.desc}</div>
+            </div>
+          ))
+        }
+      </div>
+      <p class="tests-foot">2026-08 基線，隨版本更新。示範時可以現場跑給你看。</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* 白底段落（前一段是 .section--ground，白／灰交替） */
+  .sec {
+    background: #fff;
+  }
+
+  .sec-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 28px;
+  }
+
+  .sec-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .sec-icon {
+    font-size: 20px;
+    color: var(--c-ok);
+    flex: none;
+  }
+
+  .sec-text {
+    font-size: 13.5px;
+    line-height: 1.85;
+    color: var(--color-neutral-800);
+  }
+
+  /* 原型是 <strong style="font-weight:500">，不用瀏覽器預設的 bold */
+  .sec-term {
+    font-weight: 500;
+  }
+
+  /* 尺寸以外的外觀（藥丸、白底、--color-divider 框、主色字、hover --color-accent-100）
+     都由 global.css 的 .btn + .btn-outline 提供 */
+  .sec-link {
+    margin-top: 28px;
+    height: 40px;
+    padding: 0 20px;
+    font-size: 13.5px;
+  }
+
+  .sec-link-icon {
+    font-size: 18px;
+  }
+
+  .tests {
+    border: 1px solid var(--g-line);
+    border-radius: 12px;
+    background: var(--g-ground);
+    padding: 24px 26px;
+  }
+
+  .tests-title {
+    font-size: 10.5px;
+    font-weight: 500;
+    color: var(--color-neutral-700);
+    letter-spacing: .06em;
+  }
+
+  .tests-list {
+    display: flex;
+    flex-direction: column;
+    margin-top: 6px;
+  }
+
+  .tests-row {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding: 16px 0;
+  }
+  /* 前三列有分隔線，最後一列沒有 */
+  .tests-row:not(:last-child) {
+    border-bottom: 1px solid var(--g-line);
+  }
+
+  /* 數字吃 .num 的 tabular-nums */
+  .tests-num {
+    font-family: var(--font-display);
+    font-size: 32px;
+    letter-spacing: -.01em;
+    width: 64px;
+    flex: none;
+  }
+
+  .tests-desc {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--color-neutral-800);
+  }
+
+  .tests-foot {
+    margin-top: 6px;
+    font-size: 11.5px;
+    line-height: 1.8;
+    color: var(--color-neutral-700);
+  }
+
+  /* a11y：768px 以下觸控目標 ≥ 44px（桌機外觀不動） */
+  @media (max-width: 768px) {
+    .sec-link {
+      height: 44px;
+    }
+  }
+</style>

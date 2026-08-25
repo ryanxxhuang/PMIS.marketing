@@ -1,0 +1,93 @@
+---
+// 404：Astro 靜態輸出會產生 dist/404.html，GitHub Pages 會自動拿它當找不到頁面的回應。
+//
+// Header 傳 page="landing"：Header 的 nav key 只有 features／security／founder／roles，
+// 沒有一個等於 "landing"，所以不會有任何連結被標成當前頁 chip（404 本來就不是導覽上的頁）。
+// 版面沿用 global.css：.section（上下 clamp(56px,8vw,88px)）＋ .wrap（1180px／左右 24px）
+// ＋ .btn / .btn-primary / .btn-outline（藥丸底型），這裡只補置中、最小高度與按鈕尺寸。
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Base
+  title="找不到頁面 — PMIS.ai"
+  description="這個網址可能已經變更或輸入有誤。回 PMIS.ai 首頁，或直接預約一次線上示範。"
+>
+  <Header page="landing" />
+  <main>
+    <section class="section nf">
+      <div class="wrap nf-inner">
+        <div class="num nf-code">404</div>
+        <h1 class="nf-h1">找不到這個頁面</h1>
+        <p class="nf-desc">
+          這個網址可能已經變更、輸入有誤，或頁面已經下架；你可以回首頁重新找起，或直接跟我們約一次線上示範。
+        </p>
+        <div class="nf-actions">
+          <a class="btn btn-primary nf-cta" href="/">回首頁</a>
+          <a class="btn btn-outline nf-alt" href="/demo">預約線上示範</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  /* 下一塊就是 footer（自帶 border-top），這裡不要再畫一條線 */
+  .nf {
+    border-bottom: 0;
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .nf-inner {
+    width: 100%;
+    text-align: center;
+  }
+
+  .nf-code {
+    font-family: var(--font-display);
+    font-size: clamp(64px, 9vw, 88px);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--color-accent);
+  }
+
+  .nf-h1 {
+    margin-top: 20px;
+    font-size: clamp(26px, 3.4vw, 32px);
+    line-height: 1.3;
+  }
+
+  .nf-desc {
+    margin: 18px auto 0;
+    max-width: 520px;
+    font-size: 15px;
+    line-height: 1.9;
+    color: var(--color-neutral-800);
+  }
+
+  .nf-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 30px;
+  }
+
+  /* 尺寸照 Hero 的兩顆鈕：46px 高、15px 字；底型與配色由 global.css 的 .btn 系列提供 */
+  .nf-cta {
+    height: 46px;
+    padding: 0 26px;
+    font-size: 15px;
+    box-shadow: 0 1px 3px rgba(11, 87, 208, 0.3);
+  }
+  .nf-alt {
+    height: 46px;
+    padding: 0 22px;
+    font-size: 15px;
+  }
+</style>

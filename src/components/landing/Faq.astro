@@ -1,0 +1,89 @@
+---
+// FAQ(原型 1.7):820px 置中,原生 details/summary。
+// README 要求補上原型沒做的行為:summary 展開後 expand_more 旋轉 180°。
+const faqs = [
+  {
+    q: '需要機關先開放外連或雲端嗎？',
+    a: '系統為雲端服務，個資境內存放、未境外傳輸，並依資通系統防護基準普通級設計。字型與圖示可自行託管以符合禁止外連 CDN 的環境。實際部署方式在示範時依機關的資安要求討論。',
+  },
+  {
+    q: '標單要重新打一次嗎？',
+    a: '不用。PCCES XML 直接匯入成工項樹，數量、單價與階層都帶進來，後續的日誌、估驗與計價都掛在同一個工項上。',
+  },
+  {
+    q: '廠商會看到我們的審查意見或機關的內部資料嗎？',
+    a: '不會。三方的可見範圍在資料庫層就分開：廠商看得到自己的成本，監造不經手請款，機關看不到廠商毛利。這是資料列級安全性，不是介面隱藏。',
+  },
+  {
+    q: 'AI 講錯怎麼辦？',
+    a: 'AI 的輸出都是草稿與建議，附來源頁碼與信賴度，需要人接受才生效。金額與期限一律由程式計算，不由 AI 生成。可以逐一比對來源段落，也可以整個功能關掉。',
+  },
+  {
+    q: '導入要多久？舊案能不能中途接進來？',
+    a: '從標單匯入到三方帳號開通，單案通常在一週內可以開始用。施工中的案子可以從當期估驗與現行文件接手，不必回溯補齊全部歷史。',
+  },
+];
+---
+
+<section class="section section--ground">
+  <div class="faq-wrap">
+    <div class="kicker">常見問題</div>
+    <h2 class="section-h2">機關與事務所最常問的五件事</h2>
+    <div class="faq-list">
+      {
+        faqs.map(({ q, a }) => (
+          <details class="faq-item">
+            <summary>
+              <span class="msy faq-icon" aria-hidden="true">expand_more</span>
+              {q}
+            </summary>
+            <p class="faq-a">{a}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq-wrap {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .faq-list {
+    margin-top: 28px;
+    border-top: 1px solid var(--color-divider);
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--color-divider);
+  }
+
+  .faq-item summary {
+    padding: 18px 0;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .faq-icon {
+    font-size: 20px;
+    color: var(--color-neutral-700);
+    transition: transform .25s var(--ease-out);
+  }
+  .faq-item[open] summary .faq-icon {
+    transform: rotate(180deg);
+  }
+
+  .faq-a {
+    padding: 0 0 20px 32px;
+    font-size: 13.5px;
+    line-height: 1.9;
+    color: var(--color-neutral-800);
+  }
+</style>

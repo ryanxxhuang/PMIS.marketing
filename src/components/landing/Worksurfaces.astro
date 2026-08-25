@@ -1,0 +1,133 @@
+---
+// landing「六個工作面」段落。視覺照 handoff「PMIS.ai 官網.dc.html」第 374–417 行 1:1 重建，
+// inline style 改寫成下方 scoped class，值未做任何調整；文案逐字沿用。
+//
+// 白底段落 —— .section 不帶 --ground，底色吃 body 的 #fff。
+// 標題列右側的「功能全覽」用 global.css 的 .btn / .btn-outline（藥丸底型＋hover
+// --color-accent-100），只在本檔補尺寸；原型的 功能全覽.dc.html 換成站內 /features。
+
+const surfaces = [
+  {
+    icon: 'grid_view',
+    title: '今日待辦',
+    desc: '球在誰手上、還剩幾天、依據哪一條。逾期、今日到期與其餘用固定色票區分。',
+  },
+  {
+    icon: 'engineering',
+    title: '現場與品質',
+    desc: '施工日誌、品質查驗、ITP 檢驗停留點、自主檢查、取樣試驗、缺失與工安管理。',
+  },
+  {
+    icon: 'rate_review',
+    title: '審查與協作',
+    desc: '契約重點與履約需求、送審文件佇列、工程疑義 RFI、變更設計。每條要求都指回原文頁碼。',
+  },
+  {
+    icon: 'payments',
+    title: '進度與金流',
+    desc: 'PCCES 標單、估驗計價、請款收款、保留款、成本、S 曲線與逐工項排程。',
+  },
+  {
+    icon: 'folder',
+    title: '文件與結案',
+    desc: '施工月報、監造報表、驗收結算與稽核留痕。文件版本與頁面級佐證都留著。',
+  },
+  {
+    icon: 'checklist',
+    title: '跨案總覽',
+    desc: '一位監造主管同時看多案的計畫、實際、已計價與風險，落後幅度自動分級。',
+  },
+];
+---
+
+<section class="section">
+  <div class="wrap">
+    <div class="ws-head">
+      <div class="ws-intro">
+        <div class="kicker">產品範圍</div>
+        <h2 class="section-h2">六個工作面，一條資料鏈</h2>
+        <p class="section-desc">
+          數量與財務資料以工項串接：標單長出工項，工項長出日誌，日誌長出估驗，估驗長出請款與進度。品質與工安的佐證掛回同一個工項。
+        </p>
+      </div>
+      <a class="btn btn-outline ws-cta" href="/features"
+        >功能全覽<span class="msy ws-cta-icon" aria-hidden="true">arrow_forward</span></a
+      >
+    </div>
+
+    <div class="g-auto ws-grid">
+      {
+        surfaces.map((surface) => (
+          <div class="ws-card">
+            <span class="msy ws-icon" aria-hidden="true">{surface.icon}</span>
+            <h3 class="ws-title">{surface.title}</h3>
+            <p class="ws-desc">{surface.desc}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .ws-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .ws-intro {
+    max-width: 640px;
+  }
+
+  /* 底型（藥丸、白底、--color-divider 框、主色字、hover --color-accent-100）由
+     global.css 的 .btn / .btn-outline 提供，這裡只補尺寸與字級 */
+  .ws-cta {
+    height: 40px;
+    padding: 0 20px;
+    font-size: 13.5px;
+  }
+
+  .ws-cta-icon {
+    font-size: 18px;
+  }
+
+  .ws-grid {
+    margin-top: 40px;
+  }
+
+  .ws-card {
+    background: var(--g-ground);
+    border: 1px solid var(--g-line);
+    border-radius: 12px;
+    padding: 22px 22px 20px;
+  }
+
+  .ws-icon {
+    font-size: 26px;
+    color: var(--color-accent);
+  }
+
+  .ws-title {
+    font-size: 16.5px;
+    font-family: var(--font-heading);
+    font-weight: 500;
+    margin-top: 14px;
+  }
+
+  .ws-desc {
+    margin-top: 9px;
+    font-size: 13px;
+    line-height: 1.85;
+    color: var(--color-neutral-800);
+  }
+
+  /* a11y：768px 以下觸控目標 ≥ 44px（桌機外觀不動） */
+  @media (max-width: 768px) {
+    .ws-cta {
+      height: 44px;
+    }
+  }
+</style>

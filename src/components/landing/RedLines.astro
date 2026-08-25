@@ -1,0 +1,132 @@
+---
+// landing「AI 只做草稿」段落。視覺照 handoff「PMIS.ai 官網.dc.html」第 419–453 行 1:1 重建，
+// inline style 改寫成下方 scoped class，值未做任何調整；文案逐字沿用。
+//
+// 外框用 global.css 的 .section / .section--ground / .wrap / .kicker /
+// .section-h2 / .section-desc / .split / .num / .msy，其餘卡片樣式在本檔 scoped。
+//
+// 四條紅線是產品既定原則，文字不得改動。
+const redLines = [
+  {
+    no: '紅線 01',
+    title: 'AI 只產生草稿',
+    desc: '核定、判定、結案、驗收、凍結——這些動作不在工具白名單裡。草稿寫入待覆核清單，由人接受或拒絕。',
+  },
+  {
+    no: '紅線 02',
+    title: '數字由確定性引擎算',
+    desc: '金額、期限與合格判定由程式或資料庫 Trigger 執行。AI 可以複述金額，但不自己乘除，也不編條號。',
+  },
+  {
+    no: '紅線 03',
+    title: '每個動作都留痕',
+    desc: '角色、種類、目標、理由、佐證與人的覆核結果都記下來。這同時是稽核軌跡，也是「AI 建議採納率」這個能對外交代的指標。',
+  },
+  {
+    no: '紅線 04',
+    title: '每個 AI 功能可獨立開關',
+    desc: '閘門在伺服器端，不是把前端按鈕藏起來。每次呼叫都記錄功能、使用者、專案與成本；出事能單獨關掉一個功能。',
+  },
+];
+---
+
+<section class="section section--ground">
+  <div class="wrap">
+    <div class="rl-intro">
+      <div class="kicker">AI 的邊界</div>
+      <h2 class="section-h2">AI 只做草稿</h2>
+      <p class="section-desc">
+        政府客戶第一個問題是「AI 會不會自己核定」。答案是不會，而且不是靠提示詞約束——Agent 的工具箱裡根本沒有核定、判定、結案與驗收這些工具。
+      </p>
+    </div>
+
+    <div class="split rl-grid">
+      {
+        redLines.map((line) => (
+          <div class="rl-card">
+            <div class="num rl-no">{line.no}</div>
+            <h3 class="rl-title">{line.title}</h3>
+            <p class="rl-desc">{line.desc}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="rl-note">
+      <span class="msy rl-note-icon" aria-hidden="true">auto_awesome</span>
+      <p class="rl-note-text">
+        文件解析的結果也一樣：AI 抽出的履約要求標著信賴度與來源頁碼，只有經人審查、成為「已核定」要求後才具權威性。
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .rl-intro {
+    max-width: 660px;
+  }
+
+  /* .split 預設 gap 56px、920px 以下 34px；這四張卡照原型固定 20px（原型是
+     class="split" style="gap:20px"），所以兩個斷點都要壓成 20px。 */
+  .rl-grid {
+    margin-top: 40px;
+    gap: 20px;
+  }
+  @media (max-width: 920px) {
+    .rl-grid {
+      gap: 20px;
+    }
+  }
+
+  .rl-card {
+    border: 1px solid var(--g-line);
+    border-radius: 12px;
+    padding: 24px;
+    background: #fff;
+  }
+
+  /* 標號吃 .num 的 tabular-nums */
+  .rl-no {
+    font-family: var(--font-display);
+    font-size: 13px;
+    color: var(--color-accent-700);
+    font-weight: 500;
+  }
+
+  .rl-title {
+    font-size: 19px;
+    font-family: var(--font-heading);
+    font-weight: 500;
+    margin-top: 10px;
+  }
+
+  .rl-desc {
+    margin-top: 10px;
+    font-size: 13.5px;
+    line-height: 1.85;
+    color: var(--color-neutral-800);
+  }
+
+  /* AI 補充列：--ai-tint 底、--ai 圖示、--ai-text 文字 */
+  .rl-note {
+    margin-top: 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px 18px;
+    background: var(--ai-tint);
+    border-radius: 12px;
+  }
+
+  .rl-note-icon {
+    font-size: 20px;
+    color: var(--ai);
+    flex: none;
+  }
+
+  .rl-note-text {
+    font-size: 13.5px;
+    line-height: 1.85;
+    color: var(--ai-text);
+  }
+</style>

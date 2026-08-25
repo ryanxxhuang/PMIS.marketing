@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/classical-c3a7ec3f-48c4-4361-bfe0-ea5ce74fdad9/styles.css">
+<script src="_ds/classical-c3a7ec3f-48c4-4361-bfe0-ea5ce74fdad9/_ds_bundle.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Text:wght@400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" rel="stylesheet">
+<style>
+  :root {
+    --color-text:#202124; --color-accent:#0b57d0; --color-divider:#dadce0;
+    --color-neutral-200:#f1f3f4; --color-neutral-300:#e8eaed;
+    --color-neutral-600:#80868b; --color-neutral-700:#5f6368; --color-neutral-800:#3c4043; --color-neutral-900:#202124;
+    --color-accent-100:#ecf3fe; --color-accent-200:#d3e3fd; --color-accent-700:#0842a0; --color-accent-800:#062e6f; --color-accent-900:#041e49;
+    --c-ok:#146c2e; --c-ok-text:#137333; --c-ok-tint:#e6f4ea;
+    --c-danger-text:#a50e0e;
+    --ai:#0b57d0; --ai-tint:#ecf3fe; --ai-text:#062e6f;
+    --font-heading:"Google Sans Text","Noto Sans TC",system-ui,sans-serif;
+    --font-body:"Google Sans Text","Noto Sans TC",system-ui,sans-serif;
+    --font-display:"Google Sans Display","Google Sans","Google Sans Text","Noto Sans TC",system-ui,sans-serif;
+    --g-line:#e3e6ea; --g-ground:#f8fafd; --g-chip:#f1f3f4;
+    --shadow-sm:0 1px 2px rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.08);
+  }
+  body { margin:0; background:var(--g-ground); color:var(--color-text); font-family:var(--font-body); font-size:14px; -webkit-font-smoothing:antialiased; }
+  h1,h2,h3 { font-family:var(--font-display); letter-spacing:-.012em; font-weight:400; margin:0; }
+  a { color:var(--color-accent); text-decoration:none; }
+  a:hover { color:var(--color-accent-700); text-decoration:underline; }
+  p { margin:0; }
+  .num { font-variant-numeric:tabular-nums; font-feature-settings:"tnum"; }
+  .msy { font-family:"Material Symbols Outlined"; font-weight:400; font-style:normal; line-height:1; letter-spacing:normal; text-transform:none; display:inline-block; white-space:nowrap; direction:ltr; font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24; }
+  .msy-f { font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24; }
+  .fld { width:100%; box-sizing:border-box; height:52px; padding:0 16px; font-size:15px; border-radius:8px; border:1px solid var(--color-divider); background:#fff; color:var(--color-text); font-family:var(--font-body); outline:none; }
+  .fld:focus { border-color:var(--color-accent); }
+  textarea.fld { height:auto; padding:14px 16px; line-height:1.7; resize:vertical; }
+  ::selection { background:var(--color-accent-200); }
+  :focus-visible { outline:2px solid #1a73e8; outline-offset:2px; }
+  /* responsive: form shell stacks under the aside */
+  @media (max-width:980px) {
+    [style*="grid-template-columns:1fr 380px"] { grid-template-columns:1fr !important; gap:28px !important; }
+  }
+  @media (max-width:760px) {
+    [style*="grid-template-columns:1fr 1fr"] { grid-template-columns:1fr !important; }
+    [style*="grid-template-columns:repeat(3,1fr)"] { grid-template-columns:1fr !important; }
+    [style*="border-radius:28px"] { padding:26px 20px 28px !important; }
+    h1 { font-size:27px !important; }
+  }
+</style>
+</helmet>
+
+<div style="min-height:100vh">
+
+<header style="height:64px;background:#fff;border-bottom:1px solid var(--g-line);display:flex;align-items:center">
+  <div style="width:100%;max-width:1180px;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:28px">
+    <a href="PMIS.ai 官網.dc.html" style="display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--color-text)">
+      <span style="width:34px;height:34px;border-radius:10px;background:#0b57d0;display:flex;align-items:center;justify-content:center;flex:none;box-shadow:0 1px 2px rgba(11,87,208,.35)"><svg width="24" height="24" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 12.4 L34.4 30.4 L13.6 30.4 Z" fill="none" stroke="#ffffff" stroke-opacity=".5" stroke-width="3" stroke-linejoin="round"></path><circle cx="24" cy="12.4" r="5.2" fill="#ffffff"></circle><circle cx="34.4" cy="30.4" r="5.2" fill="#ffffff"></circle><circle cx="13.6" cy="30.4" r="5.2" fill="#fdd663"></circle></svg></span>
+      <span style="font-family:var(--font-heading);font-size:20px;font-weight:500;letter-spacing:-.01em">PMIS<span style="color:var(--color-accent)">.ai</span></span>
+    </a>
+    <nav style="margin-left:auto;display:flex;align-items:center;gap:4px">
+      <a href="功能全覽.dc.html" style="height:36px;padding:0 12px;border-radius:100px;display:flex;align-items:center;font-size:13.5px;color:var(--color-neutral-800);text-decoration:none" style-hover="background:var(--color-neutral-200);text-decoration:none">功能全覽</a>
+      <a href="AI 邊界與資安.dc.html" style="height:36px;padding:0 12px;border-radius:100px;display:flex;align-items:center;font-size:13.5px;color:var(--color-neutral-800);text-decoration:none" style-hover="background:var(--color-neutral-200);text-decoration:none">AI 邊界與資安</a>
+    </nav>
+  </div>
+</header>
+
+<div style="max-width:1080px;margin:0 auto;padding:56px 24px 80px;display:grid;grid-template-columns:1fr 380px;gap:44px;align-items:start">
+
+  <div style="background:#fff;border:1px solid var(--g-line);border-radius:28px;box-shadow:var(--shadow-sm);padding:40px 44px 36px">
+    <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:24px 0 12px;text-align:center">
+        <span class="msy msy-f" style="font-size:44px;color:var(--c-ok)">check_circle</span>
+        <h1 style="font-size:28px;margin-top:16px">已收到，我會在一個工作日內回信</h1>
+        <p style="margin:14px auto 0;font-size:14.5px;line-height:1.9;color:var(--color-neutral-800);max-width:440px">回信會附上兩、三個可以的時段，以及示範前要準備的東西（一份 PCCES 標單或契約 PDF 就夠）。</p>
+        <button onClick="{{ reset }}" style="margin-top:26px;height:40px;padding:0 22px;border-radius:100px;background:#fff;border:1px solid var(--color-divider);color:var(--color-accent);font-family:var(--font-body);font-size:14px;font-weight:500;cursor:pointer">再填一份</button>
+      </div>
+    </sc-if>
+    <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+      <div>
+        <h1 style="font-size:32px;line-height:1.3">預約線上示範</h1>
+        <p style="margin:14px 0 0;font-size:14.5px;line-height:1.9;color:var(--color-neutral-800)">30 分鐘，帶你自己的案子看一次。不用先簽任何東西。</p>
+
+        <div style="margin-top:30px">
+          <div style="font-size:13px;font-weight:500;margin-bottom:10px">你在專案裡是哪一方？</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+            <sc-for list="{{ roles }}" as="r" hint-placeholder-count="3">
+              <button onClick="{{ r.pick }}" style="text-align:left;background:{{ r.bg }};border:{{ r.border }};border-radius:12px;padding:16px;cursor:pointer;font-family:var(--font-body);color:var(--color-text);display:flex;flex-direction:column;gap:7px;position:relative" style-hover="background:var(--color-neutral-200)">
+                <span class="msy {{ r.fill }}" style="font-size:24px;color:{{ r.iconColor }}">{{ r.icon }}</span>
+                <span style="font-size:14.5px;font-weight:500">{{ r.label }}</span>
+                <span style="font-size:11.5px;line-height:1.7;color:var(--color-neutral-700)">{{ r.desc }}</span>
+                <span class="msy" style="position:absolute;top:12px;right:12px;font-size:19px;color:var(--color-accent);display:{{ r.check }}">check_circle</span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:26px">
+          <label style="display:block;position:relative">
+            <input class="fld" placeholder=" " onInput="{{ setName }}">
+            <span style="position:absolute;top:-8px;left:10px;padding:0 6px;background:#fff;font-size:11.5px;color:var(--color-neutral-700)">姓名</span>
+          </label>
+          <label style="display:block;position:relative">
+            <input class="fld" placeholder=" " onInput="{{ setOrg }}">
+            <span style="position:absolute;top:-8px;left:10px;padding:0 6px;background:#fff;font-size:11.5px;color:var(--color-neutral-700)">{{ orgLabel }}</span>
+          </label>
+          <label style="display:block;position:relative">
+            <input class="fld" type="email" placeholder=" " onInput="{{ setEmail }}">
+            <span style="position:absolute;top:-8px;left:10px;padding:0 6px;background:#fff;font-size:11.5px;color:var(--color-neutral-700)">公務／公司信箱</span>
+          </label>
+          <label style="display:block;position:relative">
+            <input class="fld" placeholder=" " onInput="{{ setPhone }}">
+            <span style="position:absolute;top:-8px;left:10px;padding:0 6px;background:#fff;font-size:11.5px;color:var(--color-neutral-700)">聯絡電話（選填）</span>
+          </label>
+        </div>
+
+        <div style="margin-top:24px">
+          <div style="font-size:13px;font-weight:500;margin-bottom:10px">現在最想解決的事（可多選）</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <sc-for list="{{ topics }}" as="t" hint-placeholder-count="6">
+              <button onClick="{{ t.toggle }}" style="height:34px;padding:0 14px;border-radius:8px;background:{{ t.bg }};border:1px solid {{ t.border }};color:{{ t.color }};font-family:var(--font-body);font-size:12.5px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;gap:6px" style-hover="background:var(--color-neutral-200)">
+                <span class="msy" style="font-size:15px;display:{{ t.check }}">check</span>{{ t.label }}
+              </button>
+            </sc-for>
+          </div>
+        </div>
+
+        <label style="display:block;position:relative;margin-top:26px">
+          <textarea class="fld" rows="4" placeholder=" " onInput="{{ setNote }}"></textarea>
+          <span style="position:absolute;top:-8px;left:10px;padding:0 6px;background:#fff;font-size:11.5px;color:var(--color-neutral-700)">案子的狀況與想看的重點（選填）</span>
+        </label>
+
+        <div style="margin-top:22px;padding:14px 16px;background:var(--g-ground);border-radius:8px;display:flex;gap:11px;align-items:flex-start">
+          <span class="msy" style="font-size:18px;color:var(--color-neutral-700);flex:none">lock</span>
+          <p style="font-size:12px;line-height:1.8;color:var(--color-neutral-700)">你填的資料只用於安排這次示範與後續聯絡，不會提供給第三方。示範用的標單與契約在示範結束後可要求刪除。</p>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:16px;margin-top:26px">
+          <button onClick="{{ submit }}" disabled="{{ cannotSubmit }}" style="height:46px;padding:0 28px;border-radius:100px;background:{{ submitBg }};border:0;color:#fff;font-family:var(--font-body);font-size:15px;font-weight:500;cursor:{{ submitCursor }};display:inline-flex;align-items:center;gap:8px">送出預約<span class="msy" style="font-size:19px">arrow_forward</span></button>
+          <span style="font-size:12.5px;color:var(--color-neutral-700)">{{ hint }}</span>
+        </div>
+      </div>
+    </sc-if>
+  </div>
+
+  <aside style="display:flex;flex-direction:column;gap:20px">
+    <div style="background:#fff;border:1px solid var(--g-line);border-radius:12px;padding:22px">
+      <h2 style="font-size:17px;font-family:var(--font-heading);font-weight:500">示範會走完這四步</h2>
+      <div style="display:flex;flex-direction:column;gap:15px;margin-top:16px">
+        <div style="display:flex;gap:12px;align-items:flex-start"><span class="num" style="font-family:var(--font-display);font-size:12.5px;color:var(--color-accent-700);width:18px;flex:none">01</span><div><div style="font-size:13.5px;font-weight:500">匯入你的標單或契約</div><div style="font-size:12px;color:var(--color-neutral-700);line-height:1.75;margin-top:2px">PCCES XML、PDF 或 Word</div></div></div>
+        <div style="display:flex;gap:12px;align-items:flex-start"><span class="num" style="font-family:var(--font-display);font-size:12.5px;color:var(--color-accent-700);width:18px;flex:none">02</span><div><div style="font-size:13.5px;font-weight:500">看 AI 抽出的履約要求</div><div style="font-size:12px;color:var(--color-neutral-700);line-height:1.75;margin-top:2px">附條號、頁碼與信賴度，逐條核定</div></div></div>
+        <div style="display:flex;gap:12px;align-items:flex-start"><span class="num" style="font-family:var(--font-display);font-size:12.5px;color:var(--color-accent-700);width:18px;flex:none">03</span><div><div style="font-size:13.5px;font-weight:500">跑一期估驗計價</div><div style="font-size:12px;color:var(--color-neutral-700);line-height:1.75;margin-top:2px">數量、累計百分比與金額由引擎計算</div></div></div>
+        <div style="display:flex;gap:12px;align-items:flex-start"><span class="num" style="font-family:var(--font-display);font-size:12.5px;color:var(--color-accent-700);width:18px;flex:none">04</span><div><div style="font-size:13.5px;font-weight:500">看三方各自的畫面</div><div style="font-size:12px;color:var(--color-neutral-700);line-height:1.75;margin-top:2px">同一份資料，三種可見範圍</div></div></div>
+      </div>
+    </div>
+    <div style="background:#fff;border:1px solid var(--g-line);border-radius:12px;padding:22px">
+      <h2 style="font-size:17px;font-family:var(--font-heading);font-weight:500">常見的疑慮</h2>
+      <div style="display:flex;flex-direction:column;gap:14px;margin-top:14px">
+        <div><div style="font-size:13px;font-weight:500">會不會被推銷？</div><p style="font-size:12.5px;line-height:1.8;color:var(--color-neutral-700);margin-top:4px">不會。示範就是操作系統，看完覺得不適合直接說。</p></div>
+        <div><div style="font-size:13px;font-weight:500">要準備什麼？</div><p style="font-size:12.5px;line-height:1.8;color:var(--color-neutral-700);margin-top:4px">一份標單或契約就夠。沒有也可以用示範案走一次。</p></div>
+        <div><div style="font-size:13px;font-weight:500">資料會外流嗎？</div><p style="font-size:12.5px;line-height:1.8;color:var(--color-neutral-700);margin-top:4px">示範用的檔案可在結束後要求刪除，資安說明見<a href="AI 邊界與資安.dc.html">這一頁</a>。</p></div>
+      </div>
+    </div>
+    <div style="background:var(--ai-tint);border-radius:12px;padding:20px">
+      <p style="font-size:12.5px;line-height:1.85;color:var(--ai-text)">不想填表？直接寄信給我：<a href="mailto:{{ contactEmail }}" style="color:var(--ai-text);text-decoration:underline">{{ contactEmail }}</a></p>
+    </div>
+  </aside>
+
+</div>
+
+<footer style="background:#fff;padding:36px 24px;border-top:1px solid var(--g-line)">
+  <div style="max-width:1080px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:20px;justify-content:space-between">
+    <a href="PMIS.ai 官網.dc.html" style="display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--color-text)">
+      <svg width="22" height="22" viewBox="0 0 48 48" style="flex:none" aria-hidden="true"><path d="M24 12.4 L34.4 30.4 L13.6 30.4 Z" fill="none" stroke="#dadce0" stroke-width="3.6" stroke-linejoin="round"></path><circle cx="24" cy="12.4" r="5.8" fill="#1a73e8"></circle><circle cx="34.4" cy="30.4" r="5.8" fill="#ea4335"></circle><circle cx="13.6" cy="30.4" r="5.8" fill="#fbbc04"></circle></svg>
+      <span style="font-family:var(--font-heading);font-size:16px;font-weight:500">PMIS<span style="color:var(--color-accent)">.ai</span></span>
+    </a>
+    <div style="font-size:11.5px;color:var(--color-neutral-700)">此表單為設計稿，尚未接後端。</div>
+  </div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1080},&quot;contactEmail&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;ryanxhuang1212@gmail.com&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const ROLES = [
+  { id: 'supervisor', label: '監造單位', icon: 'rate_review', desc: '技師事務所、工程顧問公司', org: '事務所／公司名稱' },
+  { id: 'owner', label: '機關業主', icon: 'account_balance', desc: '主辦機關承辦人或主管', org: '機關名稱' },
+  { id: 'contractor', label: '施工廠商', icon: 'engineering', desc: '營造廠專案人員', org: '公司名稱' },
+];
+const TOPICS = ['監造報表重複打字', '估驗計價對帳', '契約期限追蹤', '查驗與缺失管理', '三方文件版本混亂', '跨案進度掌握'];
+
+class Component extends DCLogic {
+  state = { role: 'supervisor', picked: [], name: '', org: '', email: '', sent: false };
+
+  renderVals() {
+    const s = this.state;
+    const ready = s.name.trim() && s.org.trim() && /.+@.+\..+/.test(s.email);
+    return {
+      sent: s.sent,
+      notSent: !s.sent,
+      reset: () => this.setState({ sent: false, name: '', org: '', email: '', picked: [] }),
+      contactEmail: this.props.contactEmail ?? 'ryanxhuang1212@gmail.com',
+      orgLabel: (ROLES.find((r) => r.id === s.role) || ROLES[0]).org,
+      roles: ROLES.map((r) => {
+        const on = s.role === r.id;
+        return {
+          ...r,
+          pick: () => this.setState({ role: r.id }),
+          bg: on ? '#ecf3fe' : '#fff',
+          border: on ? '2px solid #0b57d0' : '1px solid #dadce0',
+          iconColor: on ? '#0b57d0' : '#5f6368',
+          fill: on ? 'msy-f' : '',
+          check: on ? 'inline-block' : 'none',
+        };
+      }),
+      topics: TOPICS.map((label) => {
+        const on = s.picked.includes(label);
+        return {
+          label,
+          toggle: () => this.setState((p) => ({ picked: on ? p.picked.filter((x) => x !== label) : [...p.picked, label] })),
+          bg: on ? '#ecf3fe' : '#fff',
+          border: on ? '#0b57d0' : '#dadce0',
+          color: on ? '#174ea6' : '#3c4043',
+          check: on ? 'inline-block' : 'none',
+        };
+      }),
+      setName: (e) => this.setState({ name: e.target.value }),
+      setOrg: (e) => this.setState({ org: e.target.value }),
+      setEmail: (e) => this.setState({ email: e.target.value }),
+      setPhone: () => {},
+      setNote: () => {},
+      submit: () => { if (ready) this.setState({ sent: true }); },
+      cannotSubmit: !ready,
+      submitBg: ready ? '#0b57d0' : '#bdc1c6',
+      submitCursor: ready ? 'pointer' : 'not-allowed',
+      hint: ready ? '一個工作日內回信' : '姓名、單位與信箱填完就能送出',
+    };
+  }
+}
+</script>
+</body>
+</html>

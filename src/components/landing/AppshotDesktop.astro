@@ -1,0 +1,517 @@
+---
+// Hero 產品畫面(桌機版):1440×908 的「今日待辦」畫面,監造角色。
+// 內容全部靜態,照原型逐字轉譯;縮放由 Hero.astro 的外層容器負責,
+// 本元件只輸出固定 1440px 的內容 —— 它的價值在於「這就是產品真正的樣子」,
+// 不可改成響應式重排(README 明確要求)。
+const navItems = [
+  { icon: 'grid_view', label: '今日待辦', count: '6', active: true },
+  { icon: 'engineering', label: '現場與品質', count: '4', active: false },
+  { icon: 'rate_review', label: '審查與協作', count: '7', active: false },
+  { icon: 'payments', label: '進度與金流', count: '2', active: false },
+  { icon: 'folder', label: '文件與結案', count: null, active: false },
+  { icon: 'checklist', label: '跨案總覽', count: null, active: false },
+];
+
+const metrics = [
+  { label: '累計實際進度', value: '19.9%', note: '目標 30.5% · 落後 10.6%', warn: true },
+  { label: '發包工程費', value: '722,624,067', note: 'NT$ · 含物調', warn: false },
+  { label: '累計估驗', value: '144,126,702', note: 'NT$ · 第 5 期待核定', warn: false },
+  { label: '剩餘工期', value: '218', note: '天 · 含核定展延 30 天', warn: false },
+];
+
+const todos = [
+  { tone: 'warn', tag: '還有 1 天', title: '4F 以上結構體施工計畫', sub: '待監造審定 · 到期 2026-08-20', id: 'SUB-002' },
+  { tone: 'mute', tag: '還有 4 天', title: '3F 樑柱接頭鋼筋與機電套管衝突', sub: '待監造／設計回覆 · 到期 2026-08-23', id: 'RFI-002' },
+  { tone: 'mute', tag: '還有 5 天', title: '外牆窯燒磚 材料送審（修正版）', sub: '待監造審定 · 第 2 版', id: 'SUB-003' },
+  { tone: 'info', tag: '審查中', title: '第 5 期估驗計價', sub: '待監造核定 · 差異 3 項待確認', id: 'VAL-005' },
+  { tone: 'warn', tag: '今日到期', title: '4F 柱牆鋼筋查驗', sub: '待監造查驗 · ITP 停留點', id: 'ITP-041' },
+];
+
+const risks = [
+  { tone: 'danger', level: '風險 高', meta: '缺失 · 逾期 2 天', title: '3F 西側牆面蜂窩未改善', src: '依據：缺失單 DEF-018 · 契約第 12 條改善期限 7 日' },
+  { tone: 'warn', level: '風險 中', meta: '工安 · 今日到期', title: '4F 臨邊開口未設護欄', src: '依據：自主檢查表 8/19 · 營造安全衛生設施標準第 19 條' },
+];
+
+const aiDone = [
+  { label: '施工日誌草稿', value: '1 份' },
+  { label: '契約重點抽取', value: '12 條' },
+  { label: '估驗差異比對', value: '3 項' },
+];
+---
+
+<div class="shot">
+  <aside class="side">
+    <div class="side-top">
+      <span class="msy side-menu">menu</span>
+      <svg width="24" height="24" viewBox="0 0 48 48" class="side-logo" aria-hidden="true"><path d="M24 12.4 L34.4 30.4 L13.6 30.4 Z" fill="none" stroke="#dadce0" stroke-width="3.6" stroke-linejoin="round"></path><circle cx="24" cy="12.4" r="5.8" fill="#0b57d0"></circle><circle cx="34.4" cy="30.4" r="5.8" fill="#ea4335"></circle><circle cx="13.6" cy="30.4" r="5.8" fill="#fbbc04"></circle></svg>
+      <span class="side-brand">PMIS</span><span class="side-brand side-brand--ai">.ai</span>
+    </div>
+    <div class="side-ask"><span class="msy side-ask-icon">auto_awesome</span>問 PMIS</div>
+    <div class="side-group">工作面</div>
+    {
+      navItems.map((n) => (
+        <div class:list={['side-item', { 'side-item--active': n.active }]}>
+          <span class:list={['msy', 'side-item-icon', { 'msy-f': n.active }]}>{n.icon}</span>
+          {n.label}
+          {n.count && <span class:list={['num', 'side-count', { 'side-count--hot': n.active }]}>{n.count}</span>}
+        </div>
+      ))
+    }
+    <div class="side-divider"></div>
+    <div class="side-mode"><span class="msy side-mode-icon">verified_user</span>正式模式 · 稽核中</div>
+  </aside>
+
+  <main class="stage">
+    <div class="appbar">
+      <div class="proj-chip">
+        <span class="msy proj-icon">folder_open</span>
+        <span class="proj-name">桃園市立圖書館新建工程</span>
+        <span class="msy proj-caret">arrow_drop_down</span>
+      </div>
+      <div class="searchbar">
+        <span class="msy search-icon">search</span>
+        <span class="search-text">問 PMIS：工項、送審、缺失、契約……</span>
+        <span class="msy search-tune">tune</span>
+      </div>
+      <div class="appbar-right">
+        <span class="msy bar-btn">dark_mode</span>
+        <span class="msy bar-btn">notifications</span>
+        <span class="msy bar-btn">help</span>
+        <div class="who">
+          <div class="who-avatar">王</div>
+          <div class="who-meta">
+            <span class="who-name">王建國</span>
+            <span class="who-org">宏觀工程顧問 · 監造工程師</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-head">
+      <div class="page-title">今日待辦</div>
+      <p class="page-sub">球現在在你手上的 6 件事，依法定期限與契約罰則排序。</p>
+      <div class="page-tabs">
+        <span class="tab tab--active">現在輪到我</span>
+        <span class="tab">等待對方</span>
+        <span class="tab">風險警示</span>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="metrics">
+        {
+          metrics.map((m) => (
+            <div class="metric">
+              <div class="metric-label">{m.label}</div>
+              <div class="num metric-value">{m.value}</div>
+              <div class:list={['metric-note', { 'metric-note--warn': m.warn }]}>{m.note}</div>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="cols">
+        <section class="card">
+          <div class="card-head card-head--baseline">
+            <span class="card-title">現在輪到我</span>
+            <span class="card-meta">Ball in court · 監造</span>
+          </div>
+          {
+            todos.map((t) => (
+              <div class="todo-row">
+                <span class:list={['num', 'todo-tag', `todo-tag--${t.tone}`]}>{t.tag}</span>
+                <div>
+                  <div class="todo-title">{t.title}</div>
+                  <div class="todo-sub">{t.sub}</div>
+                </div>
+                <span class="num todo-id">{t.id}</span>
+              </div>
+            ))
+          }
+        </section>
+
+        <div class="col-right">
+          <section class="card">
+            <div class="card-head card-head--center">
+              <span class="card-title card-title--icon"><span class="msy risk-icon">warning</span>風險警示</span>
+              <span class="card-meta card-meta--dark">AI · 每日 06:00</span>
+            </div>
+            {
+              risks.map((r) => (
+                <div class="risk-item">
+                  <div class="risk-top">
+                    <span class:list={['risk-level', `risk-level--${r.tone}`]}>{r.level}</span>
+                    <span class="risk-meta">{r.meta}</span>
+                  </div>
+                  <div class="risk-title">{r.title}</div>
+                  <div class="risk-src">{r.src}</div>
+                </div>
+              ))
+            }
+          </section>
+
+          <section class="card">
+            <div class="card-head">
+              <span class="card-title card-title--icon"><span class="msy ai-icon">auto_awesome</span>AI 今日已代辦</span>
+            </div>
+            {
+              aiDone.map((a) => (
+                <div class="ai-row">
+                  <span class="ai-label">{a.label}</span>
+                  <span class="num ai-value">{a.value}</span>
+                </div>
+              ))
+            }
+            <div class="ai-foot">每一項都可展開比對來源段落；核定前不寫入契約規則。</div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<style>
+  .shot {
+    width: 1440px;
+    height: 908px;
+    display: grid;
+    grid-template-columns: 256px 1fr;
+    background: #fff;
+  }
+
+  /* ---------- 左側導覽 ---------- */
+  .side {
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 8px 8px 12px;
+  }
+  .side-top {
+    height: 56px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 4px 0 8px;
+  }
+  .side-menu {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: var(--color-neutral-700);
+  }
+  .side-logo { flex: none; }
+  .side-brand {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -.01em;
+    color: var(--color-neutral-800);
+    margin-left: 2px;
+  }
+  .side-brand--ai { color: var(--color-accent); margin-left: 0; }
+  .side-ask {
+    margin: 6px 4px 14px;
+    height: 44px;
+    border-radius: 22px;
+    background: var(--ai-tint);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 18px 0 14px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ai-text);
+  }
+  .side-ask-icon { font-size: 20px; color: var(--ai); }
+  .side-group {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--color-neutral-700);
+    padding: 0 16px 6px;
+  }
+  .side-item {
+    border-radius: 0 100px 100px 0;
+    padding: 0 16px 0 14px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 14px;
+    color: var(--color-neutral-800);
+  }
+  .side-item--active {
+    background: var(--color-accent-100);
+    font-weight: 500;
+    color: var(--c-info-text);
+  }
+  .side-item-icon { font-size: 20px; }
+  .side-count {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--color-neutral-700);
+  }
+  .side-count--hot { font-weight: 500; color: var(--c-danger-text); }
+  .side-divider {
+    height: 1px;
+    background: var(--color-divider);
+    margin: 12px 8px;
+  }
+  .side-mode {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px 0;
+    font-size: 12px;
+    color: var(--color-neutral-700);
+  }
+  .side-mode-icon { font-size: 16px; color: var(--c-ok); }
+
+  /* ---------- 主區 ---------- */
+  .stage {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    background: var(--g-ground);
+  }
+  .appbar {
+    height: 64px;
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 16px 0 4px;
+    background: #fff;
+  }
+  .proj-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 44px;
+    padding: 0 6px 0 14px;
+    border-radius: 22px;
+    background: var(--g-chip);
+    min-width: 0;
+  }
+  .proj-icon { font-size: 18px; color: var(--color-neutral-700); }
+  .proj-name { font-size: 14px; white-space: nowrap; padding: 0 2px; }
+  .proj-caret { font-size: 20px; color: var(--color-neutral-700); }
+  .searchbar {
+    flex: 1;
+    max-width: 560px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 44px;
+    padding: 0 16px;
+    border-radius: 22px;
+    background: var(--g-search);
+  }
+  .search-icon, .search-tune { font-size: 20px; color: var(--color-neutral-700); }
+  .search-text { flex: 1; font-size: 14px; color: var(--color-neutral-700); }
+  .appbar-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+  .bar-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: var(--color-neutral-700);
+  }
+  .who {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 8px;
+    padding: 4px 10px 4px 4px;
+    border-radius: 20px;
+  }
+  .who-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 500;
+    background: var(--color-accent);
+    color: #fff;
+    flex: none;
+  }
+  .who-meta { display: flex; flex-direction: column; line-height: 1.25; }
+  .who-name { font-size: 12.5px; font-weight: 500; white-space: nowrap; }
+  .who-org { font-size: 11px; color: var(--color-neutral-700); white-space: nowrap; }
+
+  .page-head { padding: 18px 24px 0; }
+  .page-title {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: -.005em;
+    color: var(--color-neutral-900);
+  }
+  .page-sub {
+    margin: 6px 0 0;
+    font-size: 13px;
+    color: var(--color-neutral-700);
+    max-width: 660px;
+    line-height: 1.6;
+  }
+  .page-tabs { display: flex; gap: 8px; margin-top: 16px; }
+  .tab {
+    background: #fff;
+    border: 1px solid var(--color-divider);
+    border-radius: 8px;
+    height: 32px;
+    padding: 0 14px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-neutral-800);
+  }
+  .tab--active {
+    background: var(--color-accent-100);
+    border-color: transparent;
+    color: var(--c-info-text);
+  }
+
+  .content { padding: 20px 24px 40px; flex: 1; min-width: 0; }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .metric {
+    padding: 16px 18px;
+    background: #fff;
+    border: 1px solid var(--g-line);
+    border-radius: 12px;
+  }
+  .metric-label { font-size: 11px; color: var(--color-neutral-600); }
+  .metric-value {
+    font-family: var(--font-display);
+    font-size: 30px;
+    margin-top: 6px;
+    letter-spacing: -.01em;
+  }
+  .metric-note { font-size: 11px; color: var(--color-neutral-700); margin-top: 2px; }
+  .metric-note--warn { color: var(--c-warn-text); }
+
+  .cols {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 24px;
+  }
+  .col-right { display: flex; flex-direction: column; gap: 24px; }
+
+  .card {
+    background: #fff;
+    border: 1px solid var(--g-line);
+    border-radius: 12px;
+  }
+  .card-head {
+    padding: 13px 16px;
+    border-bottom: 1px solid var(--color-divider);
+  }
+  .card-head--baseline {
+    padding: 13px 18px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+  .card-head--center {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .card-title {
+    font-size: 15px;
+    font-weight: 500;
+    font-family: var(--font-heading);
+  }
+  .card-title--icon { display: flex; align-items: center; gap: 8px; }
+  .risk-icon { font-size: 20px; color: #d93025; }
+  .ai-icon { font-size: 20px; color: var(--ai); }
+  .card-meta { font-size: 11px; color: var(--color-neutral-600); }
+  .card-meta--dark { color: var(--color-neutral-700); }
+
+  .todo-row {
+    padding: 13px 18px;
+    border-bottom: 1px solid var(--color-divider);
+    display: grid;
+    grid-template-columns: 84px 1fr auto;
+    gap: 14px;
+    align-items: start;
+  }
+  .todo-row:last-child { border-bottom: 0; }
+  .todo-tag {
+    display: inline-flex;
+    align-items: center;
+    height: 22px;
+    padding: 0 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .todo-tag--warn { background: var(--c-warn-tint); color: var(--c-warn-text); }
+  .todo-tag--mute { background: var(--g-chip); color: var(--color-neutral-700); }
+  .todo-tag--info { background: var(--color-accent-100); color: var(--c-info-text); }
+  .todo-title { font-size: 13.5px; line-height: 1.55; }
+  .todo-sub { font-size: 11.5px; color: var(--color-neutral-700); margin-top: 3px; }
+  .todo-id { font-size: 10.5px; color: var(--color-neutral-600); }
+
+  .risk-item {
+    padding: 13px 16px;
+    border-bottom: 1px solid var(--color-divider);
+  }
+  .risk-item:last-child { border-bottom: 0; }
+  .risk-top { display: flex; gap: 8px; align-items: center; }
+  .risk-level {
+    display: inline-flex;
+    align-items: center;
+    height: 22px;
+    padding: 0 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .risk-level--danger { background: var(--c-danger-tint); color: var(--c-danger-text); }
+  .risk-level--warn { background: var(--c-warn-tint); color: var(--c-warn-text); }
+  .risk-meta { font-size: 11.5px; color: var(--color-neutral-600); }
+  .risk-title { font-size: 13px; line-height: 1.6; margin-top: 4px; }
+  .risk-src {
+    font-size: 11.5px;
+    color: var(--color-neutral-700);
+    margin-top: 4px;
+    line-height: 1.65;
+  }
+
+  .ai-row {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--color-divider);
+    display: flex;
+    justify-content: space-between;
+  }
+  .ai-label { font-size: 12.5px; }
+  .ai-value { font-size: 12.5px; color: var(--ai-text); font-weight: 500; }
+  .ai-foot {
+    padding: 11px 16px;
+    font-size: 11px;
+    color: var(--color-neutral-700);
+    line-height: 1.7;
+  }
+</style>

@@ -1,0 +1,80 @@
+---
+// 共用頁面外殼：<head>、字型與圖示載入。
+//
+// 字型方案:
+// - Noto Sans TC 從 Google Fonts 載入(family 名就是 "Noto Sans TC"，
+//   fontsource 的 "Variable" 後綴問題不適用)。
+// - Google Sans 系列非公開授權、不能 self-host:不發出請求，
+//   只留在 font-family stack 裡，使用者本機有裝才吃到。
+//
+// 圖示方案:
+// - Material Symbols Outlined 可變字型，用 icon_names 參數只訂閱用到的
+//   字符(38 個)，避免 3.5 MB 的完整字型檔;display=block 依 README。
+// - icon_names 必須按字母排序，新增圖示時要維持順序。
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+
+// canonical:site 設定於 astro.config.mjs
+const canonical = new URL(Astro.url.pathname, Astro.site);
+
+const ICON_NAMES = [
+  'account_balance', 'architecture', 'arrow_drop_down', 'arrow_forward',
+  'auto_awesome', 'block', 'check', 'check_circle', 'checklist', 'code',
+  'dark_mode', 'description', 'engineering', 'error', 'expand_more',
+  'folder', 'folder_open', 'gavel', 'grid_view', 'handshake', 'help',
+  'history', 'hub', 'location_on', 'lock', 'mail', 'menu', 'notifications',
+  'payments', 'person', 'photo_camera', 'progress_activity', 'rate_review',
+  'school', 'search', 'shield', 'tune', 'verified_user', 'warning',
+].join(',');
+
+const symbolsHref = `https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=${ICON_NAMES}&display=block`;
+---
+
+<!doctype html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#0b57d0" />
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL('/og.png', Astro.site)} />
+    <meta property="og:image:width" content="1080" />
+    <meta property="og:image:height" content="1080" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: 'PMIS.ai',
+        description: '公共工程專案管理:廠商、監造、機關在同一份契約事實上協作。',
+        url: Astro.site?.href,
+        logo: new URL('/brand/app-icon-blue.svg', Astro.site).href,
+      })}
+    />
+    <link rel="icon" href="/brand/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href={symbolsHref} rel="stylesheet" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

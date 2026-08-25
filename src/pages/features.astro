@@ -1,0 +1,895 @@
+---
+// 功能全覽內頁。視覺照 handoff「功能全覽.dc.html」第 83–368 行 1:1 重建，
+// inline style 改寫成下方 scoped class,值未做任何調整;文案逐字沿用。
+//
+// 與原型的四處差異(都是刻意的):
+// 1. 頁首 h1 用 README「內頁 h1」規格 clamp(30px,5vw,44px)/1.22 取代原型的固定
+//    44px + 720px 降 32px;720px 以下仍保留 32px 的覆寫。
+// 2. 頁首 kicker 是純文字,不用 global 的 .kicker(那個帶 24px 橫線,內頁頁首沒有)。
+// 3. 對話卡裡的來源(原型是 href="#" 的假連結)改成外觀像連結的 <span>——
+//    這張卡是產品畫面示意,不該出現可點但沒去處的連結。
+// 4. 860px 以下的橫向捲動掛在表格外層的 .tbl-scroll(原型是掛在整張卡的
+//    overflow:hidden 上),避免卡片頁首與 AI 提示列跟著捲走露出白邊。
+//
+// 頁面內容欄用 global.css 的 .wrap;頁首與頁尾 CTA 兩段是自帶左右 24px 的
+// 滿版底色,所以各自寫 max-width:1180px 的內層,不套 .wrap(會變成 48px 內距)。
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE } from '../config';
+
+// 七個段落:六個工作面 + 問 PMIS。key 決定右欄 2×2 之後要不要接補充區塊。
+const sections = [
+  {
+    key: 'today',
+    icon: 'grid_view',
+    title: '今日待辦',
+    lede: '登入後的第一頁。不是儀表板，是一份「今天輪到你」的清單。',
+    items: [
+      {
+        t: '現在輪到我 · 等待對方',
+        d: '每件事都標明球在誰手上、還剩幾天、依據哪一條契約或法規期限。逾期、今日到期與其餘用固定的三種色票，顏色與文字並存。',
+      },
+      {
+        t: '風險警示',
+        d: '每日清晨由 AI 彙整：分級、分類、依據的文件與條號，以及兩個可以直接做的動作。分級高／中／低對應危險／注意／正常三種色票。',
+      },
+      {
+        t: '四張指標卡',
+        d: '累計實際進度與目標差距、發包工程費、累計估驗、剩餘工期。數字全部由確定性引擎計算，欄位隨角色不同。',
+      },
+      {
+        t: 'AI 今日已代辦',
+        d: '今天 AI 幫你擬了幾份日誌草稿、抽了幾條契約重點、比對了幾項估驗差異。每一項都能展開比對來源段落。',
+      },
+    ],
+  },
+  {
+    key: 'field',
+    icon: 'engineering',
+    title: '現場與品質',
+    lede: '分頁：品質查驗、檢驗停留點、工安。手機版有獨立的現場介面。',
+    items: [
+      {
+        t: '施工日誌',
+        d: '施作項目、位置、人力、機具與查驗狀態。AI 依昨日進度、今日照片與中央氣象署觀測資料擬草稿，人確認後送簽。',
+      },
+      {
+        t: 'ITP 檢驗停留點',
+        d: '查驗計畫的停留點與自主檢查表，含取樣試驗齡期追蹤。到齡與逾期都會出現在待辦裡。',
+      },
+      {
+        t: '缺失與工安',
+        d: '缺失單有改善期限、責任方與複驗紀錄，照片可直接在上面標註。工安檢查與缺失走同一套流程。',
+      },
+      {
+        t: '照片即佐證',
+        d: '保留拍攝時間並對應到工項，成為查驗與估驗的佐證。AI 會標出疑似不符規範的照片，但開立缺失仍是人的動作。',
+      },
+    ],
+  },
+  {
+    key: 'review',
+    icon: 'rate_review',
+    title: '審查與協作',
+    lede: '分頁：送審文件、工程疑義、變更設計。契約重點是整個系統的權威來源之一。',
+    items: [
+      {
+        t: '契約文件 → 履約要求',
+        d: '契約、規範與圖說上傳後解析成一條一條的履約要求：條號、要求內容、來源頁碼、責任方、期限與信賴度。只有經人核定的要求才具權威性。',
+      },
+      {
+        t: '送審文件佇列',
+        d: '版本、審查狀態、審查期限與退回理由。AI 審查助理列出與契約要求不符的段落，附出處。',
+      },
+      {
+        t: '工程疑義 RFI',
+        d: '提問、待回覆天數、回覆與後續動作，串到工項與變更設計。逾期未回覆會進入風險警示。',
+      },
+      {
+        t: '變更設計',
+        d: '增減項與金額影響掛回原工項，變更後的數量直接反映在後續估驗與 S 曲線上。',
+      },
+    ],
+  },
+  {
+    key: 'money',
+    icon: 'payments',
+    title: '進度與金流',
+    lede: '分頁：估驗計價、請款收款、S 曲線。所有金額由確定性引擎計算。',
+    items: [
+      {
+        t: 'PCCES 標單匯入',
+        d: '標單 XML 直接匯入成工項樹，數量、單價與階層都帶進來。不用重新打一次。',
+      },
+      {
+        t: '估驗計價',
+        d: '本期數量、累計百分比與本期金額逐工項計算，父層合計自動彙總。AI 只負責指出「本期與上期差異異常」的項目。',
+      },
+      {
+        t: '請款、收款與保留款',
+        d: '從估驗核定到請款、收款與保留款扣抵，狀態只能依契約流程前進。',
+      },
+      {
+        t: 'S 曲線與逐工項排程',
+        d: '計畫與實際兩條線，落後幅度自動分級。排程掛在工項上，不是另一份獨立的甘特圖。',
+      },
+    ],
+  },
+  {
+    key: 'docs',
+    icon: 'folder',
+    title: '文件與結案',
+    lede: '分頁：施工月報、監造報表、驗收結算。',
+    items: [
+      {
+        t: '文件庫與版本',
+        d: '上傳者、分類、版本與 AI 處理狀態一目了然。解析到頁面層級，引用時能指回具體頁碼。',
+      },
+      {
+        t: '施工月報與監造報表',
+        d: '本月的日誌、查驗、估驗與缺失資料自動彙成草稿，人改完再出。這是監造顧問公司省時間最明顯的一處。',
+      },
+      {
+        t: '驗收結算',
+        d: '初驗、複驗、結算與保固的時序與待補項目。缺失未結案不會讓流程往前跳。',
+      },
+      {
+        t: '稽核留痕',
+        d: '誰在什麼時候改了什麼、依據哪份文件，由資料庫寫入且不可竄改，供審計與政風調閱。',
+      },
+    ],
+  },
+  {
+    key: 'portfolio',
+    icon: 'checklist',
+    title: '跨案總覽',
+    lede: '分頁：活動紀錄、三方成員。給同時管多案的人。',
+    items: [
+      {
+        t: '跨案表格',
+        d: '專案與階段、廠商、契約金額、計畫、實際、已計價與風險並排。實際進度依落後幅度取三種文字色，風險欄為色票。',
+      },
+      {
+        t: '跨案例外事項',
+        d: '哪幾案有逾期缺失、逾期未回覆的 RFI、待核定的估驗。主管不必逐案點進去。',
+      },
+      {
+        t: '活動紀錄',
+        d: '時間與事件的單一時序，與稽核軌跡同源。',
+      },
+      {
+        t: '三方成員',
+        d: '機關、監造、廠商三方在本案的成員與可見範圍。身分在註冊時選定，之後只有專案建立者能調整。',
+      },
+    ],
+  },
+  {
+    key: 'ask',
+    icon: 'auto_awesome',
+    title: '問 PMIS',
+    lede: '全域問答入口。三個角色各有自己的工具白名單。',
+    items: [
+      {
+        t: '只依本案資料回答',
+        d: '回答只依本案資料與工具回傳的內容，附來源連結。查不到就說查不到，不會靜默當成沒有。',
+      },
+      {
+        t: '取用資料 · 工具軌跡',
+        d: '每個回答底下列出它查了哪些工具、取了哪些資料。你可以驗證，也可以拿去交代。',
+      },
+    ],
+  },
+];
+
+// 契約重點表(審查與協作段)。示範資料照原型抄。
+const contractRows = [
+  {
+    clause: '第 9 條',
+    req: '估驗計價每月一次，監造應於收件後 7 日內完成審核',
+    src: '契約書 p.14',
+    owner: '監造',
+    due: '7 日',
+    conf: '高 · 已核定',
+    tone: 'ok',
+  },
+  {
+    clause: '第 12 條',
+    req: '缺失改善期限 7 日，逾期依日計罰',
+    src: '契約書 p.18',
+    owner: '廠商',
+    due: '7 日',
+    conf: '高 · 已核定',
+    tone: 'ok',
+  },
+  {
+    clause: '規範 3.4',
+    req: '鋼線網搭接長度不得小於 27 cm',
+    src: '施工規範 p.203',
+    owner: '廠商',
+    due: '—',
+    conf: '中 · 待核定',
+    tone: 'warn',
+  },
+];
+
+// 第 5 期估驗計價表(進度與金流段)。parent 是工項樹的父層,child 縮排 18px。
+const valuationRows = [
+  { level: 'parent', no: '03', item: '結構工程', qty: '—', period: '—', pct: '31.2', amount: '28,410,500' },
+  { level: 'child', no: '03-01', item: '場鑄結構用混凝土 fc=280', qty: '12,480 m³', period: '1,240', pct: '34.8', amount: '18,352,000' },
+  { level: 'child', no: '03-02', item: '鋼筋加工組立 SD420W', qty: '2,180 t', period: '186', pct: '28.4', amount: '7,626,000' },
+  { level: 'child', no: '03-03', item: '結構用模板（含支撐）', qty: '38,600 m²', period: '3,120', pct: '26.1', amount: '2,432,500' },
+];
+---
+
+<Base
+  title="功能全覽 — PMIS.ai"
+  description="六個工作面，加上一個問答入口。導覽的資訊架構就是工程的實際流程。"
+>
+  <Header page="features" />
+  <main>
+    <section class="pg-head">
+      <div class="pg-head-inner">
+        <div class="pg-kicker">功能全覽</div>
+        <h1 class="pg-h1">六個工作面，加上一個問答入口</h1>
+        <p class="pg-lede">
+          導覽的資訊架構就是工程的實際流程。每個工作面下面是分頁，不是新的一層權限。以下逐個說明各工作面實際做的事。
+        </p>
+      </div>
+    </section>
+
+    <div class="wrap">
+      {
+        sections.map((s, i) => (
+          <section class:list={['fsec', i === sections.length - 1 && 'fsec--last']}>
+            <div class="fsec-grid">
+              <div>
+                <span class:list={['msy', 'fsec-icon', s.key === 'ask' && 'fsec-icon--ai']} aria-hidden="true">{s.icon}</span>
+                <h2 class="fsec-h2">{s.title}</h2>
+                <p class="fsec-lede">{s.lede}</p>
+              </div>
+
+              <div>
+                <div class="fsec-items">
+                  {s.items.map((it) => (
+                    <div>
+                      <h3 class="fsec-item-t">{it.t}</h3>
+                      <p class="fsec-item-d">{it.d}</p>
+                    </div>
+                  ))}
+                </div>
+
+                {s.key === 'field' && (
+                  <div class="photo-note">
+                    <span class="msy photo-note-icon" aria-hidden="true">photo_camera</span>
+                    <p class="photo-note-text">
+                      上傳的現場照片會保留拍攝時間並對應到工項，成為查驗與估驗的佐證，不只是相簿。AI
+                      會標出疑似不符規範的照片，但開立缺失仍是人的動作。
+                    </p>
+                  </div>
+                )}
+
+                {s.key === 'review' && (
+                  <div class="dcard">
+                    <div class="dcard-head">
+                      <h3 class="dcard-title num">契約重點 · 已核定 12 條</h3>
+                      <span class="dcard-meta num">來源：工程契約書 v2 · 施工規範</span>
+                    </div>
+                    <div class="tbl-scroll">
+                      <table class="ct">
+                        <thead>
+                          <tr>
+                            <th scope="col">條號</th>
+                            <th scope="col">履約要求</th>
+                            <th scope="col">責任方</th>
+                            <th scope="col">期限</th>
+                            <th scope="col">信賴度</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {contractRows.map((r) => (
+                            <tr>
+                              <td class="num">{r.clause}</td>
+                              <td class="num">
+                                {r.req}
+                                <span class="ct-src">{r.src}</span>
+                              </td>
+                              <td>{r.owner}</td>
+                              <td class="num">{r.due}</td>
+                              <td>
+                                <span class:list={['chip', `chip--${r.tone}`]}>{r.conf}</span>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+
+                {s.key === 'money' && (
+                  <div class="dcard">
+                    <div class="dcard-head">
+                      <h3 class="dcard-title num">第 5 期估驗計價</h3>
+                      <span class="chip chip--info">待監造核定</span>
+                    </div>
+                    <div class="tbl-scroll">
+                      <table class="vt">
+                        <colgroup>
+                          <col class="vt-c1" />
+                          <col />
+                          <col class="vt-c3" />
+                          <col class="vt-c4" />
+                          <col class="vt-c5" />
+                          <col class="vt-c6" />
+                        </colgroup>
+                        <thead>
+                          <tr>
+                            <th scope="col">項次</th>
+                            <th scope="col">工項</th>
+                            <th scope="col">契約數量</th>
+                            <th scope="col">本期</th>
+                            <th scope="col">累計 %</th>
+                            <th scope="col">本期金額</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {valuationRows.map((r) => (
+                            <tr class:list={[r.level === 'parent' && 'vt-parent']}>
+                              <td class="num">{r.no}</td>
+                              {/* 子項縮排:18px 空白 span 緊貼名稱 span,中間不能有空白字元 */}
+                              <td class:list={[r.level === 'child' && 'vt-item']}>{r.level === 'child' && <span class="vt-indent" />}<span>{r.item}</span></td>
+                              <td class="num vt-r">{r.qty}</td>
+                              <td class="num vt-r">{r.period}</td>
+                              <td class="num vt-r">{r.pct}</td>
+                              <td class="num vt-r">{r.amount}</td>
+                            </tr>
+                          ))}
+                          <tr class="vt-total">
+                            <td class="num">合計</td>
+                            <td />
+                            <td />
+                            <td />
+                            <td class="num vt-r">19.9</td>
+                            <td class="num vt-r">28,410,500</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="vt-ai">
+                      <span class="msy vt-ai-icon" aria-hidden="true">auto_awesome</span>
+                      <p class="vt-ai-text num">
+                        03-03 本期數量為上期的 2.4 倍，與 8 月施工日誌記載的模板組立面積不符 3,120 / 1,290 m²。建議調閱日誌與現場照片後再核定。
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {s.key === 'ask' && (
+                  <div class="chat">
+                    <div class="chat-user-row">
+                      <div class="chat-user num">第 5 期估驗可以核定嗎？有什麼要先確認的？</div>
+                    </div>
+                    <div class="chat-reply">
+                      <p>目前有三件事建議先確認：</p>
+                      <ol class="chat-list num">
+                        <li>
+                          03-03 結構用模板本期 3,120 m²，8 月施工日誌合計 1,290 m²，差異 1,830
+                          m²（<span class="chat-src">日誌 8/01–8/19</span>）。
+                        </li>
+                        <li>
+                          缺失單 DEF-018「3F 西側牆面蜂窩」尚未複驗合格，契約第 12 條改善期限已逾期 2
+                          日（<span class="chat-src">契約書 p.18</span>）。
+                        </li>
+                        <li>
+                          4F 柱牆鋼筋查驗為 ITP 停留點，尚未簽認（<span class="chat-src">ITP-041</span
+                          >）。
+                        </li>
+                      </ol>
+                      <p class="chat-total num">
+                        本期金額 NT$ 28,410,500 由計價引擎計算，未包含上述爭議項的調整。
+                      </p>
+                    </div>
+                    <div class="chat-trace num">
+                      取用資料 · 工具軌跡：valuation.get(period=5) · daily_logs.range(2026-08-01,
+                      2026-08-19) · defects.open() · itp.pending() · requirements.get(clause=12)
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </section>
+        ))
+      }
+    </div>
+
+    <section class="pg-cta">
+      <div class="pg-cta-inner">
+        <div>
+          <h2 class="pg-cta-h2">帶你自己的標單來試</h2>
+          <p class="pg-cta-desc num">
+            30 分鐘線上示範，現場匯入你的 PCCES 標單或契約 PDF。
+          </p>
+        </div>
+        <a class="btn btn-primary pg-cta-btn" href="/demo"
+          >{SITE.ctaLabel}<span class="msy pg-cta-icon" aria-hidden="true">arrow_forward</span></a
+        >
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  /* ---------- 頁首 ---------- */
+
+  .pg-head {
+    padding: 64px 24px 48px;
+    border-bottom: 1px solid var(--g-line);
+    background: linear-gradient(180deg, #fff, var(--g-ground));
+  }
+
+  /* 原型同時寫了 max-width:1180px;margin:0 auto 與 max-width:760px,生效的是 760px 置中 */
+  .pg-head-inner {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  /* 內頁頁首的 kicker 沒有橫線,不用 global 的 .kicker */
+  .pg-kicker {
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--color-accent-700);
+  }
+
+  .pg-h1 {
+    font-size: clamp(30px, 5vw, 44px);
+    line-height: 1.22;
+    margin-top: 14px;
+  }
+
+  .pg-lede {
+    margin: 20px 0 0;
+    font-size: 16px;
+    line-height: 1.9;
+    color: var(--color-neutral-800);
+  }
+
+  /* ---------- 七個段落 ---------- */
+
+  .fsec {
+    padding: 64px 0;
+    border-bottom: 1px solid var(--g-line);
+  }
+
+  /* 最後一段(問 PMIS):下方留 88px、沒有下緣線 */
+  .fsec--last {
+    padding: 64px 0 88px;
+    border-bottom: 0;
+  }
+
+  .fsec-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+  /* grid 子項預設 min-width:auto,表格的 min-width:620px 會把欄撐爆、
+     讓整頁在窄視窗出現水平捲動;壓成 0 讓 .tbl-scroll 自己內部捲 */
+  .fsec-grid > * { min-width: 0; }
+
+  .fsec-icon {
+    font-size: 28px;
+    color: var(--color-accent);
+  }
+  .fsec-icon--ai {
+    color: var(--ai);
+  }
+
+  .fsec-h2 {
+    font-size: 26px;
+    margin-top: 12px;
+  }
+
+  .fsec-lede {
+    margin: 12px 0 0;
+    font-size: 13.5px;
+    line-height: 1.9;
+    color: var(--color-neutral-700);
+  }
+
+  .fsec-items {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .fsec-item-t {
+    font-size: 15px;
+    font-family: var(--font-heading);
+    font-weight: 500;
+  }
+
+  .fsec-item-d {
+    margin: 8px 0 0;
+    font-size: 13.5px;
+    line-height: 1.9;
+    color: var(--color-neutral-800);
+  }
+
+  /* ---------- 現場與品質:照片補充列 ---------- */
+
+  .photo-note {
+    margin-top: 24px;
+    padding: 16px 18px;
+    background: var(--g-ground);
+    border: 1px solid var(--g-line);
+    border-radius: 12px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .photo-note-icon {
+    font-size: 20px;
+    color: var(--color-neutral-700);
+    flex: none;
+  }
+
+  .photo-note-text {
+    font-size: 13px;
+    line-height: 1.85;
+    color: var(--color-neutral-800);
+  }
+
+  /* ---------- 兩張資料卡的共用外框 ---------- */
+
+  .dcard {
+    margin-top: 28px;
+    border: 1px solid var(--g-line);
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .dcard-head {
+    padding: 13px 18px;
+    border-bottom: 1px solid var(--color-divider);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  .dcard-title {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: var(--font-heading);
+  }
+
+  .dcard-meta {
+    font-size: 11px;
+    color: var(--color-neutral-600);
+  }
+
+  /* 狀態色票:顏色與文字並存 */
+  .chip {
+    height: 22px;
+    padding: 0 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+  .chip--ok {
+    background: var(--c-ok-tint);
+    color: var(--c-ok-text);
+  }
+  .chip--warn {
+    background: var(--c-warn-tint);
+    color: var(--c-warn-text);
+  }
+  .chip--info {
+    background: var(--color-accent-100);
+    color: var(--c-info-text);
+  }
+
+  /* ---------- 契約重點表 ---------- */
+
+  .ct {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+  }
+
+  /* 表頭底色是字面值,不進 token */
+  .ct thead tr {
+    background: #f8f9fa;
+  }
+
+  .ct th {
+    text-align: left;
+    padding: 9px 12px;
+    font-weight: 500;
+    font-size: 11px;
+    color: var(--color-neutral-700);
+    border-bottom: 1px solid var(--g-line);
+  }
+
+  .ct td {
+    padding: 11px 12px;
+    border-bottom: 1px solid var(--g-line);
+  }
+
+  /* 首尾欄與卡片內距對齊(18px) */
+  .ct th:first-child,
+  .ct th:last-child,
+  .ct td:first-child,
+  .ct td:last-child {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .ct td:first-child {
+    color: var(--color-neutral-700);
+  }
+
+  .ct tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  /* 來源頁碼:儲存格內的第二行 */
+  .ct-src {
+    display: block;
+    font-size: 11px;
+    color: var(--color-neutral-600);
+    margin-top: 3px;
+  }
+
+  /* ---------- 第 5 期估驗計價表 ---------- */
+
+  .vt {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: 12.5px;
+  }
+
+  .vt-c1 { width: 88px; }
+  .vt-c3 { width: 104px; }
+  .vt-c4 { width: 88px; }
+  .vt-c5 { width: 78px; }
+  .vt-c6 { width: 126px; }
+
+  .vt thead tr {
+    background: #f8f9fa;
+  }
+
+  /* 數字欄右對齊,前兩欄靠左 */
+  .vt th {
+    text-align: right;
+    padding: 9px 8px;
+    font-weight: 500;
+    font-size: 11px;
+    color: var(--color-neutral-700);
+    border-bottom: 1px solid var(--g-line);
+  }
+  .vt th:first-child,
+  .vt th:nth-child(2) {
+    text-align: left;
+  }
+
+  .vt td {
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--g-line);
+  }
+
+  .vt th:first-child,
+  .vt th:last-child,
+  .vt td:first-child,
+  .vt td:last-child {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .vt td:first-child {
+    color: var(--color-neutral-700);
+  }
+
+  .vt-r {
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  /* 工項階層:子項用 18px 空白 span 縮排,名稱過長裁切 */
+  .vt-item {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .vt-indent {
+    display: inline-block;
+    width: 18px;
+  }
+
+  .vt-parent {
+    background: #f8f9fa;
+  }
+  .vt-parent td:nth-child(2),
+  .vt-parent td:last-child {
+    font-weight: 500;
+  }
+
+  .vt tr.vt-total {
+    background: var(--g-chip);
+  }
+  .vt tr.vt-total td {
+    padding-top: 11px;
+    padding-bottom: 11px;
+    border-bottom: 0;
+    font-weight: 500;
+  }
+  .vt tr.vt-total td:first-child {
+    color: var(--color-text);
+  }
+
+  /* 表下方的 AI 差異提示 */
+  .vt-ai {
+    padding: 13px 18px;
+    border-top: 1px solid var(--g-line);
+    background: var(--ai-tint);
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .vt-ai-icon {
+    font-size: 18px;
+    color: var(--ai);
+    flex: none;
+  }
+
+  .vt-ai-text {
+    font-size: 12.5px;
+    line-height: 1.8;
+    color: var(--ai-text);
+  }
+
+  /* ---------- 問 PMIS 對話卡 ---------- */
+
+  .chat {
+    margin-top: 28px;
+    border: 1px solid var(--g-line);
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: var(--shadow-sm);
+    padding: 20px 22px;
+  }
+
+  .chat-user-row {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .chat-user {
+    max-width: 70%;
+    border: 1px solid var(--color-divider);
+    border-radius: 12px;
+    padding: 11px 14px;
+    font-size: 13.5px;
+    line-height: 1.8;
+  }
+
+  .chat-reply {
+    margin-top: 18px;
+    font-size: 13.5px;
+    line-height: 1.9;
+    color: var(--color-neutral-900);
+  }
+
+  .chat-list {
+    margin: 10px 0 0;
+    padding-left: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* 產品畫面示意:外觀像來源連結,但不是可點連結 */
+  .chat-src {
+    color: var(--color-accent);
+  }
+
+  .chat-total {
+    margin-top: 12px;
+  }
+
+  /* 工具軌跡:靠 .num 的 tabular-nums 呈現等寬感,不換 mono 字型 */
+  .chat-trace {
+    margin-top: 16px;
+    padding: 12px 14px;
+    background: var(--g-ground);
+    border-radius: 8px;
+    font-size: 11.5px;
+    line-height: 1.8;
+    color: var(--color-neutral-700);
+  }
+
+  /* ---------- 頁尾 CTA 帶 ---------- */
+
+  .pg-cta {
+    background: var(--g-ground);
+    padding: 64px 24px;
+    border-top: 1px solid var(--g-line);
+  }
+
+  .pg-cta-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .pg-cta-h2 {
+    font-size: 28px;
+  }
+
+  .pg-cta-desc {
+    margin: 10px 0 0;
+    font-size: 14.5px;
+    line-height: 1.85;
+    color: var(--color-neutral-800);
+  }
+
+  /* 底型(藥丸、實心主色、hover --color-accent-700)由 global.css 的
+     .btn / .btn-primary 提供,這裡只補尺寸與字級 */
+  .pg-cta-btn {
+    height: 46px;
+    padding: 0 26px;
+    font-size: 15px;
+  }
+
+  .pg-cta-icon {
+    font-size: 19px;
+  }
+
+  /* ---------- 響應式 ---------- */
+
+  @media (max-width: 1080px) {
+    .fsec-grid {
+      grid-template-columns: 1fr;
+      gap: 22px;
+    }
+  }
+
+  /* 表格不擠壓變形:改成橫向捲動 */
+  @media (max-width: 860px) {
+    .tbl-scroll {
+      overflow-x: auto;
+    }
+    .tbl-scroll table {
+      min-width: 620px;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .pg-h1 {
+      font-size: 32px;
+    }
+    .fsec-h2,
+    .pg-cta-h2 {
+      font-size: 23px;
+    }
+    .fsec-items {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

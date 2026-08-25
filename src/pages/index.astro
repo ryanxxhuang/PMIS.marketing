@@ -1,0 +1,33 @@
+---
+// Landing:段落順序照 handoff README——先講產品在解決什麼,
+// 第二段馬上講創辦人,再展開產品與資安。
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/landing/Hero.astro';
+import Founder from '../components/landing/Founder.astro';
+import Roles from '../components/landing/Roles.astro';
+import Worksurfaces from '../components/landing/Worksurfaces.astro';
+import RedLines from '../components/landing/RedLines.astro';
+import SecurityAudit from '../components/landing/SecurityAudit.astro';
+import Faq from '../components/landing/Faq.astro';
+import Cta from '../components/landing/Cta.astro';
+---
+
+<Base
+  title="PMIS.ai — 公共工程專案管理"
+  description="PMIS.ai 把 PCCES 標單、施工日誌、查驗、估驗計價與送審接成一條資料鏈。AI 只做查詢、彙整與草稿；核定、判定、結案與驗收，永遠是人的。"
+>
+  <Header page="landing" />
+  <main>
+    <Hero />
+    <Founder />
+    <Roles />
+    <Worksurfaces />
+    <RedLines />
+    <SecurityAudit />
+    <Faq />
+    <Cta />
+  </main>
+  <Footer />
+</Base>

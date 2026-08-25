@@ -1,0 +1,173 @@
+---
+// 共用 sticky header(README「版面骨架 → Header」)。
+// 當前頁的連結換成 #ecf3fe 底 #174ea6 字的不可點 chip。
+// 第三個連結:landing 是「誰做的」(#founder),內頁是「三方協作」(/#roles);
+// 預約頁只留兩個連結、不放 CTA(目的頁就是自己)。
+import { SITE } from '../config';
+
+interface Props {
+  page?: 'landing' | 'features' | 'security' | 'demo';
+}
+
+const { page = 'landing' } = Astro.props;
+
+type NavLink = { key: string; label: string; href: string };
+
+const links: NavLink[] = [
+  { key: 'features', label: '功能全覽', href: '/features' },
+  { key: 'security', label: 'AI 邊界與資安', href: '/security' },
+];
+if (page === 'landing') {
+  links.push({ key: 'founder', label: '誰做的', href: '#founder' });
+} else if (page !== 'demo') {
+  links.push({ key: 'roles', label: '三方協作', href: '/#roles' });
+}
+---
+
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="/">
+      <span class="mark">
+        <svg width="24" height="24" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 12.4 L34.4 30.4 L13.6 30.4 Z" fill="none" stroke="#ffffff" stroke-opacity=".5" stroke-width="3" stroke-linejoin="round"></path><circle cx="24" cy="12.4" r="5.2" fill="#ffffff"></circle><circle cx="34.4" cy="30.4" r="5.2" fill="#ffffff"></circle><circle cx="13.6" cy="30.4" r="5.2" fill="#fdd663"></circle></svg>
+      </span>
+      <span class="lockup">
+        <span class="name">PMIS<span class="ai">.ai</span></span>
+        <span class="tag">公共工程專案管理</span>
+      </span>
+    </a>
+    <nav class="nav" aria-label="主導覽">
+      {
+        links.map((l) =>
+          l.key === page ? (
+            <span class="navlink is-current" aria-current="page">{l.label}</span>
+          ) : (
+            <a class="navlink" href={l.href}>{l.label}</a>
+          )
+        )
+      }
+      {/* 登入是對 handoff 設計的必要增補:產品搬到 app 子網域後,
+          既有使用者從根網域需要回到系統的路(720px 以下由 footer 的登入承接) */}
+      <a class="navlink" href={SITE.appUrl}>登入</a>
+      {page !== 'demo' && <a class="cta" href="/demo">{SITE.ctaLabel}</a>}
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    height: 66px;
+    background: rgba(255, 255, 255, .9);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--g-line);
+    display: flex;
+    align-items: center;
+  }
+
+  .bar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+  }
+  .brand,
+  .brand:hover {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .mark {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: #0b57d0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    box-shadow: 0 1px 2px rgba(11, 87, 208, .35);
+  }
+
+  .lockup {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+  }
+  .name {
+    font-family: var(--font-heading);
+    font-size: 19px;
+    font-weight: 500;
+    letter-spacing: -.02em;
+  }
+  .ai { color: var(--color-accent); }
+  .tag {
+    font-size: 10.5px;
+    color: var(--color-neutral-700);
+    letter-spacing: .04em;
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+  }
+
+  .navlink {
+    height: 36px;
+    padding: 0 12px;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    font-size: 13.5px;
+    color: var(--color-neutral-800);
+  }
+  a.navlink:hover {
+    background: var(--color-neutral-200);
+    color: var(--color-neutral-800);
+    text-decoration: none;
+  }
+  .is-current {
+    background: var(--color-accent-100);
+    color: var(--c-info-text);
+    font-weight: 500;
+  }
+
+  .cta {
+    margin-left: 10px;
+    height: 38px;
+    padding: 0 18px;
+    border-radius: 100px;
+    background: var(--color-accent);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    font-size: 13.5px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .cta:hover {
+    background: var(--color-accent-700);
+    color: #fff;
+    text-decoration: none;
+  }
+
+  /* 720px 以下:三個文字連結(含當前頁 chip)隱藏,只留品牌與主色鈕 */
+  @media (max-width: 719px) {
+    .navlink { display: none; }
+  }
+
+  /* 768px 以下可點元素觸控目標 ≥ 44px */
+  @media (max-width: 768px) {
+    .cta { height: 44px; }
+  }
+</style>

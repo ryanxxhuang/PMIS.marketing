@@ -1,0 +1,127 @@
+---
+// Hero 產品畫面(手機版):330px 寬、9px 深色邊框的今日待辦畫面。
+// 760px 以下取代桌機版,不是縮放桌機版(README 明確要求)。
+const rows = [
+  { tone: 'warn', meta: '還有 1 天 · SUB-002', title: '4F 以上結構體施工計畫', sub: '待監造審定' },
+  { tone: 'open', meta: '還有 4 天 · RFI-002', title: '3F 樑柱接頭鋼筋與機電套管衝突', sub: '待監造／設計回覆' },
+  { tone: 'danger', meta: '逾期 2 天 · DEF-018', title: '3F 西側牆面蜂窩未改善', sub: '待廠商改善' },
+];
+---
+
+<div class="phone">
+  <div class="num status"><span>9:41</span><span>6 件待辦</span></div>
+  <div class="ph-head">
+    <div class="ph-proj">桃園市立圖書館新建工程</div>
+    <div class="ph-title">今日待辦</div>
+  </div>
+  {
+    rows.map((r) => (
+      <div class="ph-row">
+        <span class:list={['ph-dot', `ph-dot--${r.tone}`]}></span>
+        <div>
+          <div class:list={['num', 'ph-meta', `ph-meta--${r.tone}`]}>{r.meta}</div>
+          <div class="ph-item">{r.title}</div>
+          <div class="ph-sub">{r.sub}</div>
+        </div>
+      </div>
+    ))
+  }
+  <div class="ph-ai">
+    <div class="ph-ai-label"><span class="msy ph-ai-icon">auto_awesome</span>AI 今日已代辦</div>
+    <div class="ph-ai-text">日誌草稿 1 份 · 契約重點 12 條 · 估驗差異 3 項</div>
+  </div>
+  <div class="ph-cta">
+    <div class="ph-cta-btn">問 PMIS：今天最該處理什麼？</div>
+  </div>
+</div>
+
+<style>
+  .phone {
+    width: 330px;
+    background: #fff;
+    border: 9px solid #202124;
+    border-radius: 34px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .status {
+    padding: 9px 16px 0;
+    display: flex;
+    justify-content: space-between;
+    font-size: 10.5px;
+    color: var(--color-neutral-700);
+  }
+
+  .ph-head {
+    padding: 12px 16px 10px;
+    border-bottom: 1px solid var(--color-divider);
+  }
+  .ph-proj { font-size: 10.5px; color: var(--color-accent-700); }
+  .ph-title {
+    font-family: var(--font-display);
+    font-size: 19px;
+    font-weight: 500;
+    margin-top: 5px;
+  }
+
+  .ph-row {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--color-divider);
+    display: flex;
+    gap: 11px;
+    align-items: flex-start;
+  }
+  .ph-dot {
+    width: 7px;
+    height: 7px;
+    margin-top: 6px;
+    flex: none;
+  }
+  .ph-dot--warn { background: var(--c-warn-text); }
+  .ph-dot--open { border: 1px solid var(--color-neutral-600); }
+  .ph-dot--danger { background: var(--c-danger-text); }
+  .ph-meta { font-size: 9.5px; letter-spacing: .08em; }
+  .ph-meta--warn { color: var(--c-warn-text); }
+  .ph-meta--open { color: var(--color-neutral-700); }
+  .ph-meta--danger { color: var(--c-danger-text); }
+  .ph-item { font-size: 12.5px; line-height: 1.55; margin-top: 3px; }
+  .ph-sub { font-size: 11px; color: var(--color-neutral-700); margin-top: 2px; }
+
+  .ph-ai {
+    padding: 13px 16px;
+    background: var(--ai-tint);
+  }
+  .ph-ai-label {
+    font-size: 10.5px;
+    color: var(--ai-text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .ph-ai-icon { font-size: 15px; color: var(--ai); }
+  .ph-ai-text {
+    font-size: 12px;
+    line-height: 1.75;
+    margin-top: 6px;
+    color: var(--ai-text);
+  }
+
+  .ph-cta {
+    padding: 12px 16px 18px;
+    background: var(--g-ground);
+  }
+  .ph-cta-btn {
+    height: 44px;
+    border-radius: 22px;
+    background: var(--color-accent);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13.5px;
+    font-weight: 500;
+  }
+</style>
