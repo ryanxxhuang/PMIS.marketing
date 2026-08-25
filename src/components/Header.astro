@@ -1,7 +1,6 @@
 ---
 // 共用 sticky header(README「版面骨架 → Header」)。
 // 當前頁的連結換成 #ecf3fe 底 #174ea6 字的不可點 chip。
-// 第三個連結:landing 是「誰做的」(#founder),內頁是「三方協作」(/#roles);
 // 預約頁只留兩個連結、不放 CTA(目的頁就是自己)。
 import { SITE } from '../config';
 
@@ -14,13 +13,14 @@ const { page = 'landing' } = Astro.props;
 
 type NavLink = { key: string; label: string; href: string };
 
+// href 一律帶尾斜線,與 canonical / sitemap 的正規形式一致(否則每次點擊吃一個 301)
 const links: NavLink[] = [
-  { key: 'features', label: '功能全覽', href: '/features' },
-  { key: 'security', label: 'AI 邊界與資安', href: '/security' },
+  { key: 'features', label: '功能全覽', href: '/features/' },
+  { key: 'security', label: 'AI 邊界與資安', href: '/security/' },
 ];
-if (page === 'landing') {
-  links.push({ key: 'founder', label: '誰做的', href: '#founder' });
-} else if (page !== 'demo') {
+// 「關於」段 2026-08-25 簡化並下移到頁尾前,不再進導覽;
+// 三方協作是內頁回首頁的入口
+if (page !== 'demo' && page !== 'landing') {
   links.push({ key: 'roles', label: '三方協作', href: '/#roles' });
 }
 ---
@@ -49,7 +49,7 @@ if (page === 'landing') {
       {/* 登入是對 handoff 設計的必要增補:產品搬到 app 子網域後,
           既有使用者從根網域需要回到系統的路(720px 以下由 footer 的登入承接) */}
       <a class="navlink" href={SITE.appUrl}>登入</a>
-      {page !== 'demo' && <a class="cta" href="/demo">{SITE.ctaLabel}</a>}
+      {page !== 'demo' && <a class="cta" href="/demo/">{SITE.ctaLabel}</a>}
     </nav>
   </div>
 </header>

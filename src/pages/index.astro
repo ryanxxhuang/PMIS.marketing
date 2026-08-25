@@ -1,6 +1,7 @@
 ---
-// Landing:段落順序照 handoff README——先講產品在解決什麼,
-// 第二段馬上講創辦人,再展開產品與資安。
+// Landing。
+// 段落順序:原 handoff README 把創辦人段放在第二段當最強說服點,
+// 2026-08-25 依使用者要求改為簡化後置於 FAQ 與 CTA 之間。
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -19,14 +20,14 @@ import Cta from '../components/landing/Cta.astro';
   description="PMIS.ai 把 PCCES 標單、施工日誌、查驗、估驗計價與送審接成一條資料鏈。AI 只做查詢、彙整與草稿；核定、判定、結案與驗收，永遠是人的。"
 >
   <Header page="landing" />
-  <main>
+  <main id="main" tabindex="-1">
     <Hero />
-    <Founder />
     <Roles />
     <Worksurfaces />
     <RedLines />
     <SecurityAudit />
     <Faq />
+    <Founder />
     <Cta />
   </main>
   <Footer />

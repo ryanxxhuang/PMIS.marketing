@@ -116,10 +116,10 @@ const features = [
 
 <Base
   title="AI 邊界與資安 — PMIS.ai"
-  description="AI 能做什麼、不能做什麼，寫得出來。這一頁是為了讓你能拿去簽辦。"
+  description="AI 能做什麼、不能做什麼，寫得出來：工具白名單、資料列級安全性與稽核軌跡留存，依資通系統防護基準設計，個資境內存放。這一頁是為了讓你能拿去簽辦。"
 >
   <Header page="security" />
-  <main>
+  <main id="main" tabindex="-1">
     <section class="page-head">
       <div class="page-head-inner">
         <div class="page-kicker">AI 邊界與資安</div>
@@ -274,7 +274,7 @@ const features = [
             示範時一併帶上資安符合性說明、AI 功能清單與稽核軌跡範例，讓你不用另外整理。
           </p>
         </div>
-        <a class="cta-btn" href="/demo">
+        <a class="cta-btn" href="/demo/">
           {SITE.ctaLabel}<span class="msy cta-icon" aria-hidden="true">arrow_forward</span>
         </a>
       </div>
@@ -643,7 +643,7 @@ const features = [
 
   .toggle-head-meta {
     font-size: 11px;
-    color: var(--color-neutral-600);
+    color: var(--color-neutral-700);
   }
 
   .toggle-row {
@@ -689,7 +689,7 @@ const features = [
   }
   .toggle-chip--warn {
     background: var(--c-warn-tint);
-    color: var(--c-warn-text);
+    color: var(--c-warn);
   }
   /* 停用是 mute 色票：--g-chip 底、--color-neutral-700 字 */
   .toggle-chip--off {

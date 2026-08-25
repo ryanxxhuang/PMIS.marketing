@@ -40,43 +40,43 @@ const aiDone = [
 ---
 
 <div class="shot">
-  <aside class="side">
+  <div class="side">
     <div class="side-top">
-      <span class="msy side-menu">menu</span>
+      <span class="msy side-menu" aria-hidden="true">menu</span>
       <svg width="24" height="24" viewBox="0 0 48 48" class="side-logo" aria-hidden="true"><path d="M24 12.4 L34.4 30.4 L13.6 30.4 Z" fill="none" stroke="#dadce0" stroke-width="3.6" stroke-linejoin="round"></path><circle cx="24" cy="12.4" r="5.8" fill="#0b57d0"></circle><circle cx="34.4" cy="30.4" r="5.8" fill="#ea4335"></circle><circle cx="13.6" cy="30.4" r="5.8" fill="#fbbc04"></circle></svg>
       <span class="side-brand">PMIS</span><span class="side-brand side-brand--ai">.ai</span>
     </div>
-    <div class="side-ask"><span class="msy side-ask-icon">auto_awesome</span>問 PMIS</div>
+    <div class="side-ask"><span class="msy side-ask-icon" aria-hidden="true">auto_awesome</span>問 PMIS</div>
     <div class="side-group">工作面</div>
     {
       navItems.map((n) => (
         <div class:list={['side-item', { 'side-item--active': n.active }]}>
-          <span class:list={['msy', 'side-item-icon', { 'msy-f': n.active }]}>{n.icon}</span>
+          <span class:list={['msy', 'side-item-icon', { 'msy-f': n.active }]} aria-hidden="true">{n.icon}</span>
           {n.label}
           {n.count && <span class:list={['num', 'side-count', { 'side-count--hot': n.active }]}>{n.count}</span>}
         </div>
       ))
     }
     <div class="side-divider"></div>
-    <div class="side-mode"><span class="msy side-mode-icon">verified_user</span>正式模式 · 稽核中</div>
-  </aside>
+    <div class="side-mode"><span class="msy side-mode-icon" aria-hidden="true">verified_user</span>正式模式 · 稽核中</div>
+  </div>
 
-  <main class="stage">
+  <div class="stage">
     <div class="appbar">
       <div class="proj-chip">
-        <span class="msy proj-icon">folder_open</span>
+        <span class="msy proj-icon" aria-hidden="true">folder_open</span>
         <span class="proj-name">○○市立圖書館新建工程</span>
-        <span class="msy proj-caret">arrow_drop_down</span>
+        <span class="msy proj-caret" aria-hidden="true">arrow_drop_down</span>
       </div>
       <div class="searchbar">
-        <span class="msy search-icon">search</span>
+        <span class="msy search-icon" aria-hidden="true">search</span>
         <span class="search-text">問 PMIS：工項、送審、缺失、契約……</span>
-        <span class="msy search-tune">tune</span>
+        <span class="msy search-tune" aria-hidden="true">tune</span>
       </div>
       <div class="appbar-right">
-        <span class="msy bar-btn">dark_mode</span>
-        <span class="msy bar-btn">notifications</span>
-        <span class="msy bar-btn">help</span>
+        <span class="msy bar-btn" aria-hidden="true">dark_mode</span>
+        <span class="msy bar-btn" aria-hidden="true">notifications</span>
+        <span class="msy bar-btn" aria-hidden="true">help</span>
         <div class="who">
           <div class="who-avatar">王</div>
           <div class="who-meta">
@@ -111,7 +111,7 @@ const aiDone = [
       </div>
 
       <div class="cols">
-        <section class="card">
+        <div class="card">
           <div class="card-head card-head--baseline">
             <span class="card-title">現在輪到我</span>
             <span class="card-meta">Ball in court · 監造</span>
@@ -128,12 +128,12 @@ const aiDone = [
               </div>
             ))
           }
-        </section>
+        </div>
 
         <div class="col-right">
-          <section class="card">
+          <div class="card">
             <div class="card-head card-head--center">
-              <span class="card-title card-title--icon"><span class="msy risk-icon">warning</span>風險警示</span>
+              <span class="card-title card-title--icon"><span class="msy risk-icon" aria-hidden="true">warning</span>風險警示</span>
               <span class="card-meta card-meta--dark">AI · 每日 06:00</span>
             </div>
             {
@@ -148,11 +148,11 @@ const aiDone = [
                 </div>
               ))
             }
-          </section>
+          </div>
 
-          <section class="card">
+          <div class="card">
             <div class="card-head">
-              <span class="card-title card-title--icon"><span class="msy ai-icon">auto_awesome</span>AI 今日已代辦</span>
+              <span class="card-title card-title--icon"><span class="msy ai-icon" aria-hidden="true">auto_awesome</span>AI 今日已代辦</span>
             </div>
             {
               aiDone.map((a) => (
@@ -163,11 +163,11 @@ const aiDone = [
               ))
             }
             <div class="ai-foot">每一項都可展開比對來源段落；核定前不寫入契約規則。</div>
-          </section>
+          </div>
         </div>
       </div>
     </div>
-  </main>
+  </div>
 </div>
 
 <style>

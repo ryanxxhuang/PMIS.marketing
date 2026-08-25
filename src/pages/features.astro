@@ -223,11 +223,11 @@ const valuationRows = [
 ---
 
 <Base
-  title="功能全覽 — PMIS.ai"
-  description="六個工作面，加上一個問答入口。導覽的資訊架構就是工程的實際流程。"
+  title="功能全覽：PCCES 標單、施工日誌、查驗、估驗計價 — PMIS.ai"
+  description="六個工作面，加上一個問答入口：今日待辦、施工日誌與 ITP 查驗、送審與工程疑義 RFI、PCCES 標單與估驗計價。導覽的資訊架構就是工程的實際流程。"
 >
   <Header page="features" />
-  <main>
+  <main id="main" tabindex="-1">
     <section class="pg-head">
       <div class="pg-head-inner">
         <div class="pg-kicker">功能全覽</div>
@@ -411,7 +411,7 @@ const valuationRows = [
             30 分鐘線上示範，現場匯入你的 PCCES 標單或契約 PDF。
           </p>
         </div>
-        <a class="btn btn-primary pg-cta-btn" href="/demo"
+        <a class="btn btn-primary pg-cta-btn" href="/demo/"
           >{SITE.ctaLabel}<span class="msy pg-cta-icon" aria-hidden="true">arrow_forward</span></a
         >
       </div>
@@ -571,7 +571,7 @@ const valuationRows = [
 
   .dcard-meta {
     font-size: 11px;
-    color: var(--color-neutral-600);
+    color: var(--color-neutral-700);
   }
 
   /* 狀態色票:顏色與文字並存 */
@@ -591,7 +591,7 @@ const valuationRows = [
   }
   .chip--warn {
     background: var(--c-warn-tint);
-    color: var(--c-warn-text);
+    color: var(--c-warn);
   }
   .chip--info {
     background: var(--color-accent-100);
@@ -646,7 +646,7 @@ const valuationRows = [
   .ct-src {
     display: block;
     font-size: 11px;
-    color: var(--color-neutral-600);
+    color: var(--color-neutral-700);
     margin-top: 3px;
   }
 

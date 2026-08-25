@@ -11,9 +11,9 @@ import Footer from '../components/Footer.astro';
 import { SITE, DEMO_API } from '../config';
 
 const roles = [
-  { id: 'supervisor', label: '監造單位', icon: 'rate_review', desc: '技師事務所、工程顧問公司', org: '事務所／公司名稱' },
-  { id: 'owner', label: '機關業主', icon: 'account_balance', desc: '主辦機關承辦人或主管', org: '機關名稱' },
-  { id: 'contractor', label: '施工廠商', icon: 'engineering', desc: '營造廠專案人員', org: '公司名稱' },
+  { id: 'supervisor', label: '監造單位', icon: 'rate_review', desc: '技師事務所、工程顧問公司', org: '事務所／公司名稱（必填）' },
+  { id: 'owner', label: '機關業主', icon: 'account_balance', desc: '主辦機關承辦人或主管', org: '機關名稱（必填）' },
+  { id: 'contractor', label: '施工廠商', icon: 'engineering', desc: '營造廠專案人員', org: '公司名稱（必填）' },
 ];
 
 const topics = ['監造報表重複打字', '估驗計價對帳', '契約期限追蹤', '查驗與缺失管理', '三方文件版本混亂', '跨案進度掌握'];
@@ -34,10 +34,10 @@ const concerns = [
 
 <Base
   title="預約線上示範 — PMIS.ai"
-  description="30 分鐘，帶你自己的案子看一次。不用先簽任何東西。"
+  description="給監造顧問公司與機關承辦人的線上示範：帶你自己的標單或契約，30 分鐘看一次 AI 抽出履約要求、跑一期估驗計價與三方畫面，不用先簽約。"
 >
   <Header page="demo" />
-  <main class="demo-main">
+  <main id="main" tabindex="-1" class="demo-main">
     <div class="demo-grid">
       <div class="form-card">
         <div class="form-success" hidden>
@@ -75,16 +75,16 @@ const concerns = [
 
           <div class="fields">
             <label class="fld-wrap">
-              <input class="fld" name="name" placeholder=" " autocomplete="name" />
-              <span class="fld-label">姓名</span>
+              <input class="fld" name="name" placeholder=" " autocomplete="name" required />
+              <span class="fld-label">姓名（必填）</span>
             </label>
             <label class="fld-wrap">
-              <input class="fld" name="org" placeholder=" " autocomplete="organization" />
-              <span class="fld-label" data-org-label>事務所／公司名稱</span>
+              <input class="fld" name="org" placeholder=" " autocomplete="organization" required />
+              <span class="fld-label" data-org-label>事務所／公司名稱（必填）</span>
             </label>
             <label class="fld-wrap">
-              <input class="fld" name="email" type="email" placeholder=" " autocomplete="email" />
-              <span class="fld-label">公務／公司信箱</span>
+              <input class="fld" name="email" type="email" placeholder=" " autocomplete="email" required />
+              <span class="fld-label">公務／公司信箱（必填）</span>
             </label>
             <label class="fld-wrap">
               <input class="fld" name="phone" placeholder=" " autocomplete="tel" />
@@ -130,10 +130,10 @@ const concerns = [
           </div>
 
           <div class="submit-row">
-            <button type="submit" class="submit-btn" disabled>
+            <button type="submit" class="submit-btn" aria-describedby="submit-hint" disabled>
               送出預約<span class="msy submit-icon" aria-hidden="true">arrow_forward</span><span class="msy submit-spin" aria-hidden="true">progress_activity</span>
             </button>
-            <span class="submit-hint" role="status">姓名、單位與信箱填完就能送出</span>
+            <span class="submit-hint" id="submit-hint" role="status">姓名、單位與信箱填完就能送出</span>
           </div>
         </form>
       </div>
@@ -169,7 +169,7 @@ const concerns = [
             </div>
             <div>
               <div class="concern-q">資料會外流嗎？</div>
-              <p class="concern-a">示範用的檔案可在結束後要求刪除，資安說明見<a href="/security">這一頁</a>。</p>
+              <p class="concern-a">示範用的檔案可在結束後要求刪除，資安說明見<a href="/security/">這一頁</a>。</p>
             </div>
           </div>
         </div>
@@ -181,8 +181,6 @@ const concerns = [
     </div>
   </main>
   <Footer />
-</Base>
-
 <script>
   import { DEMO_API } from '../config';
 
@@ -314,6 +312,7 @@ const concerns = [
 
   refresh();
 </script>
+</Base>
 
 <style>
   .demo-main { background: var(--g-ground); }
