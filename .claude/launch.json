@@ -6,6 +6,13 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
       "port": 4321
+    },
+    {
+      "name": "pmis-app-demo",
+      "runtimeExecutable": "env",
+      "runtimeArgs": ["VITE_SUPABASE_URL=", "npm", "--prefix", "/Volumes/GameSSD/Projects/PMIS", "run", "dev"],
+      "port": 5199,
+      "autoPort": true
     }
   ]
 }
