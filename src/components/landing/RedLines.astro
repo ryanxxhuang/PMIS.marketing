@@ -3,9 +3,11 @@
 // inline style 改寫成下方 scoped class，值未做任何調整；文案逐字沿用。
 //
 // 外框用 global.css 的 .section / .section--ground / .wrap / .kicker /
-// .section-h2 / .section-desc / .split / .num / .msy，其餘卡片樣式在本檔 scoped。
+// .section-h2 / .section-desc / .split / .num / Icon，其餘卡片樣式在本檔 scoped。
 //
 // 四條紅線是產品既定原則，文字不得改動。
+import Icon from '../Icon.astro';
+
 const redLines = [
   {
     no: '紅線 01',
@@ -75,7 +77,7 @@ const redLines = [
     </div>
 
     <div class="rl-note">
-      <span class="msy rl-note-icon" aria-hidden="true">auto_awesome</span>
+      <Icon name="auto_awesome" size={20} class="rl-note-icon" />
       <p class="rl-note-text">
         AI 抽出的每一條履約要求，都附著它引用的那段原文與頁碼。系統會把這段文字正規化後，拿去跟那一頁入庫的文字逐字比對：對得上才標為已驗證；出現在別頁，判為未驗證，不會替它改頁碼；引文短於六個字，一律不算通過。這件事不是 AI 自評，是程式做的——而且資料庫還多擋一層：任何人，包括有審查權的人，直接寫入「已驗證」旗標都會被拒絕。
       </p>
@@ -98,7 +100,7 @@ const redLines = [
     border: 1px solid var(--g-line);
     border-radius: 12px;
     padding: 18px;
-    background: #fff;
+    background: var(--surface);
   }
   .rl-lane--ai {
     background: var(--ai-tint);
@@ -138,7 +140,7 @@ const redLines = [
     border: 1px solid var(--g-line);
     border-radius: 12px;
     padding: 24px;
-    background: #fff;
+    background: var(--surface);
   }
 
   /* 標號吃 .num 的 tabular-nums */
@@ -175,7 +177,6 @@ const redLines = [
   }
 
   .rl-note-icon {
-    font-size: 20px;
     color: var(--ai);
     flex: none;
   }

@@ -3,12 +3,14 @@
 // inline style 改寫成下方 scoped class，值未做任何調整；文案逐字沿用。
 //
 // 外框用 global.css 的 .section / .wrap / .split / .kicker / .section-h2 /
-// .section-desc / .btn + .btn-outline / .num / .msy，其餘樣式在本檔 scoped。
+// .section-desc / .btn + .btn-outline / .num / Icon，其餘樣式在本檔 scoped。
 //
 // 「完整資安說明」在原型指向 handoff 檔「AI 邊界與資安.dc.html」，站上對應 /security
 // （與 Header／Footer 的路由一致）。
 //
 // 右欄的測試數字對應產品既定原則，數值與說明不得改動。
+import Icon from '../Icon.astro';
+
 const guards = [
   {
     icon: 'lock',
@@ -54,14 +56,14 @@ const tests = [
         {
           guards.map((guard) => (
             <div class="sec-item">
-              <span class="msy sec-icon" aria-hidden="true">{guard.icon}</span>
+              <Icon name={guard.icon} size={20} class="sec-icon" />
               <p class="sec-text"><strong class="sec-term">{guard.term}</strong>：{guard.desc}</p>
             </div>
           ))
         }
       </div>
 
-      <a class="btn btn-outline sec-link" href="/security/">完整資安說明<span class="msy sec-link-icon" aria-hidden="true">arrow_forward</span></a>
+      <a class="btn btn-outline sec-link" href="/security/">完整資安說明<Icon name="arrow_forward" size={18} class="sec-link-icon" /></a>
     </div>
 
     <div class="tests">
@@ -84,7 +86,7 @@ const tests = [
 <style>
   /* 白底段落（前一段是 .section--ground，白／灰交替） */
   .sec {
-    background: #fff;
+    background: var(--surface);
   }
 
   .sec-list {
@@ -101,8 +103,7 @@ const tests = [
   }
 
   .sec-icon {
-    font-size: 20px;
-    color: var(--c-ok);
+    color: var(--success);
     flex: none;
   }
 
@@ -117,17 +118,13 @@ const tests = [
     font-weight: 500;
   }
 
-  /* 尺寸以外的外觀（藥丸、白底、--color-divider 框、主色字、hover --color-accent-100）
+  /* 尺寸以外的外觀（藥丸、白底、--border 框、--blue-text 字、hover --blue-tint）
      都由 global.css 的 .btn + .btn-outline 提供 */
   .sec-link {
     margin-top: 28px;
     height: 40px;
     padding: 0 20px;
     font-size: 13.5px;
-  }
-
-  .sec-link-icon {
-    font-size: 18px;
   }
 
   .tests {

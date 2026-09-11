@@ -1,6 +1,8 @@
 ---
 // FAQ(原型 1.7):820px 置中,原生 details/summary。
 // README 要求補上原型沒做的行為:summary 展開後 expand_more 旋轉 180°。
+import Icon from '../Icon.astro';
+
 const faqs = [
   {
     q: 'AI 到底幫我做掉哪些事？',
@@ -38,7 +40,7 @@ const faqs = [
         faqs.map(({ q, a }) => (
           <details class="faq-item">
             <summary>
-              <span class="msy faq-icon" aria-hidden="true">expand_more</span>
+              <Icon name="expand_more" size={20} class="faq-icon" />
               {q}
             </summary>
             <p class="faq-a">{a}</p>
@@ -76,8 +78,7 @@ const faqs = [
   }
 
   .faq-icon {
-    font-size: 20px;
-    color: var(--color-neutral-700);
+    color: var(--text-3);
     transition: transform .25s var(--ease-out);
   }
   .faq-item[open] summary .faq-icon {

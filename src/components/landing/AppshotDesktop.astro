@@ -1,4 +1,10 @@
 ---
+// ⚠️ 凍結(2026-09-11,Apple 改版):本檔是手繪的 W9 Google 版產品畫面。改版時刻意
+// 不讓它吃新 token——只換顏色會變成「Google 版面配 Apple 顏色」的半套 mockup,比原樣更糟。
+// 所以把用到的舊值就地寫死:色值、字型、字級,以及 Material Symbols 的 glyph 外框
+// (下方 GLYPH,從已退場的訂閱字型抽出,viewBox 0 -960 960 960 是 Material 的座標系)。
+// 整支維持原樣;等「從真實 App 產生截圖」的管線上線後整支退場,不要在這裡疊新東西,
+// 也不要改用 Icon.astro(退場時會留孤兒)。
 // Hero 產品畫面(桌機版):1440×908 的「今日待辦」畫面,監造角色。
 // 內容全部靜態,照原型逐字轉譯;縮放由 Hero.astro 的外層容器負責,
 // 本元件只輸出固定 1440px 的內容 —— 它的價值在於「這就是產品真正的樣子」,
@@ -40,47 +46,70 @@ const aiDone = [
   { label: '查驗草稿', value: '2 件' },
   { label: '審查意見', value: '1 份' },
 ];
+
+const GLYPH = {
+  menu: '<path d="M120 -240V-320H840V-240ZM120 -440V-520H840V-440ZM120 -640V-720H840V-640Z"/>',
+  auto_awesome: '<path d="M760 -600 710 -710 600 -760 710 -810 760 -920 810 -810 920 -760 810 -710ZM760 -40 710 -150 600 -200 710 -250 760 -360 810 -250 920 -200 810 -150ZM360 -160 260 -380 40 -480 260 -580 360 -800 460 -580 680 -480 460 -380ZM360 -354 400 -440 486 -480 400 -520 360 -606 320 -520 234 -480 320 -440ZM360 -480Z"/>',
+  grid_view: '<path d="M120 -520V-840H440V-520ZM120 -120V-440H440V-120ZM520 -520V-840H840V-520ZM520 -120V-440H840V-120ZM200 -600H360V-760H200ZM600 -600H760V-760H600ZM600 -200H760V-360H600ZM200 -200H360V-360H200ZM600 -600ZM600 -360ZM360 -360ZM360 -600Z"/>',
+  engineering: '<path d="M42 -120V-232Q42 -265 59.0 -294.0Q76 -323 106 -338Q157 -364 221.0 -382.0Q285 -400 362.0 -400.0Q439 -400 503.0 -382.0Q567 -364 618 -338Q648 -323 665.0 -294.0Q682 -265 682 -232V-120ZM122 -200H602V-232Q602 -243 596.5 -252.0Q591 -261 582 -266Q546 -284 489.5 -302.0Q433 -320 362.0 -320.0Q291 -320 234.5 -302.0Q178 -284 142 -266Q133 -261 127.5 -252.0Q122 -243 122 -232ZM202 -600H192Q183 -600 177.5 -605.5Q172 -611 172.0 -620.0Q172 -629 177.5 -634.5Q183 -640 192 -640H202Q202 -685 224.0 -721.0Q246 -757 282 -778V-740Q282 -731 287.5 -725.5Q293 -720 302 -720Q311 -720 316.5 -725.5Q322 -731 322 -740V-794Q331 -797 341.0 -798.5Q351 -800 362 -800Q373 -800 383.0 -798.5Q393 -797 402 -794V-740Q402 -731 407.5 -725.5Q413 -720 422 -720Q431 -720 436.5 -725.5Q442 -731 442 -740V-778Q478 -757 500.0 -721.0Q522 -685 522 -640H532Q541 -640 546.5 -634.5Q552 -629 552.0 -620.0Q552 -611 546.5 -605.5Q541 -600 532 -600H522Q522 -534 475.0 -487.0Q428 -440 362.0 -440.0Q296 -440 249.0 -487.0Q202 -534 202 -600ZM442 -600H282Q282 -567 305.5 -543.5Q329 -520 362.0 -520.0Q395 -520 418.5 -543.5Q442 -567 442 -600ZM662 -360 656 -390Q650 -392 644.5 -394.5Q639 -397 634 -402L606 -392L586 -428L608 -448Q608 -451 608.0 -454.0Q608 -457 608.0 -460.0Q608 -463 608.0 -466.0Q608 -469 608 -472L586 -492L606 -528L634 -518Q638 -522 644.0 -525.0Q650 -528 656 -530L662 -560H702L708 -530Q714 -528 720.0 -525.0Q726 -522 730 -518L758 -528L778 -492L756 -472Q756 -469 756.0 -466.0Q756 -463 756.0 -460.0Q756 -457 756.0 -454.0Q756 -451 756 -448L778 -428L758 -392L730 -402Q725 -397 719.5 -394.5Q714 -392 708 -390L702 -360ZM682.0 -430.0Q694 -430 703.0 -439.0Q712 -448 712.0 -460.0Q712 -472 703.0 -481.0Q694 -490 682.0 -490.0Q670 -490 661.0 -481.0Q652 -472 652.0 -460.0Q652 -448 661.0 -439.0Q670 -430 682.0 -430.0ZM754 -560 746 -602Q737 -605 729.5 -609.5Q722 -614 716 -620L674 -606L646 -654L680 -684Q678 -689 678.0 -692.0Q678 -695 678.0 -700.0Q678 -705 678.0 -708.0Q678 -711 680 -716L646 -746L674 -794L716 -780Q722 -786 729.5 -790.5Q737 -795 746 -798L754 -840H810L818 -798Q827 -795 834.5 -790.5Q842 -786 848 -780L890 -794L918 -746L884 -716Q886 -711 886.0 -708.0Q886 -705 886.0 -700.0Q886 -695 886.0 -692.0Q886 -689 884 -684L918 -654L890 -606L848 -620Q842 -614 834.5 -609.5Q827 -605 818 -602L810 -560ZM782.0 -650.0Q803 -650 817.5 -664.5Q832 -679 832.0 -700.0Q832 -721 817.5 -735.5Q803 -750 782.0 -750.0Q761 -750 746.5 -735.5Q732 -721 732.0 -700.0Q732 -679 746.5 -664.5Q761 -650 782.0 -650.0ZM362 -200Q362 -200 362.0 -200.0Q362 -200 362 -200Q362 -200 362.0 -200.0Q362 -200 362.0 -200.0Q362 -200 362.0 -200.0Q362 -200 362 -200Q362 -200 362.0 -200.0Q362 -200 362 -200Z"/>',
+  rate_review: '<path d="M240 -400H362L562 -600Q571 -609 575.5 -620.5Q580 -632 580 -643Q580 -654 575.0 -664.5Q570 -675 562 -684L526 -722Q517 -731 506.0 -735.5Q495 -740 483 -740Q472 -740 460.5 -735.5Q449 -731 440 -722L240 -522ZM520 -643 483 -680ZM300 -460V-498L401 -599L421 -581L439 -561L338 -460ZM421 -581 439 -561 401 -599ZM447 -400H720V-480H527ZM80 -80V-800Q80 -833 103.5 -856.5Q127 -880 160 -880H800Q833 -880 856.5 -856.5Q880 -833 880 -800V-320Q880 -287 856.5 -263.5Q833 -240 800 -240H240ZM206 -320H800Q800 -320 800.0 -320.0Q800 -320 800 -320V-800Q800 -800 800.0 -800.0Q800 -800 800 -800H160Q160 -800 160.0 -800.0Q160 -800 160 -800V-275ZM160 -320V-800Q160 -800 160.0 -800.0Q160 -800 160 -800Q160 -800 160.0 -800.0Q160 -800 160 -800V-320Q160 -320 160.0 -320.0Q160 -320 160 -320Z"/>',
+  payments: '<path d="M560 -440Q510 -440 475.0 -475.0Q440 -510 440 -560Q440 -610 475.0 -645.0Q510 -680 560 -680Q610 -680 645.0 -645.0Q680 -610 680 -560Q680 -510 645.0 -475.0Q610 -440 560 -440ZM280 -320Q247 -320 223.5 -343.5Q200 -367 200 -400V-720Q200 -753 223.5 -776.5Q247 -800 280 -800H840Q873 -800 896.5 -776.5Q920 -753 920 -720V-400Q920 -367 896.5 -343.5Q873 -320 840 -320ZM360 -400H760Q760 -433 783.5 -456.5Q807 -480 840 -480V-640Q807 -640 783.5 -663.5Q760 -687 760 -720H360Q360 -687 336.5 -663.5Q313 -640 280 -640V-480Q313 -480 336.5 -456.5Q360 -433 360 -400ZM800 -160H120Q87 -160 63.5 -183.5Q40 -207 40 -240V-680H120V-240Q120 -240 120.0 -240.0Q120 -240 120 -240H800ZM280 -400Q280 -400 280.0 -400.0Q280 -400 280 -400V-720Q280 -720 280.0 -720.0Q280 -720 280 -720Q280 -720 280.0 -720.0Q280 -720 280 -720V-400Q280 -400 280.0 -400.0Q280 -400 280 -400Z"/>',
+  folder: '<path d="M160 -160Q127 -160 103.5 -183.5Q80 -207 80 -240V-720Q80 -753 103.5 -776.5Q127 -800 160 -800H400L480 -720H800Q833 -720 856.5 -696.5Q880 -673 880 -640V-240Q880 -207 856.5 -183.5Q833 -160 800 -160ZM160 -240H800Q800 -240 800.0 -240.0Q800 -240 800 -240V-640Q800 -640 800.0 -640.0Q800 -640 800 -640H447L367 -720H160Q160 -720 160.0 -720.0Q160 -720 160 -720V-240Q160 -240 160.0 -240.0Q160 -240 160 -240ZM160 -240Q160 -240 160.0 -240.0Q160 -240 160 -240V-720Q160 -720 160.0 -720.0Q160 -720 160 -720V-640Q160 -640 160.0 -640.0Q160 -640 160 -640V-240Q160 -240 160.0 -240.0Q160 -240 160 -240Z"/>',
+  checklist: '<path d="M222 -200 80 -342 136 -398 221 -313 391 -483 447 -426ZM222 -520 80 -662 136 -718 221 -633 391 -803 447 -746ZM520 -280V-360H880V-280ZM520 -600V-680H880V-600Z"/>',
+  verified_user: '<path d="M438 -338 664 -564 607 -621 438 -452 354 -536 297 -479ZM480 -80Q341 -115 250.5 -239.5Q160 -364 160 -516V-760L480 -880L800 -760V-516Q800 -364 709.5 -239.5Q619 -115 480 -80ZM480 -164Q584 -197 652.0 -296.0Q720 -395 720 -516V-705L480 -795L240 -705V-516Q240 -395 308.0 -296.0Q376 -197 480 -164ZM480 -480Q480 -480 480.0 -480.0Q480 -480 480 -480Q480 -480 480.0 -480.0Q480 -480 480 -480Z"/>',
+  folder_open: '<path d="M160 -160Q127 -160 103.5 -183.5Q80 -207 80 -240V-720Q80 -753 103.5 -776.5Q127 -800 160 -800H400L480 -720H800Q833 -720 856.5 -696.5Q880 -673 880 -640H447L367 -720H160Q160 -720 160.0 -720.0Q160 -720 160 -720V-240Q160 -240 160.0 -240.0Q160 -240 160 -240L256 -560H940L837 -217Q829 -191 807.5 -175.5Q786 -160 760 -160ZM244 -240H760L832 -480H316ZM244 -240 316 -480 244 -240ZM160 -640V-720Q160 -720 160.0 -720.0Q160 -720 160 -720V-640Z"/>',
+  arrow_drop_down: '<path d="M480 -360 280 -560H680Z"/>',
+  search: '<path d="M784 -120 532 -372Q502 -348 463.0 -334.0Q424 -320 380 -320Q271 -320 195.5 -395.5Q120 -471 120.0 -580.0Q120 -689 195.5 -764.5Q271 -840 380 -840Q489 -840 564.5 -764.5Q640 -689 640 -580Q640 -536 626.0 -497.0Q612 -458 588 -428L840 -176ZM380 -400Q455 -400 507.5 -452.5Q560 -505 560.0 -580.0Q560 -655 507.5 -707.5Q455 -760 380 -760Q305 -760 252.5 -707.5Q200 -655 200.0 -580.0Q200 -505 252.5 -452.5Q305 -400 380 -400Z"/>',
+  tune: '<path d="M440 -120V-360H520V-280H840V-200H520V-120ZM120 -200V-280H360V-200ZM280 -360V-440H120V-520H280V-600H360V-360ZM440 -440V-520H840V-440ZM600 -600V-840H680V-760H840V-680H680V-600ZM120 -680V-760H520V-680Z"/>',
+  dark_mode: '<path d="M480 -120Q330 -120 225.0 -225.0Q120 -330 120 -480Q120 -630 225.0 -735.0Q330 -840 480 -840Q494 -840 507.5 -839.0Q521 -838 534 -836Q493 -807 468.5 -760.5Q444 -714 444 -660Q444 -570 507.0 -507.0Q570 -444 660 -444Q715 -444 761.0 -468.5Q807 -493 836 -534Q838 -521 839.0 -507.5Q840 -494 840 -480Q840 -330 735.0 -225.0Q630 -120 480 -120ZM480 -200Q568 -200 638.0 -248.5Q708 -297 740 -375Q720 -370 700.0 -367.0Q680 -364 660 -364Q537 -364 450.5 -450.5Q364 -537 364 -660Q364 -680 367.0 -700.0Q370 -720 375 -740Q297 -708 248.5 -638.0Q200 -568 200 -480Q200 -364 282.0 -282.0Q364 -200 480 -200ZM470 -470Q470 -470 470.0 -470.0Q470 -470 470 -470Q470 -470 470.0 -470.0Q470 -470 470 -470Q470 -470 470.0 -470.0Q470 -470 470 -470Q470 -470 470.0 -470.0Q470 -470 470 -470Q470 -470 470.0 -470.0Q470 -470 470 -470Q470 -470 470.0 -470.0Q470 -470 470 -470Z"/>',
+  notifications: '<path d="M160 -200V-280H240V-560Q240 -643 290.0 -707.5Q340 -772 420 -792V-820Q420 -845 437.5 -862.5Q455 -880 480.0 -880.0Q505 -880 522.5 -862.5Q540 -845 540 -820V-792Q620 -772 670.0 -707.5Q720 -643 720 -560V-280H800V-200ZM480 -500Q480 -500 480.0 -500.0Q480 -500 480.0 -500.0Q480 -500 480.0 -500.0Q480 -500 480 -500ZM480 -80Q447 -80 423.5 -103.5Q400 -127 400 -160H560Q560 -127 536.5 -103.5Q513 -80 480 -80ZM320 -280H640V-560Q640 -626 593.0 -673.0Q546 -720 480.0 -720.0Q414 -720 367.0 -673.0Q320 -626 320 -560Z"/>',
+  help: '<path d="M478.0 -240.0Q499 -240 513.5 -254.5Q528 -269 528.0 -290.0Q528 -311 513.5 -325.5Q499 -340 478.0 -340.0Q457 -340 442.5 -325.5Q428 -311 428.0 -290.0Q428 -269 442.5 -254.5Q457 -240 478.0 -240.0ZM442 -394H516Q516 -427 523.5 -446.0Q531 -465 566 -498Q592 -524 607.0 -547.5Q622 -571 622 -604Q622 -660 581.0 -690.0Q540 -720 484 -720Q427 -720 391.5 -690.0Q356 -660 342 -618L408 -592Q413 -610 430.5 -631.0Q448 -652 484 -652Q516 -652 532.0 -634.5Q548 -617 548 -596Q548 -576 536.0 -558.5Q524 -541 506 -526Q462 -487 452.0 -467.0Q442 -447 442 -394ZM480 -80Q397 -80 324.0 -111.5Q251 -143 197.0 -197.0Q143 -251 111.5 -324.0Q80 -397 80 -480Q80 -563 111.5 -636.0Q143 -709 197.0 -763.0Q251 -817 324.0 -848.5Q397 -880 480 -880Q563 -880 636.0 -848.5Q709 -817 763.0 -763.0Q817 -709 848.5 -636.0Q880 -563 880 -480Q880 -397 848.5 -324.0Q817 -251 763.0 -197.0Q709 -143 636.0 -111.5Q563 -80 480 -80ZM480 -160Q614 -160 707.0 -253.0Q800 -346 800 -480Q800 -614 707.0 -707.0Q614 -800 480 -800Q346 -800 253.0 -707.0Q160 -614 160 -480Q160 -346 253.0 -253.0Q346 -160 480 -160ZM480 -480Q480 -480 480.0 -480.0Q480 -480 480 -480Q480 -480 480.0 -480.0Q480 -480 480 -480Q480 -480 480.0 -480.0Q480 -480 480 -480Q480 -480 480.0 -480.0Q480 -480 480 -480Z"/>',
+  warning: '<path d="M40 -120 480 -880 920 -120ZM178 -200H782L480 -720ZM480.0 -240.0Q497 -240 508.5 -251.5Q520 -263 520.0 -280.0Q520 -297 508.5 -308.5Q497 -320 480.0 -320.0Q463 -320 451.5 -308.5Q440 -297 440.0 -280.0Q440 -263 451.5 -251.5Q463 -240 480.0 -240.0ZM440 -360H520V-560H440ZM480 -460Z"/>',
+};
+const GLYPH_FILL = {
+  grid_view: '<path d="M120 -520V-840H440V-520ZM120 -120V-440H440V-120ZM520 -520V-840H840V-520ZM520 -120V-440H840V-120ZM200 -600H360V-760H200ZM600 -600H760V-760H600ZM600 -200H760V-360H600ZM200 -200H360V-360H200ZM600 -600V-760H760V-600ZM600 -200V-360H760V-200ZM200 -200V-360H360V-200ZM200 -600V-760H360V-600Z"/>',
+};
 ---
 
 <div class="shot">
   <div class="side">
     <div class="side-top">
-      <span class="msy side-menu" aria-hidden="true">menu</span>
+      <span class="side-menu" aria-hidden="true"><svg width="1em" height="1em" viewBox="0 -960 960 960" fill="currentColor" set:html={GLYPH.menu} /></span>
       <svg width="24" height="24" viewBox="0 0 48 48" class="side-logo" aria-hidden="true"><path d="M24 12.4 L34.4 30.4 L13.6 30.4 Z" fill="none" stroke="#dadce0" stroke-width="3.6" stroke-linejoin="round"></path><circle cx="24" cy="12.4" r="5.8" fill="#0b57d0"></circle><circle cx="34.4" cy="30.4" r="5.8" fill="#ea4335"></circle><circle cx="13.6" cy="30.4" r="5.8" fill="#fbbc04"></circle></svg>
       {/* 兩段著色必須包在同一個 flex item 裡,否則 .side-top 的 gap 會把字拆開 */}
       <span class="side-brand">GovAgent</span>
     </div>
-    <div class="side-ask"><span class="msy side-ask-icon" aria-hidden="true">auto_awesome</span>問 GovAgent</div>
+    <div class="side-ask"><svg class="side-ask-icon" width="1em" height="1em" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true" set:html={GLYPH.auto_awesome} />問 GovAgent</div>
     <div class="side-group">工作面</div>
     {
       navItems.map((n) => (
         <div class:list={['side-item', { 'side-item--active': n.active }]}>
-          <span class:list={['msy', 'side-item-icon', { 'msy-f': n.active }]} aria-hidden="true">{n.icon}</span>
+          <svg class="side-item-icon" width="1em" height="1em" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true" set:html={(n.active && GLYPH_FILL[n.icon]) || GLYPH[n.icon]} />
           {n.label}
           {n.count && <span class:list={['num', 'side-count', { 'side-count--hot': n.active }]}>{n.count}</span>}
         </div>
       ))
     }
     <div class="side-divider"></div>
-    <div class="side-mode"><span class="msy side-mode-icon" aria-hidden="true">verified_user</span>正式模式 · 稽核中</div>
+    <div class="side-mode"><svg class="side-mode-icon" width="1em" height="1em" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true" set:html={GLYPH.verified_user} />正式模式 · 稽核中</div>
   </div>
 
   <div class="stage">
     <div class="appbar">
       <div class="proj-chip">
-        <span class="msy proj-icon" aria-hidden="true">folder_open</span>
+        <svg class="proj-icon" width="1em" height="1em" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true" set:html={GLYPH.folder_open} />
         <span class="proj-name">○○市立圖書館新建工程</span>
-        <span class="msy proj-caret" aria-hidden="true">arrow_drop_down</span>
+        <svg class="proj-caret" width="1em" height="1em" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true" set:html={GLYPH.arrow_drop_down} />
       </div>
       <div class="searchbar">
-        <span class="msy search-icon" aria-hidden="true">search</span>
+        <svg class="search-icon" width="1em" height="1em" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true" set:html={GLYPH.search} />
         <span class="search-text">問 GovAgent：工項、送審、缺失、契約……</span>
-        <span class="msy search-tune" aria-hidden="true">tune</span>
+        <svg class="search-tune" width="1em" height="1em" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true" set:html={GLYPH.tune} />
       </div>
       <div class="appbar-right">
-        <span class="msy bar-btn" aria-hidden="true">dark_mode</span>
-        <span class="msy bar-btn" aria-hidden="true">notifications</span>
-        <span class="msy bar-btn" aria-hidden="true">help</span>
+        <span class="bar-btn" aria-hidden="true"><svg width="1em" height="1em" viewBox="0 -960 960 960" fill="currentColor" set:html={GLYPH.dark_mode} /></span>
+        <span class="bar-btn" aria-hidden="true"><svg width="1em" height="1em" viewBox="0 -960 960 960" fill="currentColor" set:html={GLYPH.notifications} /></span>
+        <span class="bar-btn" aria-hidden="true"><svg width="1em" height="1em" viewBox="0 -960 960 960" fill="currentColor" set:html={GLYPH.help} /></span>
         <div class="who">
           <div class="who-avatar">王</div>
           <div class="who-meta">
@@ -137,7 +166,7 @@ const aiDone = [
         <div class="col-right">
           <div class="card">
             <div class="card-head card-head--center">
-              <span class="card-title card-title--icon"><span class="msy risk-icon" aria-hidden="true">warning</span>風險警示</span>
+              <span class="card-title card-title--icon"><svg class="risk-icon" width="1em" height="1em" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true" set:html={GLYPH.warning} />風險警示</span>
               <span class="card-meta card-meta--dark">依全案資料即時計算</span>
             </div>
             {
@@ -156,7 +185,7 @@ const aiDone = [
 
           <div class="card">
             <div class="card-head">
-              <span class="card-title card-title--icon"><span class="msy ai-icon" aria-hidden="true">auto_awesome</span>AI 今日已代辦</span>
+              <span class="card-title card-title--icon"><svg class="ai-icon" width="1em" height="1em" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true" set:html={GLYPH.auto_awesome} />AI 今日已代辦</span>
             </div>
             {
               aiDone.map((a) => (
@@ -175,12 +204,18 @@ const aiDone = [
 </div>
 
 <style>
+  /* 凍結:body 的字型/字級/字距/字色已換成 Apple 版,這裡釘回 W9 的值(見檔首說明);
+     其餘規則裡的色值同樣是舊 token 的字面值,不要改回 var()。 */
   .shot {
     width: 1440px;
     height: 908px;
     display: grid;
     grid-template-columns: 256px 1fr;
     background: #fff;
+    font-family: "Google Sans Text", "Noto Sans TC", system-ui, sans-serif;
+    font-size: 14px;
+    letter-spacing: normal;
+    color: #202124;
   }
 
   /* ---------- 左側導覽 ---------- */
@@ -204,35 +239,35 @@ const aiDone = [
     align-items: center;
     justify-content: center;
     font-size: 22px;
-    color: var(--color-neutral-700);
+    color: #5f6368;
   }
   .side-logo { flex: none; }
   .side-brand {
-    font-family: var(--font-heading);
+    font-family: "Google Sans Text", "Noto Sans TC", system-ui, sans-serif;
     font-size: 20px;
     font-weight: 500;
     letter-spacing: -.01em;
-    color: var(--color-neutral-800);
+    color: #3c4043;
     margin-left: 2px;
   }
   .side-ask {
     margin: 6px 4px 14px;
     height: 44px;
     border-radius: 22px;
-    background: var(--ai-tint);
+    background: #ecf3fe;
     display: flex;
     align-items: center;
     gap: 10px;
     padding: 0 18px 0 14px;
     font-size: 14px;
     font-weight: 500;
-    color: var(--ai-text);
+    color: #062e6f;
   }
-  .side-ask-icon { font-size: 20px; color: var(--ai); }
+  .side-ask-icon { font-size: 20px; color: #0b57d0; }
   .side-group {
     font-size: 11px;
     font-weight: 500;
-    color: var(--color-neutral-700);
+    color: #5f6368;
     padding: 0 16px 6px;
   }
   .side-item {
@@ -243,23 +278,23 @@ const aiDone = [
     align-items: center;
     gap: 14px;
     font-size: 14px;
-    color: var(--color-neutral-800);
+    color: #3c4043;
   }
   .side-item--active {
-    background: var(--color-accent-100);
+    background: #ecf3fe;
     font-weight: 500;
-    color: var(--c-info-text);
+    color: #174ea6;
   }
   .side-item-icon { font-size: 20px; }
   .side-count {
     margin-left: auto;
     font-size: 12px;
-    color: var(--color-neutral-700);
+    color: #5f6368;
   }
-  .side-count--hot { font-weight: 500; color: var(--c-danger-text); }
+  .side-count--hot { font-weight: 500; color: #a50e0e; }
   .side-divider {
     height: 1px;
-    background: var(--color-divider);
+    background: #dadce0;
     margin: 12px 8px;
   }
   .side-mode {
@@ -269,16 +304,16 @@ const aiDone = [
     gap: 8px;
     padding: 10px 16px 0;
     font-size: 12px;
-    color: var(--color-neutral-700);
+    color: #5f6368;
   }
-  .side-mode-icon { font-size: 16px; color: var(--c-ok); }
+  .side-mode-icon { font-size: 16px; color: #146c2e; }
 
   /* ---------- 主區 ---------- */
   .stage {
     display: flex;
     flex-direction: column;
     min-width: 0;
-    background: var(--g-ground);
+    background: #f8fafd;
   }
   .appbar {
     height: 64px;
@@ -296,12 +331,12 @@ const aiDone = [
     height: 44px;
     padding: 0 6px 0 14px;
     border-radius: 22px;
-    background: var(--g-chip);
+    background: #f1f3f4;
     min-width: 0;
   }
-  .proj-icon { font-size: 18px; color: var(--color-neutral-700); }
+  .proj-icon { font-size: 18px; color: #5f6368; }
   .proj-name { font-size: 14px; white-space: nowrap; padding: 0 2px; }
-  .proj-caret { font-size: 20px; color: var(--color-neutral-700); }
+  .proj-caret { font-size: 20px; color: #5f6368; }
   .searchbar {
     flex: 1;
     max-width: 560px;
@@ -311,10 +346,10 @@ const aiDone = [
     height: 44px;
     padding: 0 16px;
     border-radius: 22px;
-    background: var(--g-search);
+    background: #ecf3fe;
   }
-  .search-icon, .search-tune { font-size: 20px; color: var(--color-neutral-700); }
-  .search-text { flex: 1; font-size: 14px; color: var(--color-neutral-700); }
+  .search-icon, .search-tune { font-size: 20px; color: #5f6368; }
+  .search-text { flex: 1; font-size: 14px; color: #5f6368; }
   .appbar-right {
     margin-left: auto;
     display: flex;
@@ -328,7 +363,7 @@ const aiDone = [
     align-items: center;
     justify-content: center;
     font-size: 22px;
-    color: var(--color-neutral-700);
+    color: #5f6368;
   }
   .who {
     display: flex;
@@ -347,33 +382,33 @@ const aiDone = [
     justify-content: center;
     font-size: 13px;
     font-weight: 500;
-    background: var(--color-accent);
+    background: #0b57d0;
     color: #fff;
     flex: none;
   }
   .who-meta { display: flex; flex-direction: column; line-height: 1.25; }
   .who-name { font-size: 12.5px; font-weight: 500; white-space: nowrap; }
-  .who-org { font-size: 11px; color: var(--color-neutral-700); white-space: nowrap; }
+  .who-org { font-size: 11px; color: #5f6368; white-space: nowrap; }
 
   .page-head { padding: 18px 24px 0; }
   .page-title {
-    font-family: var(--font-display);
+    font-family: "Google Sans Display", "Google Sans", "Google Sans Text", "Noto Sans TC", system-ui, sans-serif;
     font-size: 24px;
     font-weight: 400;
     letter-spacing: -.005em;
-    color: var(--color-neutral-900);
+    color: #202124;
   }
   .page-sub {
     margin: 6px 0 0;
     font-size: 13px;
-    color: var(--color-neutral-700);
+    color: #5f6368;
     max-width: 660px;
     line-height: 1.6;
   }
   .page-tabs { display: flex; gap: 8px; margin-top: 16px; }
   .tab {
     background: #fff;
-    border: 1px solid var(--color-divider);
+    border: 1px solid #dadce0;
     border-radius: 8px;
     height: 32px;
     padding: 0 14px;
@@ -381,12 +416,12 @@ const aiDone = [
     align-items: center;
     font-size: 13px;
     font-weight: 500;
-    color: var(--color-neutral-800);
+    color: #3c4043;
   }
   .tab--active {
-    background: var(--color-accent-100);
+    background: #ecf3fe;
     border-color: transparent;
-    color: var(--c-info-text);
+    color: #174ea6;
   }
 
   .content { padding: 20px 24px 40px; flex: 1; min-width: 0; }
@@ -400,18 +435,18 @@ const aiDone = [
   .metric {
     padding: 16px 18px;
     background: #fff;
-    border: 1px solid var(--g-line);
+    border: 1px solid #e3e6ea;
     border-radius: 12px;
   }
-  .metric-label { font-size: 11px; color: var(--color-neutral-600); }
+  .metric-label { font-size: 11px; color: #80868b; }
   .metric-value {
-    font-family: var(--font-display);
+    font-family: "Google Sans Display", "Google Sans", "Google Sans Text", "Noto Sans TC", system-ui, sans-serif;
     font-size: 30px;
     margin-top: 6px;
     letter-spacing: -.01em;
   }
-  .metric-note { font-size: 11px; color: var(--color-neutral-700); margin-top: 2px; }
-  .metric-note--warn { color: var(--c-warn-text); }
+  .metric-note { font-size: 11px; color: #5f6368; margin-top: 2px; }
+  .metric-note--warn { color: #b06000; }
 
   .cols {
     display: grid;
@@ -422,12 +457,12 @@ const aiDone = [
 
   .card {
     background: #fff;
-    border: 1px solid var(--g-line);
+    border: 1px solid #e3e6ea;
     border-radius: 12px;
   }
   .card-head {
     padding: 13px 16px;
-    border-bottom: 1px solid var(--color-divider);
+    border-bottom: 1px solid #dadce0;
   }
   .card-head--baseline {
     padding: 13px 18px;
@@ -443,17 +478,17 @@ const aiDone = [
   .card-title {
     font-size: 15px;
     font-weight: 500;
-    font-family: var(--font-heading);
+    font-family: "Google Sans Text", "Noto Sans TC", system-ui, sans-serif;
   }
   .card-title--icon { display: flex; align-items: center; gap: 8px; }
   .risk-icon { font-size: 20px; color: #d93025; }
-  .ai-icon { font-size: 20px; color: var(--ai); }
-  .card-meta { font-size: 11px; color: var(--color-neutral-600); }
-  .card-meta--dark { color: var(--color-neutral-700); }
+  .ai-icon { font-size: 20px; color: #0b57d0; }
+  .card-meta { font-size: 11px; color: #80868b; }
+  .card-meta--dark { color: #5f6368; }
 
   .todo-row {
     padding: 13px 18px;
-    border-bottom: 1px solid var(--color-divider);
+    border-bottom: 1px solid #dadce0;
     display: grid;
     grid-template-columns: 84px 1fr auto;
     gap: 14px;
@@ -470,16 +505,16 @@ const aiDone = [
     font-weight: 500;
     white-space: nowrap;
   }
-  .todo-tag--warn { background: var(--c-warn-tint); color: var(--c-warn-text); }
-  .todo-tag--mute { background: var(--g-chip); color: var(--color-neutral-700); }
-  .todo-tag--info { background: var(--color-accent-100); color: var(--c-info-text); }
+  .todo-tag--warn { background: #fef7e0; color: #b06000; }
+  .todo-tag--mute { background: #f1f3f4; color: #5f6368; }
+  .todo-tag--info { background: #ecf3fe; color: #174ea6; }
   .todo-title { font-size: 13.5px; line-height: 1.55; }
-  .todo-sub { font-size: 11.5px; color: var(--color-neutral-700); margin-top: 3px; }
-  .todo-id { font-size: 10.5px; color: var(--color-neutral-600); }
+  .todo-sub { font-size: 11.5px; color: #5f6368; margin-top: 3px; }
+  .todo-id { font-size: 10.5px; color: #80868b; }
 
   .risk-item {
     padding: 13px 16px;
-    border-bottom: 1px solid var(--color-divider);
+    border-bottom: 1px solid #dadce0;
   }
   .risk-item:last-child { border-bottom: 0; }
   .risk-top { display: flex; gap: 8px; align-items: center; }
@@ -492,29 +527,29 @@ const aiDone = [
     font-size: 11px;
     font-weight: 500;
   }
-  .risk-level--danger { background: var(--c-danger-tint); color: var(--c-danger-text); }
-  .risk-level--warn { background: var(--c-warn-tint); color: var(--c-warn-text); }
-  .risk-meta { font-size: 11.5px; color: var(--color-neutral-600); }
+  .risk-level--danger { background: #fce8e6; color: #a50e0e; }
+  .risk-level--warn { background: #fef7e0; color: #b06000; }
+  .risk-meta { font-size: 11.5px; color: #80868b; }
   .risk-title { font-size: 13px; line-height: 1.6; margin-top: 4px; }
   .risk-src {
     font-size: 11.5px;
-    color: var(--color-neutral-700);
+    color: #5f6368;
     margin-top: 4px;
     line-height: 1.65;
   }
 
   .ai-row {
     padding: 10px 16px;
-    border-bottom: 1px solid var(--color-divider);
+    border-bottom: 1px solid #dadce0;
     display: flex;
     justify-content: space-between;
   }
   .ai-label { font-size: 12.5px; }
-  .ai-value { font-size: 12.5px; color: var(--ai-text); font-weight: 500; }
+  .ai-value { font-size: 12.5px; color: #062e6f; font-weight: 500; }
   .ai-foot {
     padding: 11px 16px;
     font-size: 11px;
-    color: var(--color-neutral-700);
+    color: #5f6368;
     line-height: 1.7;
   }
 </style>

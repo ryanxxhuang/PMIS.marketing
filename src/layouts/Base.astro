@@ -1,19 +1,17 @@
 ---
-// 共用頁面外殼：<head>、字型與圖示載入。
+// 共用頁面外殼：<head>、字型載入。
 //
-// 字型方案:
-// - Noto Sans TC 從 Google Fonts 載入(family 名就是 "Noto Sans TC"，
+// 字型方案(Apple style,2026-09-11):
+// - 系統字堆疊(-apple-system → SF,中文 PingFang TC)在 global.css 的 --font-*;
+//   SF Pro 字檔授權限 Apple 平台,不可 self-host,只能靠系統字生效。
+// - 非 Apple 平台落到 Noto Sans TC,從 Google Fonts 載入(family 名就是 "Noto Sans TC"，
 //   fontsource 的 "Variable" 後綴問題不適用)。刻意不 self-host:那是 18 個
 //   子集檔約 1.1 MB，託管成本高;而且中文字型的 fallback 是優雅的
 //   (退到系統的蘋方／微軟正黑)，CDN 被擋時只是換一套字，不會壞掉。
-// - Google Sans 系列非公開授權、不能 self-host:不發出請求，
-//   只留在 font-family stack 裡，使用者本機有裝才吃到。
+//   載 400/500/600/700 四個字重:標題是 semibold(600),漏掉會被瀏覽器合成假粗體。
 //
-// 圖示方案:
-// - Material Symbols Outlined 已 self-host 於 public/fonts/(@font-face 在
-//   global.css)，這裡不發任何圖示相關的 CDN 請求。圖示用 ligature 名稱當
-//   文字內容，CDN 被擋會直接顯示成 "shield"、"arrow_forward" 等英文字，
-//   對禁外連 CDN 的機關內網是硬傷——理由與重抓訂閱檔的方式見 global.css。
+// 圖示方案:內嵌 SVG(src/components/Icon.astro),不載任何圖示字型——
+// 字型型圖示載不到會退成英文字,對禁外連 CDN 的機關內網是硬傷,SVG 沒有這個失敗模式。
 import '../styles/global.css';
 
 interface Props {
@@ -39,7 +37,8 @@ const canonical = noindex ? null : new URL(Astro.url.pathname, Astro.site);
     {description && <meta name="description" content={description} />}
     {noindex && <meta name="robots" content="noindex" />}
     {canonical && <link rel="canonical" href={canonical} />}
-    <meta name="theme-color" content="#0b57d0" />
+    {/* meta 吃不到 CSS 變數,值必須等於 global.css 的 --primary */}
+    <meta name="theme-color" content="#0071e3" />
     <meta property="og:title" content={title} />
     {description && <meta property="og:description" content={description} />}
     <meta property="og:type" content="website" />
@@ -68,7 +67,7 @@ const canonical = noindex ? null : new URL(Astro.url.pathname, Astro.site);
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
   </head>
@@ -86,12 +85,12 @@ const canonical = noindex ? null : new URL(Astro.url.pathname, Astro.site);
         padding: 0 20px;
         display: inline-flex;
         align-items: center;
-        background: #fff;
-        border: 1px solid var(--color-divider);
+        background: var(--surface);
+        border: 1px solid var(--border);
         border-radius: 0 0 8px 0;
         font-size: 14px;
         font-weight: 500;
-        color: var(--color-accent);
+        color: var(--blue-text);
       }
       .skip-link:focus {
         left: 0;

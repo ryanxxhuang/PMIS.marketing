@@ -6,6 +6,7 @@
 // 330px 手機版畫面,不縮放桌機版。兩張圖的切換照 README:桌機版
 // display:block/none、手機版 none/flex。
 import { SITE } from '../../config';
+import Icon from '../Icon.astro';
 import AppshotDesktop from './AppshotDesktop.astro';
 import AppshotPhone from './AppshotPhone.astro';
 ---
@@ -14,18 +15,18 @@ import AppshotPhone from './AppshotPhone.astro';
   <div class="wrap">
     <div class="hero-copy">
       <div class="hero-chip">
-        <span class="msy hero-chip-icon" aria-hidden="true">architecture</span>公共工程 · 機關／監造／廠商三方協作
+        <Icon name="architecture" size={15} class="hero-chip-icon" />公共工程 · 機關／監造／廠商三方協作
       </div>
       <h1 class="hero-h1">重複的內業，AI 先做第一遍。<br />判定與簽名，還是你的。</h1>
       <p class="hero-desc">送審審查、契約履約要求、估驗對量、監造報表——公共工程每週都在做的內業，機關、監造與廠商三方各自的 Agent 先產出草稿與清單。金額由程式算；AI 從契約與規範抽出的每一條履約要求，引註都由程式回原文逐字比對過。你做的是改、是核、是簽。</p>
       <div class="hero-actions">
-        <a class="btn btn-primary hero-cta" href="/demo/">{SITE.ctaLabel}<span class="msy hero-btn-icon" aria-hidden="true">arrow_forward</span></a>
-        <a class="btn btn-outline hero-alt" href="/features/"><span class="msy hero-btn-icon" aria-hidden="true">grid_view</span>功能全覽</a>
+        <a class="btn btn-primary hero-cta" href="/demo/">{SITE.ctaLabel}<Icon name="arrow_forward" size={18} class="hero-btn-icon" /></a>
+        <a class="btn btn-outline hero-alt" href="/features/"><Icon name="grid_view" size={18} class="hero-btn-icon" />功能全覽</a>
       </div>
       <div class="hero-trust">
-        <span><span class="msy hero-trust-icon" aria-hidden="true">shield</span>資通系統防護基準 · 普通級</span>
-        <span><span class="msy hero-trust-icon" aria-hidden="true">location_on</span>個資境內存放，未境外傳輸</span>
-        <span><span class="msy hero-trust-icon" aria-hidden="true">history</span>操作全程留存稽核軌跡</span>
+        <span><Icon name="shield" size={17} class="hero-trust-icon" />資通系統防護基準 · 普通級</span>
+        <span><Icon name="location_on" size={17} class="hero-trust-icon" />個資境內存放，未境外傳輸</span>
+        <span><Icon name="history" size={17} class="hero-trust-icon" />操作全程留存稽核軌跡</span>
       </div>
     </div>
 
@@ -45,7 +46,7 @@ import AppshotPhone from './AppshotPhone.astro';
 
 <style>
   .hero {
-    background: linear-gradient(180deg, #ffffff 0%, var(--g-ground) 100%);
+    background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
     padding: clamp(48px, 7vw, 80px) 0 0;
     border-bottom: 1px solid var(--g-line);
   }
@@ -59,19 +60,19 @@ import AppshotPhone from './AppshotPhone.astro';
     height: 28px;
     padding: 0 14px;
     border-radius: 100px;
-    background: #fff;
-    border: 1px solid var(--color-accent-200);
-    color: var(--color-accent-800);
+    background: var(--surface);
+    border: 1px solid var(--blue-soft);
+    color: var(--blue-text);
     font-size: 11.5px;
     font-weight: 500;
   }
   .hero-chip-icon {
-    font-size: 15px;
-    color: var(--color-accent);
+    color: var(--blue);
   }
 
+  /* 上限是 token 的 display 階(行銷站 hero 專用,比產品 title1 大) */
   .hero-h1 {
-    font-size: clamp(32px, 5.4vw, 54px);
+    font-size: clamp(32px, 5.4vw, var(--text-display));
     line-height: 1.18;
     margin: 22px 0 0;
   }
@@ -95,15 +96,13 @@ import AppshotPhone from './AppshotPhone.astro';
     height: 46px;
     padding: 0 26px;
     font-size: 15px;
-    box-shadow: 0 1px 3px rgba(11, 87, 208, .3);
+    box-shadow: var(--shadow-btn);
   }
   .hero-alt {
     height: 46px;
     padding: 0 22px;
     font-size: 15px;
   }
-  .hero-btn-icon { font-size: 18px; }
-
   .hero-trust {
     display: flex;
     flex-wrap: wrap;
@@ -118,8 +117,7 @@ import AppshotPhone from './AppshotPhone.astro';
     gap: 7px;
   }
   .hero-trust-icon {
-    font-size: 17px;
-    color: var(--c-ok);
+    color: var(--success);
   }
 
   /* ---------- 產品畫面:1440×908 整體等比縮放 ---------- */
@@ -136,12 +134,12 @@ import AppshotPhone from './AppshotPhone.astro';
     margin: 0 auto;
     overflow: hidden;
     position: relative;
-    border: 1px solid var(--g-line);
+    border: 1px solid var(--border-card);
     border-top-left-radius: 14px;
     border-top-right-radius: 14px;
     border-bottom: 0;
-    box-shadow: var(--shadow-lg);
-    background: #fff;
+    box-shadow: var(--shadow-overlay);
+    background: var(--surface);
   }
   .appshot-scale {
     width: 1440px;

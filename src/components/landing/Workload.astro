@@ -9,6 +9,8 @@
 // 涉及文件實質內容一律標「需監造核對文件」(review-submittal/index.ts:6-7)。
 //
 // 每一句都對得上產品的實際行為,證據見各卡註解。
+import Icon from '../Icon.astro';
+
 const jobs = [
   {
     icon: 'rate_review',
@@ -62,7 +64,7 @@ const jobs = [
       {
         jobs.map((j) => (
           <div class="wl-card">
-            <span class="msy wl-icon" aria-hidden="true">{j.icon}</span>
+            <Icon name={j.icon} size={26} class="wl-icon" />
             <h3 class="wl-title">{j.title}</h3>
 
             <div class="wl-row">
@@ -106,7 +108,7 @@ const jobs = [
   }
 
   .wl-card {
-    background: #fff;
+    background: var(--surface);
     border: 1px solid var(--g-line);
     border-radius: 12px;
     box-shadow: var(--shadow-sm);
@@ -116,8 +118,7 @@ const jobs = [
   }
 
   .wl-icon {
-    font-size: 26px;
-    color: var(--color-accent);
+    color: var(--blue);
   }
 
   .wl-title {

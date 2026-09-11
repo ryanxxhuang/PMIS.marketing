@@ -1,6 +1,6 @@
 ---
 // 共用 sticky header(README「版面骨架 → Header」)。
-// 當前頁的連結換成 #ecf3fe 底 #174ea6 字的不可點 chip。
+// 當前頁的連結換成 --blue-tint 底 --blue-text 字的不可點 chip。
 // 預約頁只留兩個連結、不放 CTA(目的頁就是自己)。
 import { SITE } from '../config';
 
@@ -26,7 +26,7 @@ const links: NavLink[] = [
 <header class="site-header">
   <div class="wrap bar">
     <a class="brand" href="/">
-      <span class="mark"><svg width="32" height="32" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 12.4 L34.4 30.4 L13.6 30.4 Z" fill="none" stroke="#dadce0" stroke-width="3" stroke-linejoin="round"></path><circle cx="24" cy="12.4" r="5.2" fill="#1a73e8"></circle><circle cx="34.4" cy="30.4" r="5.2" fill="#ea4335"></circle><circle cx="13.6" cy="30.4" r="5.2" fill="#fbbc04"></circle></svg></span>
+      <span class="mark"><svg width="32" height="32" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 12.4 L34.4 30.4 L13.6 30.4 Z" fill="none" stroke="var(--border)" stroke-width="3" stroke-linejoin="round"></path><circle cx="24" cy="12.4" r="5.2" fill="var(--party-contractor)"></circle><circle cx="34.4" cy="30.4" r="5.2" fill="var(--party-supervisor)"></circle><circle cx="13.6" cy="30.4" r="5.2" fill="var(--party-agency)"></circle></svg></span>
       <span class="lockup">
         <span class="name">GovAgent</span>
         <span class="tag">公共工程專案管理</span>
@@ -56,12 +56,18 @@ const links: NavLink[] = [
     top: 0;
     z-index: 20;
     height: 66px;
-    background: rgba(255, 255, 255, .9);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--g-line);
+    /* 毛玻璃只給 chrome(規範 §4);不支援 backdrop-filter 就落回實心,無破壞 */
+    background: var(--chrome-solid);
+    border-bottom: 1px solid var(--border-card);
     display: flex;
     align-items: center;
+  }
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .site-header {
+      background: var(--chrome-bar);
+      -webkit-backdrop-filter: var(--chrome-bar-blur);
+      backdrop-filter: var(--chrome-bar-blur);
+    }
   }
 
   .bar {
@@ -82,8 +88,9 @@ const links: NavLink[] = [
     text-decoration: none;
   }
 
-  /* 品牌標誌用三色本體(機關藍／監造紅／廠商黃 = 三方),
-     不加藍底方塊 —— 那會蓋掉三色的語意。配色同 public/brand/pmis-mark.svg */
+  /* 品牌標誌用三色本體(頂=廠商藍／右下=監造／左下=機關 = 契約三方),
+     不加藍底方塊 —— 那會蓋掉三色的語意。inline 是為了吃 --party-* token,
+     配色同 public/brand/pmis-mark.svg */
   .mark {
     display: flex;
     align-items: center;
@@ -140,8 +147,8 @@ const links: NavLink[] = [
     height: 38px;
     padding: 0 18px;
     border-radius: 100px;
-    background: var(--color-accent);
-    color: #fff;
+    background: var(--primary);
+    color: var(--primary-fg);
     display: flex;
     align-items: center;
     font-size: 13.5px;
@@ -149,8 +156,8 @@ const links: NavLink[] = [
     white-space: nowrap;
   }
   .cta:hover {
-    background: var(--color-accent-700);
-    color: #fff;
+    background: var(--primary-hover);
+    color: var(--primary-fg);
     text-decoration: none;
   }
 

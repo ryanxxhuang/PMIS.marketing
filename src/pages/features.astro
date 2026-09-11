@@ -16,6 +16,7 @@
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Icon from '../components/Icon.astro';
 import { SITE } from '../config';
 
 // 七個段落:六個工作面 + 問 PMIS。key 決定右欄 2×2 之後要不要接補充區塊。
@@ -275,7 +276,7 @@ const aiInventory = [
           <section class:list={['fsec', i === sections.length - 1 && 'fsec--last']}>
             <div class="fsec-grid">
               <div>
-                <span class:list={['msy', 'fsec-icon', s.key === 'ask' && 'fsec-icon--ai']} aria-hidden="true">{s.icon}</span>
+                <Icon name={s.icon} size={28} class={s.key === 'ask' ? 'fsec-icon fsec-icon--ai' : 'fsec-icon'} />
                 <h2 class="fsec-h2">{s.title}</h2>
                 <p class="fsec-lede">{s.lede}</p>
               </div>
@@ -292,7 +293,7 @@ const aiInventory = [
 
                 {s.key === 'field' && (
                   <div class="photo-note">
-                    <span class="msy photo-note-icon" aria-hidden="true">photo_camera</span>
+                    <Icon name="photo_camera" size={20} class="photo-note-icon" />
                     <p class="photo-note-text">
                       上傳的現場照片會保留拍攝時間並對應到工項，成為查驗與估驗的佐證，不只是相簿。AI
                       會標出疑似不符規範的照片，但開立缺失仍是人的動作。
@@ -391,7 +392,7 @@ const aiInventory = [
                       </table>
                     </div>
                     <div class="vt-ai">
-                      <span class="msy vt-ai-icon" aria-hidden="true">auto_awesome</span>
+                      <Icon name="auto_awesome" size={18} class="vt-ai-icon" />
                       <p class="vt-ai-text num">
                         03-03 本期數量為上期的 2.4 倍，與 8 月施工日誌記載的模板組立面積不符 3,120 / 1,290 m²。建議調閱日誌與現場照片後再核定。
                       </p>
@@ -442,7 +443,7 @@ const aiInventory = [
     <section class="ail" id="ai-inventory" aria-labelledby="ail-h2">
       <div class="wrap">
         <div class="ail-head">
-          <span class="msy ail-icon" aria-hidden="true">auto_awesome</span>
+          <Icon name="auto_awesome" size={28} class="ail-icon" />
           <div class="pg-kicker">AI 功能清冊</div>
           <h2 class="ail-h2 num" id="ail-h2">16 個 AI 功能，一項一項列給你看</h2>
           <p class="ail-lede num">
@@ -510,7 +511,7 @@ const aiInventory = [
           </p>
         </div>
         <a class="btn btn-primary pg-cta-btn" href="/demo/"
-          >{SITE.ctaLabel}<span class="msy pg-cta-icon" aria-hidden="true">arrow_forward</span></a
+          >{SITE.ctaLabel}<Icon name="arrow_forward" size={19} class="pg-cta-icon" /></a
         >
       </div>
     </section>
@@ -524,7 +525,7 @@ const aiInventory = [
   .pg-head {
     padding: 64px 24px 48px;
     border-bottom: 1px solid var(--g-line);
-    background: linear-gradient(180deg, #fff, var(--g-ground));
+    background: linear-gradient(180deg, var(--surface), var(--bg));
   }
 
   /* 原型同時寫了 max-width:1180px;margin:0 auto 與 max-width:760px,生效的是 760px 置中 */
@@ -577,8 +578,7 @@ const aiInventory = [
   .fsec-grid > * { min-width: 0; }
 
   .fsec-icon {
-    font-size: 28px;
-    color: var(--color-accent);
+    color: var(--blue);
   }
   .fsec-icon--ai {
     color: var(--ai);
@@ -629,8 +629,7 @@ const aiInventory = [
   }
 
   .photo-note-icon {
-    font-size: 20px;
-    color: var(--color-neutral-700);
+    color: var(--text-3);
     flex: none;
   }
 
@@ -647,7 +646,7 @@ const aiInventory = [
     border: 1px solid var(--g-line);
     border-radius: 12px;
     overflow: hidden;
-    background: #fff;
+    background: var(--surface);
     box-shadow: var(--shadow-sm);
   }
 
@@ -722,9 +721,8 @@ const aiInventory = [
     font-size: 12.5px;
   }
 
-  /* 表頭底色是字面值,不進 token */
   .ct thead tr {
-    background: #f8f9fa;
+    background: var(--bg);
   }
 
   .ct th {
@@ -782,7 +780,7 @@ const aiInventory = [
   .vt-c6 { width: 126px; }
 
   .vt thead tr {
-    background: #f8f9fa;
+    background: var(--bg);
   }
 
   /* 數字欄右對齊,前兩欄靠左 */
@@ -834,7 +832,7 @@ const aiInventory = [
   }
 
   .vt-parent {
-    background: #f8f9fa;
+    background: var(--bg);
   }
   .vt-parent td:nth-child(2),
   .vt-parent td:last-child {
@@ -865,7 +863,6 @@ const aiInventory = [
   }
 
   .vt-ai-icon {
-    font-size: 18px;
     color: var(--ai);
     flex: none;
   }
@@ -882,7 +879,7 @@ const aiInventory = [
     margin-top: 28px;
     border: 1px solid var(--g-line);
     border-radius: 12px;
-    background: #fff;
+    background: var(--surface);
     box-shadow: var(--shadow-sm);
     padding: 20px 22px;
   }
@@ -916,9 +913,9 @@ const aiInventory = [
     gap: 8px;
   }
 
-  /* 產品畫面示意:外觀像來源連結,但不是可點連結 */
+  /* 產品畫面示意:外觀像來源連結,但不是可點連結;是文字,走 --blue-text 不走 --blue */
   .chat-src {
-    color: var(--color-accent);
+    color: var(--blue-text);
   }
 
   .chat-total {
@@ -951,7 +948,6 @@ const aiInventory = [
   }
 
   .ail-icon {
-    font-size: 28px;
     color: var(--ai);
   }
 
@@ -979,9 +975,8 @@ const aiInventory = [
   .ail-c3 { width: 92px; }
   .ail-c4 { width: 120px; }
 
-  /* 表頭底色是字面值,不進 token(同 .ct / .vt) */
   .ail-t thead tr {
-    background: #f8f9fa;
+    background: var(--bg);
   }
 
   .ail-t th {
@@ -1069,10 +1064,6 @@ const aiInventory = [
     font-size: 15px;
   }
 
-  .pg-cta-icon {
-    font-size: 19px;
-  }
-
   /* ---------- 響應式 ---------- */
 
   @media (max-width: 1080px) {
@@ -1146,7 +1137,7 @@ const aiInventory = [
       border-top: 0;
     }
 
-    /* 圖示是裝飾,紙本不需要(圖示字型也未必在列印時載入完成) */
+    /* 圖示是裝飾,紙本不需要 */
     .ail-icon {
       display: none;
     }

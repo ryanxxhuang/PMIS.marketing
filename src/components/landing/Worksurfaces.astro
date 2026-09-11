@@ -6,6 +6,8 @@
 // 標題列右側的「功能全覽」用 global.css 的 .btn / .btn-outline（藥丸底型＋hover
 // --color-accent-100），只在本檔補尺寸；原型的 功能全覽.dc.html 換成站內 /features。
 
+import Icon from '../Icon.astro';
+
 const surfaces = [
   {
     icon: 'grid_view',
@@ -51,7 +53,7 @@ const surfaces = [
         </p>
       </div>
       <a class="btn btn-outline ws-cta" href="/features/"
-        >功能全覽<span class="msy ws-cta-icon" aria-hidden="true">arrow_forward</span></a
+        >功能全覽<Icon name="arrow_forward" size={18} class="ws-cta-icon" /></a
       >
     </div>
 
@@ -59,7 +61,7 @@ const surfaces = [
       {
         surfaces.map((surface) => (
           <div class="ws-card">
-            <span class="msy ws-icon" aria-hidden="true">{surface.icon}</span>
+            <Icon name={surface.icon} size={26} class="ws-icon" />
             <h3 class="ws-title">{surface.title}</h3>
             <p class="ws-desc">{surface.desc}</p>
           </div>
@@ -90,10 +92,6 @@ const surfaces = [
     font-size: 13.5px;
   }
 
-  .ws-cta-icon {
-    font-size: 18px;
-  }
-
   .ws-grid {
     margin-top: 40px;
   }
@@ -106,8 +104,7 @@ const surfaces = [
   }
 
   .ws-icon {
-    font-size: 26px;
-    color: var(--color-accent);
+    color: var(--blue);
   }
 
   .ws-title {

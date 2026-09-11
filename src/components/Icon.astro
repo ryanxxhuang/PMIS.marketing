@@ -1,0 +1,84 @@
+---
+// 內嵌 SVG 圖示:lucide 描邊圖示(1.5px 描邊、圓端點、24 格),取代 Material Symbols 訂閱字型。
+//
+// 為什麼不用字型:Material Symbols 用 ligature 名稱當文字內容(<span class="msy">shield</span>),
+// 字型載不到時瀏覽器會把 "shield" 當英文字畫出來;內嵌 SVG 沒有這個失敗模式,也不用
+// 每加一個圖示就重抓訂閱檔。行銷站是 Astro 不是 React,lucide-react 用不了,所以把
+// 用到的 path 直接抄進來(來源 lucide-react 1.44.0,ISC 授權)。
+//
+// 名字沿用 Material Symbols 的 ligature 名,對映與產品 src/components/icons.jsx 的 ICONS
+// 表一致(同一個 Material 名 → 同一個 lucide 圖示),不另立一套。產品表沒有的三個
+// (architecture / gavel / hub)在這裡補對映,註在各行。
+//
+// 為什麼不用 SF Symbols:授權只涵蓋 Apple 平台,不能上 web;lucide 的描邊風格是 web 上
+// 最接近 SF 的觀感(設計規範 §4)。
+//
+// 用法:<Icon name="shield" size={16} />;size 是像素,預設 16;fill 對應舊 .msy-f 的選取態。
+// 顏色跟 currentColor,呼叫端只管 color;基礎版面樣式(.icon)在 global.css。
+
+interface Props {
+  name: keyof typeof ICONS;
+  /** 像素尺寸(寬=高),預設 16 */
+  size?: number;
+  /** 選取態:Material Symbols 的 FILL 軸 lucide 沒有對應。Apple 的選取態本來就是
+      「淺色底 + 主色圖示」而不是填滿字形,所以 fill 退化成描邊加重一階(同產品 MSym)。 */
+  fill?: boolean;
+  class?: string;
+}
+
+// Material Symbols ligature 名 → lucide 圖示的 path(24 格,描邊由 <svg> 統一給)。
+// 新增圖示=從 lucide 抄一行進來,並確認產品 icons.jsx 用的是同一個 lucide 圖示。
+const ICONS = {
+  account_balance: '<path d="M10 18v-7"/><path d="M11.119 2.205a2 2 0 0 1 1.762 0l7.84 3.846A.5.5 0 0 1 20.5 7h-17a.5.5 0 0 1-.22-.949z"/><path d="M14 18v-7"/><path d="M18 18v-7"/><path d="M3 22h18"/><path d="M6 18v-7"/>', // landmark
+  architecture: '<path d="m12.99 6.74 1.93 3.44"/><path d="M19.136 12a10 10 0 0 1-14.271 0"/><path d="m21 21-2.16-3.84"/><path d="m3 21 8.02-14.26"/><circle cx="12" cy="5" r="2"/>', // drafting-compass(產品表沒有:Material 的 architecture 就是圓規)
+  arrow_forward: '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>', // arrow-right
+  auto_awesome: '<path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"/><path d="M20 2v4"/><path d="M22 4h-4"/><circle cx="4" cy="20" r="2"/>', // sparkles
+  block: '<circle cx="12" cy="12" r="10"/><path d="M4.929 4.929 19.07 19.071"/>', // ban
+  check: '<path d="M20 6 9 17l-5-5"/>', // check
+  check_circle: '<circle cx="12" cy="12" r="10"/><path d="m16 9-5.5 5.5L8 12"/>', // circle-check
+  checklist: '<path d="M13 5h8"/><path d="M13 12h8"/><path d="M13 19h8"/><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/>', // list-checks
+  description: '<path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>', // file-text
+  engineering: '<path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5"/><path d="M14 6a6 6 0 0 1 6 6v3"/><path d="M4 15v-3a6 6 0 0 1 6-6"/><rect x="2" y="15" width="20" height="4" rx="1"/>', // hard-hat
+  error: '<circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/>', // circle-alert
+  expand_more: '<path d="m6 9 6 6 6-6"/>', // chevron-down
+  folder: '<path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>', // folder
+  gavel: '<path d="m14 13-8.381 8.38a1 1 0 0 1-3.001-3l8.384-8.381"/><path d="m16 16 6-6"/><path d="m21.5 10.5-8-8"/><path d="m8 8 6-6"/><path d="m8.5 7.5 8 8"/>', // gavel(產品表沒有:同名)
+  grid_view: '<rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/>', // layout-grid
+  history: '<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/>', // history
+  hub: '<path d="m10.586 5.414-5.172 5.172"/><path d="m18.586 13.414-5.172 5.172"/><path d="M6 12h12"/><circle cx="12" cy="20" r="2"/><circle cx="12" cy="4" r="2"/><circle cx="20" cy="12" r="2"/><circle cx="4" cy="12" r="2"/>', // waypoints(產品表沒有:Material 的 hub 是中心節點連四方,lucide 最接近的是 waypoints)
+  location_on: '<path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/>', // map-pin
+  lock: '<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>', // lock
+  mail: '<path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/>', // mail
+  payments: '<path d="M12 17V7"/><path d="M16 8h-6a2 2 0 0 0 0 4h4a2 2 0 0 1 0 4H8"/><path d="M4 3a1 1 0 0 1 1-1 1.3 1.3 0 0 1 .7.2l.933.6a1.3 1.3 0 0 0 1.4 0l.934-.6a1.3 1.3 0 0 1 1.4 0l.933.6a1.3 1.3 0 0 0 1.4 0l.933-.6a1.3 1.3 0 0 1 1.4 0l.934.6a1.3 1.3 0 0 0 1.4 0l.933-.6A1.3 1.3 0 0 1 19 2a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1 1.3 1.3 0 0 1-.7-.2l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.934.6a1.3 1.3 0 0 1-1.4 0l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-1.4 0l-.934-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-.7.2 1 1 0 0 1-1-1z"/>', // receipt
+  photo_camera: '<path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"/><circle cx="12" cy="13" r="3"/>', // camera
+  progress_activity: '<path d="M21 12a9 9 0 1 1-6.219-8.56"/>', // loader-circle
+  rate_review: '<path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="m9 15 2 2 4-4"/>', // file-check
+  shield: '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>', // shield
+};
+
+const { name, size = 16, fill = false, class: className } = Astro.props;
+
+// 漏對映的退路:畫一個中性圓圈 + build 警告——版面不塌,但看得出來是缺的。
+// 刻意不用 shield 之類長得像真圖示的東西當退路,那會讓漏對映看起來正常。
+const inner = ICONS[name];
+if (!inner) console.warn(`[Icon] 圖示「${name}」沒有 lucide 對映,請在 src/components/Icon.astro 的 ICONS 補一行`);
+
+// 描邊鎖成絕對 1.5px:lucide 預設描邊隨 size 縮放,13–16px 的小圖示會太細、在 1x 螢幕糊掉;
+// 在 24 格座標系裡換算成 1.5 * 24 / size 就是螢幕上的 1.5px(同 lucide-react 的 absoluteStrokeWidth)。
+const strokeWidth = ((fill ? 2.25 : 1.5) * 24) / size;
+---
+
+<svg
+  class:list={['icon', className]}
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width={strokeWidth}
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  data-i={name}
+  set:html={inner ?? '<circle cx="12" cy="12" r="10"/>'}
+/>

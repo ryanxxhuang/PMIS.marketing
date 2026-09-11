@@ -8,6 +8,7 @@
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Icon from '../components/Icon.astro';
 import { SITE, DEMO_API } from '../config';
 
 const roles = [
@@ -44,7 +45,7 @@ const concerns = [
             同頁兩個 h1 但永遠只有一個可見,送出後這句才是本頁的標題。
             tabindex="-1" 供送出成功後把焦點移進來(見下方 script)。 */}
         <div class="form-success" hidden>
-          <span class="msy msy-f success-icon" aria-hidden="true">check_circle</span>
+          <Icon name="check_circle" size={44} fill class="success-icon" />
           <h1 class="success-title" tabindex="-1">已收到，我會在一個工作日內回信</h1>
           <p class="success-desc">回信會附上兩、三個可以的時段，以及示範前要準備的東西（一份 PCCES 標單或契約 PDF 就夠）。</p>
           <button type="button" class="again-btn">再填一份</button>
@@ -66,10 +67,10 @@ const concerns = [
                     data-org={r.org}
                     aria-pressed={i === 0 ? 'true' : 'false'}
                   >
-                    <span class="msy role-icon" aria-hidden="true">{r.icon}</span>
+                    <Icon name={r.icon} size={24} class="role-icon" />
                     <span class="role-label">{r.label}</span>
                     <span class="role-desc">{r.desc}</span>
-                    <span class="msy role-check" aria-hidden="true">check_circle</span>
+                    <Icon name="check_circle" size={19} class="role-check" />
                   </button>
                 ))
               }
@@ -101,7 +102,7 @@ const concerns = [
               {
                 topics.map((t) => (
                   <button type="button" class="topic-chip" data-topic={t} aria-pressed="false">
-                    <span class="msy topic-check" aria-hidden="true">check</span>{t}
+                    <Icon name="check" size={15} class="topic-check" />{t}
                   </button>
                 ))
               }
@@ -114,7 +115,7 @@ const concerns = [
           </label>
 
           <div class="privacy">
-            <span class="msy privacy-icon" aria-hidden="true">lock</span>
+            <Icon name="lock" size={18} class="privacy-icon" />
             <p class="privacy-text">你填的資料只用於安排這次示範與後續聯絡，不會提供給第三方。示範用的標單與契約在示範結束後可要求刪除。</p>
           </div>
 
@@ -127,14 +128,14 @@ const concerns = [
           </div>
 
           <div class="submit-error" role="alert" hidden>
-            <span class="msy submit-error-icon" aria-hidden="true">error</span>
+            <Icon name="error" size={18} class="submit-error-icon" />
             <span class="submit-error-text"></span>
             <button type="button" class="retry-btn">重試</button>
           </div>
 
           <div class="submit-row">
             <button type="submit" class="submit-btn" aria-describedby="submit-hint" disabled>
-              送出預約<span class="msy submit-icon" aria-hidden="true">arrow_forward</span><span class="msy submit-spin" aria-hidden="true">progress_activity</span>
+              送出預約<Icon name="arrow_forward" size={19} class="submit-icon" /><Icon name="progress_activity" size={19} class="submit-spin" />
             </button>
             <span class="submit-hint" id="submit-hint" role="status">姓名、單位與信箱填完就能送出</span>
           </div>
@@ -348,7 +349,7 @@ const concerns = [
   /* ---------- 表單大卡 ---------- */
 
   .form-card {
-    background: #fff;
+    background: var(--surface);
     border: 1px solid var(--g-line);
     border-radius: 28px;
     box-shadow: var(--shadow-sm);
@@ -384,7 +385,7 @@ const concerns = [
   }
   .role-btn {
     text-align: left;
-    background: #fff;
+    background: var(--surface);
     border: 1px solid var(--color-divider);
     border-radius: 12px;
     padding: 16px;
@@ -403,10 +404,11 @@ const concerns = [
     border: 2px solid var(--color-accent);
     padding: 15px;
   }
-  .role-icon { font-size: 24px; color: var(--color-neutral-700); }
+  .role-icon { color: var(--text-3); }
+  /* 選取態:主色 + 描邊加重一階(lucide 沒有 FILL 軸,同 Icon.astro 的 fill 規則);圖示走 3:1 圖形門檻 */
   .role-btn.is-on .role-icon {
-    color: var(--color-accent);
-    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    color: var(--blue);
+    stroke-width: 2.25;
   }
   .role-label { font-size: 14.5px; font-weight: 500; }
   .role-desc { font-size: 11.5px; line-height: 1.7; color: var(--color-neutral-700); }
@@ -414,8 +416,7 @@ const concerns = [
     position: absolute;
     top: 12px;
     right: 12px;
-    font-size: 19px;
-    color: var(--color-accent);
+    color: var(--blue);
     display: none;
   }
   .role-btn.is-on .role-check { display: inline-block; }
@@ -436,7 +437,7 @@ const concerns = [
     font-size: 15px;
     border-radius: 8px;
     border: 1px solid var(--color-divider);
-    background: #fff;
+    background: var(--surface);
     color: var(--color-text);
     font-family: var(--font-body);
     outline: none;
@@ -458,7 +459,7 @@ const concerns = [
     top: -8px;
     left: 10px;
     padding: 0 6px;
-    background: #fff;
+    background: var(--surface);
     font-size: 11.5px;
     color: var(--color-neutral-700);
   }
@@ -470,7 +471,7 @@ const concerns = [
     height: 34px;
     padding: 0 14px;
     border-radius: 8px;
-    background: #fff;
+    background: var(--surface);
     border: 1px solid var(--color-divider);
     color: var(--color-neutral-800);
     font-family: var(--font-body);
@@ -487,7 +488,7 @@ const concerns = [
     border-color: var(--color-accent);
     color: var(--c-info-text);
   }
-  .topic-check { font-size: 15px; display: none; }
+  .topic-check { display: none; }
   .topic-chip.is-on .topic-check { display: inline-block; }
 
   .privacy {
@@ -499,7 +500,7 @@ const concerns = [
     gap: 11px;
     align-items: flex-start;
   }
-  .privacy-icon { font-size: 18px; color: var(--color-neutral-700); flex: none; }
+  .privacy-icon { color: var(--text-3); flex: none; }
   .privacy-text { font-size: 12px; line-height: 1.8; color: var(--color-neutral-700); }
 
   .submit-row {
@@ -515,9 +516,9 @@ const concerns = [
     height: 46px;
     padding: 0 28px;
     border-radius: 100px;
-    background: var(--color-accent);
+    background: var(--primary);
     border: 0;
-    color: #fff;
+    color: var(--primary-fg);
     font-family: var(--font-body);
     font-size: 15px;
     font-weight: 500;
@@ -526,16 +527,16 @@ const concerns = [
     align-items: center;
     gap: 8px;
   }
-  .submit-btn:not([disabled]):hover { background: var(--color-accent-700); }
+  .submit-btn:not([disabled]):hover { background: var(--primary-hover); }
+  /* 停用鈕:灰底(圖形門檻色),白字對它 4.15;停用態不受 AA 約束但要看得出是鈕 */
   .submit-btn[disabled] {
-    background: #bdc1c6;
+    background: var(--dot-mute);
     cursor: not-allowed;
   }
-  .submit-icon { font-size: 19px; }
   .submit-hint { font-size: 12.5px; color: var(--color-neutral-700); }
 
   /* 送出中:progress_activity 0.9s linear 旋轉,箭頭隱藏 */
-  .submit-spin { display: none; font-size: 19px; }
+  .submit-spin { display: none; }
   .submit-btn.is-loading .submit-spin {
     display: inline-block;
     animation: demo-spin .9s linear infinite;
@@ -545,7 +546,7 @@ const concerns = [
     to { transform: rotate(360deg); }
   }
 
-  /* 失敗狀態:#fce8e6 底 + error 圖示 + 重試鈕 */
+  /* 失敗狀態:--red-tint 底 + error 圖示 + 重試鈕 */
   /* hidden 屬性必須壓過 display:flex,否則錯誤條會常駐(2026-08-25 線上事故) */
   .submit-error[hidden] { display: none; }
   .submit-error {
@@ -557,7 +558,7 @@ const concerns = [
     align-items: center;
     gap: 10px;
   }
-  .submit-error-icon { font-size: 18px; color: var(--c-danger-text); flex: none; }
+  .submit-error-icon { color: var(--red-text); flex: none; }
   .submit-error-text {
     font-size: 13px;
     line-height: 1.7;
@@ -568,7 +569,7 @@ const concerns = [
     height: 32px;
     padding: 0 16px;
     border-radius: 100px;
-    background: #fff;
+    background: var(--surface);
     border: 1px solid var(--color-divider);
     color: var(--c-danger-text);
     font-family: var(--font-body);
@@ -597,7 +598,7 @@ const concerns = [
     padding: 24px 0 12px;
     text-align: center;
   }
-  .success-icon { font-size: 44px; color: var(--c-ok); }
+  .success-icon { color: var(--success); }
   .success-title { font-size: 28px; margin-top: 16px; }
   .success-desc {
     margin: 14px auto 0;
@@ -611,9 +612,9 @@ const concerns = [
     height: 40px;
     padding: 0 22px;
     border-radius: 100px;
-    background: #fff;
-    border: 1px solid var(--color-divider);
-    color: var(--color-accent);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--blue-text);
     font-family: var(--font-body);
     font-size: 14px;
     font-weight: 500;
@@ -629,7 +630,7 @@ const concerns = [
     gap: 20px;
   }
   .aside-card {
-    background: #fff;
+    background: var(--surface);
     border: 1px solid var(--g-line);
     border-radius: 12px;
     padding: 22px;

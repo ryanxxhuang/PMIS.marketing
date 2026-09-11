@@ -1,100 +1,221 @@
 /* =========================================================
-   PMIS.ai 行銷網站 — Design Tokens
-   值與產品 src/index.css 亮色模式相同；行銷站不做深色模式。
-   來源：design_handoff_pmis_marketing_site/README.md「Design Tokens」
+   PMIS.ai 行銷網站 — Design Tokens(Apple style 基礎層,2026-09-11)
+
+   值與產品 src/index.css 的 :root 亮色組相同;行銷站不做深色模式,
+   深底段落(Cta.astro、/security 頁尾 CTA)用下方 --dark-* 那一組,值取產品 .dark。
+   規範:PMIS repo docs/UIUX-Apple-設計規範.md(§2 色彩、§3 字級、§4 形狀與材質)。
+   取代 W9 Google Workspace 那組(--color-accent #0b57d0 / --g-ground #f8fafd …);
+   舊變數名保留在最下方「舊名對映」區,呼叫端不必改,新程式請用產品同名 token。
+
+   每個色值旁的數字是對 --surface / --bg / --surface-2 三個底的實算對比
+   (WCAG 2.x:(L 亮 + .05) / (L 暗 + .05)),改任何一個都要重算,不要憑感覺。
    ========================================================= */
 
 :root {
-  /* 主色 ramp */
-  --color-accent: #0b57d0;
-  --color-accent-100: #ecf3fe;
-  --color-accent-200: #d3e3fd;
-  --color-accent-300: #a8c7fa;
-  --color-accent-700: #0842a0;
-  --color-accent-800: #062e6f;
-  --color-accent-900: #041e49;
+  /* ── 中性階(Apple 灰,冷調)───────────────────────────────
+     三個底色是全站文字對比的分母:--surface 白卡、--bg 視窗底、--surface-2 chip。
+     任何文字色都必須對這三個都 >= 4.5(小字 AA),只驗白卡會漏。 */
+  --bg: #f5f5f7;            /* 視窗底/交替段落底 */
+  --surface: #ffffff;       /* 卡面/頁面底 */
+  --surface-2: #efeff4;     /* chip 底/hover */
+  --text: #1d1d1f;          /* 16.83 / 15.46 / 14.68 */
+  --text-2: #56565a;        /*  7.31 /  6.71 /  6.37 */
+  --text-3: #68686d;        /*  5.54 /  5.09 /  4.84 —— 三個底都過 AA */
+  --border: #d2d2d7;        /* separator(卡內分隔、輸入框) */
+  --border-2: #e5e5ea;      /* hairline(更弱分隔) */
+  --border-card: #e3e3e8;   /* 卡框——與 --border(divider)是兩個值,不可合併 */
 
-  /* 文字與中性色 */
-  --color-text: #202124;
-  --color-neutral-900: #202124;
-  --color-neutral-800: #3c4043;
-  --color-neutral-700: #5f6368;
-  --color-neutral-600: #80868b;
-  --color-neutral-200: #f1f3f4;
-  --color-divider: #dadce0;
+  /* ── 主色 ──────────────────────────────────────────────
+     ⚠️ --blue/--primary 是「填色」,白字對它 4.70 過 AA;
+     但它自己當小字在 --surface-2 上只有 4.10,不可當文字色。
+     文字一律用 --blue-text(6.95 / 6.38 / 6.06)。 */
+  --blue: #0071e3;
+  --blue-text: #0058b0;
+  --blue-tint: #e8f1fd;     /* info 色票底/導覽選取態;--blue-text 坐在上面 6.10 */
+  /* 產品沒有這一階:文字選取底與淡藍框(Hero 的 kicker chip)。
+     取 macOS 的文字選取色(系統藍 30% 疊白),--blue-text 坐在上面 4.66 仍過 AA。 */
+  --blue-soft: #b3d7ff;
+  --primary: #0071e3;
+  --primary-hover: #0058b0;
+  --primary-fg: #ffffff;
 
-  /* 面與線 */
-  --g-card: #ffffff;
-  --g-line: #e3e6ea;
-  --g-ground: #f8fafd;
-  --g-chip: #f1f3f4;
-  --g-search: #ecf3fe;
+  /* --accent 是「注意」訊號(落後/試驗/待處理),對映 warn 家族,不是藍。 */
+  --accent: #c93400;        /* 5.28 / 4.85 / 4.61 —— 當小字也過 AA,但主要當圖示/框線 */
+  --accent-text: #a32b00;   /* 7.23 / 6.64 / 6.31 */
+  --accent-tint: #fdf0e7;
 
-  /* AI 面板 */
-  --ai: #0b57d0;
-  --ai-tint: #ecf3fe;
-  --ai-text: #062e6f;
+  /* 五語意狀態色票:red=danger、amber=warn、green=ok、blue=info、slate=mute
+     (purple 留給 AI 產物)。*-text 是坐在 *-tint 上的字,括號內是對 tint 的實算。 */
+  --slate-tint: #efeff4; --slate-text: #56565a;   /* 6.37 */
+  --green-tint: #e8f6ec; --green-text: #1b6b2e;   /* 5.90 */
+  --amber-tint: #fdf0e7; --amber-text: #a32b00;   /* 6.47 */
+  --red-tint: #fdeceb;   --red-text: #b3000f;     /* 6.28 */
+  --purple-tint: #f5edf9; --purple-text: #703a8c; /* 6.87 */
 
-  /* 五語意狀態色票（使用時必須顏色＋文字並存） */
-  --c-danger: #b3261e;
-  --c-danger-text: #a50e0e;
-  --c-danger-tint: #fce8e6;
-  --c-warn: #a05a00;
-  --c-warn-text: #b06000;
-  --c-warn-tint: #fef7e0;
-  --c-ok: #146c2e;
-  --c-ok-text: #137333;
-  --c-ok-tint: #e6f4ea;
-  --c-info-text: #174ea6; /* 選取態文字（淺藍底上） */
-  --c-purple-tint: #f3e8fd;
-  --c-purple-text: #681da8;
+  /* 實心鈕/圖示語意色:白字對底的實算值在括號內,全部 >= AA 4.5 */
+  --success: #1b6b2e;   --success-hover: #165825;  /* 6.58 / 8.09 */
+  --danger: #d70015;    --danger-hover: #b3000f;   /* 5.38 / 7.18 */
 
-  /* 焦點環 */
-  --focus-ring: #1a73e8;
+  /* 狀態圓點與圖示(WCAG 1.4.11 圖形門檻 3:1,不是 4.5)。
+     未觸發的灰點用這個,不要隨手挑淺灰:#a8a8ad 只有 2.37,看得到但不合規。 */
+  --dot-mute: #7c7c81;  /* 4.15 / 3.81 / 3.62 */
 
-  /* 字型：Google Sans 系列非公開授權，僅本機有裝才吃到；退回 Noto Sans TC */
-  --font-body: "Google Sans Text", "Noto Sans TC", system-ui, sans-serif;
-  --font-heading: "Google Sans Text", "Noto Sans TC", system-ui, sans-serif;
-  --font-display: "Google Sans Display", "Google Sans", "Google Sans Text", "Noto Sans TC", system-ui, sans-serif;
+  /* AI 產物:紫色是 AI 的固定身分,不要挪作他用。
+     紅線:AI 產物必須看得出是 AI 產物,人覆核前不進任何統計。 */
+  --ai: #8944ab;        /* 6.04 / 5.54 / 5.27 */
+  --ai-tint: #f5edf9;
+  --ai-text: #703a8c;   /* 7.86 / 7.22 / 6.86 */
 
-  /* 陰影（三層，都很輕） */
-  --shadow-sm: 0 1px 2px rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .08);
-  --shadow-md: 0 1px 3px rgba(60, 64, 67, .3), 0 4px 8px 3px rgba(60, 64, 67, .1);
-  --shadow-lg: 0 2px 6px rgba(60, 64, 67, .3), 0 8px 24px 6px rgba(60, 64, 67, .12);
+  /* 品牌標記的三方:三角形頂=廠商、右下=監造、左下=機關,同 public/brand/pmis-mark.svg
+     與產品 ui.jsx 的 BALL_COLOR(contractor=blue、supervisor=amber、owner=purple)。
+     三個點對白底皆 >= 3:1(4.70 / 5.28 / 6.04),圖形門檻;Header/Footer 的
+     inline 標記與 Roles 的角色圓點都吃這三個,不再各自寫字面值。 */
+  --party-contractor: var(--blue);
+  --party-supervisor: var(--accent);
+  --party-agency: var(--ai);
 
-  /* 動效：只做回饋，不表演；UI 轉場一律 < 300ms */
+  /* ── 深底段落(Cta.astro、/security 頁尾 CTA)──────────────
+     行銷站沒有深色模式,這組是「亮色頁面裡的深色區塊」。值取產品 .dark 的同名 token,
+     所以 App 深色模式長什麼樣、這裡就長什麼樣,不另立一套海軍藍。
+     括號是對 --dark-bg / --dark-surface 的實算。 */
+  --dark-bg: #1c1c1e;
+  --dark-surface: #2c2c2e;
+  --dark-text: #f5f5f7;       /* 15.63 / 12.80 */
+  --dark-text-2: #c7c7cc;     /* 10.10 /  8.28 */
+  --dark-border: #48484a;
+  /* ⚠️ 深色的 primary 是「淺藍底 + 深藍字」,不是藍底白字:白字對 #0a84ff 只有 3.65。
+     --dark-primary-fg 對 --dark-blue 4.97、對 hover 6.24。 */
+  --dark-blue: #2e8fff;
+  --dark-blue-hover: #55a4ff;
+  --dark-blue-text: #6fb4ff;  /*  7.82 /  6.40 */
+  --dark-blue-tint: #10304f;
+  --dark-primary-fg: #00204a;
+
+  /* 工具列搜尋框 */
+  --g-search: #efeff4;
+  --g-search-h: #e5e5ea;
+
+  /* 鍵盤焦點:主色描邊;光暈給需要更強提示的控件(表單欄位)疊用 */
+  --focus: #0071e3;
+  --focus-glow: rgba(0, 113, 227, .18);
+
+  /* ── 深度:Apple 靠半像素描邊 + 輕影,不靠濃陰影 ────────────
+     card=卡片、md=選單/懸浮、overlay=對話框/大浮面(Hero 的產品畫面框) */
+  --shadow-card: 0 1px 2px rgba(0,0,0,.04), 0 0 0 .5px rgba(0,0,0,.07);
+  --shadow-md: 0 2px 8px rgba(0,0,0,.06), 0 0 0 .5px rgba(0,0,0,.07);
+  --shadow-overlay: 0 10px 32px rgba(0,0,0,.14), 0 0 0 .5px rgba(0,0,0,.10);
+  /* 主色鈕的同色投影(Hero/404 的 CTA):舊值是 Google 藍 rgba(11,87,208,.3),換成 --blue 的 RGB */
+  --shadow-btn: 0 1px 3px rgba(0, 113, 227, .30);
+
+  /* ── 材質:毛玻璃只給 chrome(sticky header),內容卡一律實心 ──
+     不支援 backdrop-filter 的瀏覽器落回 --chrome-solid,無破壞。 */
+  --chrome-bar: rgba(255, 255, 255, .80);
+  --chrome-bar-blur: blur(30px) saturate(180%);
+  --chrome-solid: #f6f6f8;
+
+  /* ── 字型:系統字堆疊 ──────────────────────────────────────
+     SF 在 Apple 裝置原生生效(系統字,授權允許;SF Pro 字檔本身限 Apple 平台,不可 self-host),
+     中文落到 PingFang TC;非 Apple 平台吃 Base.astro 從 Google Fonts 載的 Noto Sans TC。
+     Display 給標題(大字的字距與字重版本),Text 給內文——SF 兩支的視覺尺寸軸不同。 */
+  --font-body: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI Variable Text",
+    "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI Variable Display",
+    "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+  --font-heading: var(--font-display);
+
+  /* ── 字級階梯(規範 §3,與產品 @theme 同值)────────────────
+     命名沿用 Apple 語意名;字距隨字級走:大字負字距、內文近 0。
+     行銷站在七階之上多兩階(Apple.com 語彙,產品沒有):
+       headline 40/46 給段落 h2、display 54/62 給 hero h1(值取 UIUX/design_apple_style/Marketing.dc.html)。
+     ⚠️ 放大任何一階之前先量全路由 scrollWidth <= clientWidth(1440/375)。 */
+  --text-micro: 10px;     --text-micro--line-height: 13px;     --text-micro--letter-spacing: .006em;
+  --text-caption: 11px;   --text-caption--line-height: 15px;   --text-caption--letter-spacing: .004em;
+  --text-footnote: 12px;  --text-footnote--line-height: 17px;  --text-footnote--letter-spacing: .002em;
+  --text-body: 13px;      --text-body--line-height: 19px;      --text-body--letter-spacing: 0em;
+  --text-callout: 15px;   --text-callout--line-height: 20px;   --text-callout--letter-spacing: -.008em;
+  --text-title3: 17px;    --text-title3--line-height: 22px;    --text-title3--letter-spacing: -.012em;
+  --text-title2: 22px;    --text-title2--line-height: 28px;    --text-title2--letter-spacing: -.017em;
+  --text-title1: 28px;    --text-title1--line-height: 34px;    --text-title1--letter-spacing: -.021em;
+  --text-headline: 40px;  --text-headline--line-height: 46px;  --text-headline--letter-spacing: -.028em;
+  --text-display: 54px;   --text-display--line-height: 62px;   --text-display--letter-spacing: -.032em;
+
+  /* 動效:只做回饋,不表演;UI 轉場一律 < 300ms */
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+
+  /* ── 舊名對映(W9 Google 版變數名 → 產品同名 token)──────────
+     呼叫端沿用舊名即可;名稱對不上的對映理由寫在各行。
+     --color-accent-300(#a8c7fa)全站無呼叫,直接刪。 */
+  --color-accent: var(--blue);          /* 填色;文字請用 --blue-text,見主色區的警告 */
+  --color-accent-100: var(--blue-tint);
+  --color-accent-200: var(--blue-soft);
+  --color-accent-700: var(--blue-text); /* 舊 hover 深藍;產品的 hover 與文字藍同值 #0058b0 */
+  --color-accent-800: var(--blue-text); /* 舊「淡藍底上的深字」;產品淡藍底一律配 --blue-text(6.10) */
+  --color-accent-900: var(--dark-bg);   /* 舊深底 CTA 的海軍藍;Apple 語彙的深底是近黑,取產品深色 --bg */
+
+  --color-text: var(--text);
+  --color-neutral-900: var(--text);
+  --color-neutral-800: var(--text-2);
+  --color-neutral-700: var(--text-3);
+  --color-neutral-600: var(--text-3);   /* 舊值 #80868b 對白底 3.99 本就不過 AA,兩階併成一階 */
+  --color-neutral-200: var(--surface-2);
+  --color-divider: var(--border);
+
+  --g-card: var(--surface);
+  --g-line: var(--border-card);         /* 舊卡框 #e3e6ea → 產品卡框,不是 --border(那是分隔線) */
+  --g-ground: var(--bg);
+  --g-chip: var(--surface-2);
+
+  --c-danger: var(--danger);
+  --c-danger-text: var(--red-text);
+  --c-danger-tint: var(--red-tint);
+  --c-warn: var(--accent);              /* 圖示/框線;當小字仍 >= 4.5(4.61 對 chip、4.73 對 amber-tint) */
+  --c-warn-text: var(--amber-text);
+  --c-warn-tint: var(--amber-tint);
+  --c-ok: var(--success);
+  --c-ok-text: var(--green-text);
+  --c-ok-tint: var(--green-tint);
+  --c-info-text: var(--blue-text);
+  --c-purple-tint: var(--purple-tint);
+  --c-purple-text: var(--purple-text);
+
+  --focus-ring: var(--focus);
+  --shadow-sm: var(--shadow-card);
+  --shadow-lg: var(--shadow-overlay);
 }
 
 /* ---------- Base ---------- */
 
 body {
   margin: 0;
-  background: #ffffff;
-  color: var(--color-text);
+  background: var(--surface);
+  color: var(--text);
   font-family: var(--font-body);
-  font-size: 14px;
+  /* 內文取 callout(15):行銷文案要比產品的 13 大一階;Marketing.dc.html 的支撐文字也是 15 */
+  font-size: var(--text-callout);
+  letter-spacing: var(--text-callout--letter-spacing);
   -webkit-font-smoothing: antialiased;
 }
 
+/* 標題:Apple 的標題是 semibold,不是 regular(規範 §3);階層靠字重+字級+行高一起建 */
 h1, h2, h3, h4 {
   font-family: var(--font-display);
-  font-weight: 400;
-  letter-spacing: -.015em;
+  font-weight: 600;
+  letter-spacing: var(--text-title1--letter-spacing);
   margin: 0;
   text-wrap: pretty;
 }
 
-h1 { letter-spacing: -.012em; }
+h1 { letter-spacing: var(--text-display--letter-spacing); }
 
 p { margin: 0; text-wrap: pretty; }
 
-a { color: var(--color-accent); text-decoration: none; }
-a:hover { color: var(--color-accent-700); text-decoration: underline; }
+/* 連結是文字,走 --blue-text 不走 --blue;hover 只加底線不變色 */
+a { color: var(--blue-text); text-decoration: none; }
+a:hover { text-decoration: underline; }
 
-::selection { background: var(--color-accent-200); }
+::selection { background: var(--blue-soft); }
 
-:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 
 summary { list-style: none; }
 summary::-webkit-details-marker { display: none; }
@@ -105,100 +226,65 @@ summary::-webkit-details-marker { display: none; }
   font-feature-settings: "tnum";
 }
 
-/* Material Symbols Outlined（可變字軸，選取態用 FILL 1）
- *
- * 圖示字型 self-host，不走 Google Fonts CDN。理由：Material Symbols 用 ligature
- * 名稱當文字內容（<span class="msy">shield</span>），字型載不到時瀏覽器會直接
- * 把 "shield"、"arrow_forward" 當英文字畫出來——而本站主客群正是禁止外連 CDN
- * 的機關內網（/security 頁也明講「字型與圖示可自行託管」）。
- *
- * 訂閱檔 7,668 B：字軸已收斂成實際用到的值（opsz 24 / wght 400 / GRAD 0 固定，
- * 只有 FILL 需要 0..1 兩態，見下方 .msy/.msy-f），且只含 39 個實際使用的字符，
- * 相對完整可變字型 3.5 MB。
- *
- * 新增／移除圖示時要重抓訂閱檔（icon_names 需按字母排序）：
- *   curl -H 'User-Agent: Mozilla/5.0 ... Chrome/126.0.0.0 ...' \
- *     'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0&icon_names=account_balance,architecture,arrow_drop_down,arrow_forward,auto_awesome,block,check,check_circle,checklist,code,dark_mode,description,engineering,error,expand_more,folder,folder_open,gavel,grid_view,handshake,help,history,hub,location_on,lock,mail,menu,notifications,payments,person,photo_camera,progress_activity,rate_review,school,search,shield,tune,verified_user,warning&display=block'
- * 再把回傳 CSS 裡的 woff2 URL 下載成 public/fonts/material-symbols-subset.woff2。
- * 一定要帶瀏覽器 UA，否則 Google 會回 truetype 版本，檔案大得多。
- *
- * 取捨：Noto Sans TC 仍留在 Google Fonts（見 Base.astro）。中文字型是 18 個
- * 子集檔約 1.1 MB，self-host 成本高；而且它的 fallback 是優雅的（退到系統的
- * 蘋方／微軟正黑），不會像圖示那樣變成英文單字。
- *
- * font-display: block 依設計稿 README 指定——讓圖示在字型載入前不顯示，
- * 避免閃出 ligature 的英文字。 */
-@font-face {
-  font-family: "Material Symbols Outlined";
-  font-style: normal;
-  font-weight: 400;
-  font-display: block;
-  src: url("/fonts/material-symbols-subset.woff2") format("woff2");
-}
-
-.msy {
-  font-family: "Material Symbols Outlined";
-  font-weight: 400;
-  font-style: normal;
-  line-height: 1;
-  letter-spacing: normal;
-  text-transform: none;
+/* 內嵌 SVG 圖示(src/components/Icon.astro,lucide 描邊圖示,取代 Material Symbols 字型)。
+   inline-block + middle 讓它在行內文字旁垂直置中;在 flex 容器裡它是 flex item,
+   flex: none 防止被擠縮。顏色跟 currentColor,呼叫端只管 color。 */
+.icon {
   display: inline-block;
-  white-space: nowrap;
-  direction: ltr;
-  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+  flex: none;
 }
-
-.msy-f { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
 
 /* ---------- 共用版面 ---------- */
 
-/* 頁面內容欄：最大 1180px、左右 24px */
+/* 頁面內容欄:最大 1180px、左右 24px */
 .wrap {
   max-width: 1180px;
   margin: 0 auto;
   padding: 0 24px;
 }
 
-/* 段落節奏：上下 clamp(56px,8vw,88px)、段落間 1px 分隔線、白底／#f8fafd 交替 */
+/* 段落節奏:上下 clamp(56px,8vw,88px)、段落間 1px 分隔線、白底／--bg 交替 */
 .section {
   padding: clamp(56px, 8vw, 88px) 0;
-  border-bottom: 1px solid var(--g-line);
+  border-bottom: 1px solid var(--border-card);
 }
-.section--ground { background: var(--g-ground); }
+.section--ground { background: var(--bg); }
 
-/* 段落標題上方的節奏標記：24px 主色橫線 + 11.5px/500 主色文字 */
+/* 段落標題上方的節奏標記:24px 主色橫線 + footnote 級主色文字 */
 .kicker {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 11.5px;
+  font-size: var(--text-footnote);
   font-weight: 500;
-  color: var(--color-accent-700);
-  letter-spacing: .04em;
+  color: var(--blue-text);
+  letter-spacing: var(--text-footnote--letter-spacing);
 }
 .kicker::before {
   content: "";
   width: 24px;
   height: 1px;
-  background: var(--color-accent);
+  background: var(--blue);
   flex: none;
 }
 
-/* 段落 h2 與說明（kicker 之後的固定節奏） */
+/* 段落 h2 與說明(kicker 之後的固定節奏):h2 在 title1 與 headline 之間隨視窗走 */
 .section-h2 {
-  font-size: clamp(28px, 3.6vw, 36px);
-  line-height: 1.3;
+  font-size: clamp(var(--text-title1), 3.6vw, var(--text-headline));
+  line-height: 1.2;
+  letter-spacing: var(--text-headline--letter-spacing);
   margin-top: 16px;
 }
 .section-desc {
   margin-top: 18px;
-  font-size: 15px;
+  font-size: var(--text-callout);
+  letter-spacing: var(--text-callout--letter-spacing);
   line-height: 1.9;
-  color: var(--color-neutral-800);
+  color: var(--text-2);
 }
 
-/* 卡片網格與左右欄（920px 以下收成單欄） */
+/* 卡片網格與左右欄(920px 以下收成單欄) */
 .g-auto {
   display: grid;
   gap: 20px;
@@ -231,7 +317,8 @@ summary::-webkit-details-marker { display: none; }
   }
 }
 
-/* ---------- 按鈕（藥丸；尺寸由各處自訂） ---------- */
+/* ---------- 按鈕(藥丸;尺寸由各處自訂)----------
+   規範 §4:藥丸 CTA 是行銷站沿用 Apple.com 語彙的例外,僅限本站,不進 App。 */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -243,19 +330,19 @@ summary::-webkit-details-marker { display: none; }
 .btn,
 .btn:hover { text-decoration: none; }
 .btn-primary {
-  background: var(--color-accent);
-  color: #fff;
+  background: var(--primary);
+  color: var(--primary-fg);
 }
 .btn-primary:hover {
-  background: var(--color-accent-700);
-  color: #fff;
+  background: var(--primary-hover);
+  color: var(--primary-fg);
 }
 .btn-outline {
-  background: #fff;
-  border: 1px solid var(--color-divider);
-  color: var(--color-accent);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--blue-text);
 }
 .btn-outline:hover {
-  background: var(--color-accent-100);
-  color: var(--color-accent);
+  background: var(--blue-tint);
+  color: var(--blue-text);
 }

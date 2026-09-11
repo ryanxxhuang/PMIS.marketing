@@ -5,8 +5,8 @@
 // 外框用 global.css 的 .section / .section--ground / .wrap / .kicker /
 // .section-h2 / .section-desc / .g-auto，其餘卡片樣式在本檔 scoped。
 //
-// 卡片開頭的圓點用品牌四色字面值（機關 #1a73e8、監造 #ea4335、廠商 #fbbc04）——
-// 品牌四色不進 token，比照 Footer.astro 標誌的做法。
+// 卡片開頭的圓點吃 global.css 的 --party-*(廠商藍／監造／機關),
+// 與 Header/Footer 的品牌標記、public/brand/pmis-mark.svg 同一組值。
 
 const roles = [
   {
@@ -71,7 +71,7 @@ const roles = [
   }
 
   .role-card {
-    background: #fff;
+    background: var(--surface);
     border: 1px solid var(--g-line);
     border-radius: 12px;
     box-shadow: var(--shadow-sm);
@@ -91,15 +91,15 @@ const roles = [
     flex: none;
   }
 
-  /* 品牌四色字面值，不進 token */
+  /* 三方色來自 token;圓點是圖形,對白底皆 >= 3:1 */
   .role-dot--agency {
-    background: #1a73e8;
+    background: var(--party-agency);
   }
   .role-dot--supervisor {
-    background: #ea4335;
+    background: var(--party-supervisor);
   }
   .role-dot--contractor {
-    background: #fbbc04;
+    background: var(--party-contractor);
   }
 
   .role-title {

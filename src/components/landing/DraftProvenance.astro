@@ -7,6 +7,8 @@
 // 等填表真的能動,把 dp-form-head 與收件匣那兩句改掉即可升級。
 //
 // 判定(合格/不合格)一律留給人 —— 這是產品紅線,不隨功能進度改變。
+import Icon from '../Icon.astro';
+
 const fields = [
   { label: '查驗項目', value: '4F 柱牆鋼筋查驗', src: '讀自白板', tone: 'ai' },
   { label: '查驗位置', value: '4F 東側 C3～C7 構面', src: '讀自白板', tone: 'ai' },
@@ -46,7 +48,7 @@ const fields = [
 
       <div class="dp-inbox">
         <div class="dp-inbox-head">
-          <span class="msy dp-inbox-icon" aria-hidden="true">auto_awesome</span>已辨識，待你確認後帶入
+          <Icon name="auto_awesome" size={19} class="dp-inbox-icon" />已辨識，待你確認後帶入
         </div>
         <p class="dp-inbox-summary">
           從 1 張現場照片讀出 5 個欄位，並對應到標單工項 03-02。
@@ -74,7 +76,7 @@ const fields = [
 
   /* ---------- 左:模擬的日誌表單 ---------- */
   .dp-form {
-    background: #fff;
+    background: var(--surface);
     border: 1px solid var(--g-line);
     border-radius: 12px;
     box-shadow: var(--shadow-sm);
@@ -133,7 +135,7 @@ const fields = [
 
   /* ---------- 右:草稿收件匣 ---------- */
   .dp-inbox {
-    background: #fff;
+    background: var(--surface);
     border: 1px solid var(--g-line);
     border-radius: 12px;
     box-shadow: var(--shadow-sm);
@@ -148,7 +150,7 @@ const fields = [
     font-weight: 500;
     font-family: var(--font-heading);
   }
-  .dp-inbox-icon { font-size: 19px; color: var(--ai); }
+  .dp-inbox-icon { color: var(--ai); }
   .dp-inbox-summary {
     margin-top: 14px;
     font-size: 13.5px;
@@ -178,9 +180,9 @@ const fields = [
     align-items: center;
   }
   .dp-btn--accept {
-    background: var(--color-accent);
-    border-color: var(--color-accent);
-    color: #fff;
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--primary-fg);
   }
 
   .dp-foot {
