@@ -31,7 +31,7 @@ const faqs = [
 ];
 ---
 
-<section class="section section--ground">
+<section class="section">
   <div class="faq-wrap">
     <div class="kicker">常見問題</div>
     <h2 class="section-h2">公共工程三方最常問的六件事</h2>
@@ -58,37 +58,44 @@ const faqs = [
     padding: 0 24px;
   }
 
+  /* 列表用髮絲分隔線:那是結構,不是裝飾 */
   .faq-list {
-    margin-top: 28px;
-    border-top: 1px solid var(--color-divider);
+    margin-top: 32px;
+    border-top: 1px solid var(--border);
   }
 
   .faq-item {
-    border-bottom: 1px solid var(--color-divider);
+    border-bottom: 1px solid var(--border);
   }
 
   .faq-item summary {
     padding: 18px 0;
-    font-size: 15px;
-    font-weight: 500;
+    font-family: var(--font-display);
+    font-size: var(--text-title3);
+    line-height: var(--text-title3--line-height);
+    letter-spacing: var(--text-title3--letter-spacing);
+    font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 12px;
   }
 
+  /* chevron 旋轉是展開的回饋;減少動態時 global.css 把過場歸零,狀態仍會切 */
   .faq-icon {
-    color: var(--text-3);
-    transition: transform .25s var(--ease-out);
+    color: var(--text-3); /* 圖形 5.54 */
+    transition: transform var(--dur-fast) var(--ease-out);
   }
   .faq-item[open] summary .faq-icon {
     transform: rotate(180deg);
   }
 
+  /* --text-2 對 --surface 7.31 */
   .faq-a {
     padding: 0 0 20px 32px;
-    font-size: 13.5px;
-    line-height: 1.9;
-    color: var(--color-neutral-800);
+    font-size: var(--text-callout);
+    letter-spacing: var(--text-callout--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-2);
   }
 </style>

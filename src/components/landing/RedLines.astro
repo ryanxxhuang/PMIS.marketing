@@ -1,11 +1,10 @@
 ---
-// landing「AI 只做草稿」段落。視覺照 handoff「PMIS.ai 官網.dc.html」第 419–453 行 1:1 重建，
-// inline style 改寫成下方 scoped class，值未做任何調整；文案逐字沿用。
+// landing「AI 只做草稿」段落。文案逐字沿用 handoff「PMIS.ai 官網.dc.html」第 419–453 行。
 //
-// 外框用 global.css 的 .section / .section--ground / .wrap / .kicker /
-// .section-h2 / .section-desc / .split / .num / Icon，其餘卡片樣式在本檔 scoped。
+// 外框用 global.css 的 .section / .wrap / .kicker / .section-h2 / .section-desc /
+// .split / .num / Icon,其餘卡片樣式在本檔 scoped。
 //
-// 四條紅線是產品既定原則，文字不得改動。
+// 四條紅線是產品既定原則,文字不得改動。
 import Icon from '../Icon.astro';
 
 const redLines = [
@@ -38,7 +37,7 @@ const redLines = [
 ];
 ---
 
-<section class="section section--ground">
+<section class="section">
   <div class="wrap">
     <div class="rl-intro">
       <div class="kicker">誰做哪一段</div>
@@ -86,104 +85,104 @@ const redLines = [
 </section>
 
 <style>
-  /* 三段分工帶:AI / 引擎 / 人 */
+  .rl-intro { max-width: 660px; }
+
+  /* 三段分工帶:AI / 引擎 / 人。灰磚,AI 那格換 --ai-tint */
   .rl-lanes {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-top: 32px;
+    gap: 16px;
+    margin-top: 40px;
   }
   @media (max-width: 760px) {
     .rl-lanes { grid-template-columns: 1fr; }
   }
   .rl-lane {
-    border: 1px solid var(--g-line);
-    border-radius: 12px;
-    padding: 18px;
-    background: var(--surface);
+    border-radius: 16px;
+    padding: 20px;
+    background: var(--bg);
   }
-  .rl-lane--ai {
-    background: var(--ai-tint);
-    border-color: transparent;
-  }
+  .rl-lane--ai { background: var(--ai-tint); }
   .rl-lane-title {
-    font-size: 14.5px;
-    font-family: var(--font-heading);
-    font-weight: 500;
+    font-size: var(--text-callout);
+    line-height: var(--text-callout--line-height);
+    letter-spacing: var(--text-callout--letter-spacing);
+    font-family: var(--font-display);
+    font-weight: 600;
   }
-  .rl-lane--ai .rl-lane-title { color: var(--ai-text); }
+  /* --text-2 對 --bg 6.71;--ai-text 對 --ai-tint 6.87 */
   .rl-lane-text {
-    margin-top: 8px;
-    font-size: 12.5px;
-    line-height: 1.8;
-    color: var(--color-neutral-700);
+    margin-top: 6px;
+    font-size: var(--text-body);
+    letter-spacing: var(--text-body--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-2);
   }
+  .rl-lane--ai .rl-lane-title,
   .rl-lane--ai .rl-lane-text { color: var(--ai-text); }
 
-  .rl-intro {
-    max-width: 660px;
-  }
-
-  /* .split 預設 gap 56px、920px 以下 34px；這四張卡照原型固定 20px（原型是
-     class="split" style="gap:20px"），所以兩個斷點都要壓成 20px。 */
+  /* .split 預設 gap 56px、920px 以下 34px;這四張卡固定 16px */
   .rl-grid {
-    margin-top: 40px;
-    gap: 20px;
+    margin-top: 16px;
+    gap: 16px;
   }
   @media (max-width: 920px) {
-    .rl-grid {
-      gap: 20px;
-    }
+    .rl-grid { gap: 16px; }
   }
 
+  /* 兩欄大磚:標題升到 title2(22),卡夠寬 */
   .rl-card {
-    border: 1px solid var(--g-line);
-    border-radius: 12px;
-    padding: 24px;
-    background: var(--surface);
+    border-radius: 16px;
+    padding: 26px 24px 24px;
+    background: var(--bg);
   }
 
-  /* 標號吃 .num 的 tabular-nums */
+  /* 標號吃 .num 的 tabular-nums;--blue-text 對 --bg 6.38 */
   .rl-no {
     font-family: var(--font-display);
-    font-size: 13px;
-    color: var(--color-accent-700);
-    font-weight: 500;
+    font-size: var(--text-footnote);
+    line-height: var(--text-footnote--line-height);
+    letter-spacing: var(--text-footnote--letter-spacing);
+    color: var(--blue-text);
+    font-weight: 600;
   }
 
   .rl-title {
-    font-size: 19px;
-    font-family: var(--font-heading);
-    font-weight: 500;
-    margin-top: 10px;
+    font-size: var(--text-title2);
+    line-height: var(--text-title2--line-height);
+    letter-spacing: var(--text-title2--letter-spacing);
+    margin-top: 8px;
   }
 
   .rl-desc {
     margin-top: 10px;
-    font-size: 13.5px;
-    line-height: 1.85;
-    color: var(--color-neutral-800);
+    font-size: var(--text-callout);
+    letter-spacing: var(--text-callout--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-2);
   }
 
-  /* AI 補充列：--ai-tint 底、--ai 圖示、--ai-text 文字 */
+  /* AI 補充列:--ai-tint 底、--ai 圖示(6.04 對白底、圖形門檻)、--ai-text 文字(6.87) */
   .rl-note {
-    margin-top: 20px;
+    margin-top: 16px;
     display: flex;
     align-items: flex-start;
     gap: 12px;
-    padding: 16px 18px;
+    padding: 18px 20px;
     background: var(--ai-tint);
-    border-radius: 12px;
+    border-radius: 16px;
   }
 
   .rl-note-icon {
     color: var(--ai);
     flex: none;
+    margin-top: 2px;
   }
 
   .rl-note-text {
-    font-size: 13.5px;
-    line-height: 1.85;
+    font-size: var(--text-callout);
+    letter-spacing: var(--text-callout--letter-spacing);
+    line-height: var(--leading-prose);
     color: var(--ai-text);
   }
 </style>

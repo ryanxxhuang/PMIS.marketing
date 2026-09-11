@@ -5,7 +5,7 @@
    深底段落(Cta.astro、/security 頁尾 CTA)用下方 --dark-* 那一組,值取產品 .dark。
    規範:PMIS repo docs/UIUX-Apple-設計規範.md(§2 色彩、§3 字級、§4 形狀與材質)。
    取代 W9 Google Workspace 那組(--color-accent #0b57d0 / --g-ground #f8fafd …);
-   舊變數名保留在最下方「舊名對映」區,呼叫端不必改,新程式請用產品同名 token。
+   舊 W9 Google 版變數名(--color-*、--g-*、--c-*)已全數退場,一律用產品同名 token。
 
    每個色值旁的數字是對 --surface / --bg / --surface-2 三個底的實算對比
    (WCAG 2.x:(L 亮 + .05) / (L 暗 + .05)),改任何一個都要重算,不要憑感覺。
@@ -104,8 +104,8 @@
   --shadow-card: 0 1px 2px rgba(0,0,0,.04), 0 0 0 .5px rgba(0,0,0,.07);
   --shadow-md: 0 2px 8px rgba(0,0,0,.06), 0 0 0 .5px rgba(0,0,0,.07);
   --shadow-overlay: 0 10px 32px rgba(0,0,0,.14), 0 0 0 .5px rgba(0,0,0,.10);
-  /* 主色鈕的同色投影(Hero/404 的 CTA):舊值是 Google 藍 rgba(11,87,208,.3),換成 --blue 的 RGB */
-  --shadow-btn: 0 1px 3px rgba(0, 113, 227, .30);
+  /* 主色鈕不投影:Apple 的實心鈕靠色塊本身,不靠同色光暈。
+     舊 --shadow-btn(Google 藍光暈)於 2026-09-11 版面批退場,全站無呼叫。 */
 
   /* ── 材質:毛玻璃只給 chrome(sticky header),內容卡一律實心 ──
      不支援 backdrop-filter 的瀏覽器落回 --chrome-solid,無破壞。 */
@@ -139,48 +139,22 @@
   --text-headline: 40px;  --text-headline--line-height: 46px;  --text-headline--letter-spacing: -.028em;
   --text-display: 54px;   --text-display--line-height: 62px;   --text-display--letter-spacing: -.032em;
 
-  /* 動效:只做回饋,不表演;UI 轉場一律 < 300ms */
+  /* 行銷文案的行高:token 的 *--line-height 是產品 UI 的密度(callout 20/15=1.33),
+     多行中文段落太擠。Apple.com 內文 17/25=1.47、Marketing.dc.html 的支撐文字 15/23=1.53,
+     取 1.55 給所有多行段落;單行的標籤、chip、按鈕仍吃 token 行高。
+     取代 W9 的 1.85–1.9(那是 Google 語彙的鬆行距)。 */
+  --leading-prose: 1.55;
+
+  /* 動效:只做回饋,不表演;UI 轉場一律 < 300ms(規範 §5,名稱與產品同) */
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --dur-fast: 180ms;    /* hover / 展開的顏色與旋轉回饋 */
+}
 
-  /* ── 舊名對映(W9 Google 版變數名 → 產品同名 token)──────────
-     呼叫端沿用舊名即可;名稱對不上的對映理由寫在各行。
-     --color-accent-300(#a8c7fa)全站無呼叫,直接刪。 */
-  --color-accent: var(--blue);          /* 填色;文字請用 --blue-text,見主色區的警告 */
-  --color-accent-100: var(--blue-tint);
-  --color-accent-200: var(--blue-soft);
-  --color-accent-700: var(--blue-text); /* 舊 hover 深藍;產品的 hover 與文字藍同值 #0058b0 */
-  --color-accent-800: var(--blue-text); /* 舊「淡藍底上的深字」;產品淡藍底一律配 --blue-text(6.10) */
-  --color-accent-900: var(--dark-bg);   /* 舊深底 CTA 的海軍藍;Apple 語彙的深底是近黑,取產品深色 --bg */
-
-  --color-text: var(--text);
-  --color-neutral-900: var(--text);
-  --color-neutral-800: var(--text-2);
-  --color-neutral-700: var(--text-3);
-  --color-neutral-600: var(--text-3);   /* 舊值 #80868b 對白底 3.99 本就不過 AA,兩階併成一階 */
-  --color-neutral-200: var(--surface-2);
-  --color-divider: var(--border);
-
-  --g-card: var(--surface);
-  --g-line: var(--border-card);         /* 舊卡框 #e3e6ea → 產品卡框,不是 --border(那是分隔線) */
-  --g-ground: var(--bg);
-  --g-chip: var(--surface-2);
-
-  --c-danger: var(--danger);
-  --c-danger-text: var(--red-text);
-  --c-danger-tint: var(--red-tint);
-  --c-warn: var(--accent);              /* 圖示/框線;當小字仍 >= 4.5(4.61 對 chip、4.73 對 amber-tint) */
-  --c-warn-text: var(--amber-text);
-  --c-warn-tint: var(--amber-tint);
-  --c-ok: var(--success);
-  --c-ok-text: var(--green-text);
-  --c-ok-tint: var(--green-tint);
-  --c-info-text: var(--blue-text);
-  --c-purple-tint: var(--purple-tint);
-  --c-purple-text: var(--purple-text);
-
-  --focus-ring: var(--focus);
-  --shadow-sm: var(--shadow-card);
-  --shadow-lg: var(--shadow-overlay);
+/* 動效只做防突變(規範 §5):全站只有 hover 換色與 FAQ 的 chevron 旋轉兩種過場。
+   減少動態偏好 → 過場歸零、狀態直接切換(回饋還在,只是不動);
+   預約頁送出中的旋轉指示器是 animation 不是 transition,刻意不歸零——那是進度回饋。 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0s !important; }
 }
 
 /* ---------- Base ---------- */
@@ -244,43 +218,36 @@ summary::-webkit-details-marker { display: none; }
   padding: 0 24px;
 }
 
-/* 段落節奏:上下 clamp(56px,8vw,88px)、段落間 1px 分隔線、白底／--bg 交替 */
+/* 段落節奏(Apple.com 語彙):區塊之間靠大留白分層,不畫分隔線、不用底色交替。
+   相鄰兩段各出一半,桌機合計 144px、手機 88px。
+   例外只有兩個:Hero 的產品畫面坐在灰底上(Marketing.dc.html)、頁尾深底 CTA。 */
 .section {
-  padding: clamp(56px, 8vw, 88px) 0;
-  border-bottom: 1px solid var(--border-card);
+  padding: clamp(44px, 5vw, 72px) 0;
 }
-.section--ground { background: var(--bg); }
 
-/* 段落標題上方的節奏標記:24px 主色橫線 + footnote 級主色文字 */
+/* 段落標題上方的眉標:小字、semibold、灰——不畫橫線(舊 24px 主色橫線是 Google 語彙)。
+   --text-2 對 --surface 7.31、對 --bg 6.71。 */
 .kicker {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: var(--text-footnote);
-  font-weight: 500;
-  color: var(--blue-text);
-  letter-spacing: var(--text-footnote--letter-spacing);
-}
-.kicker::before {
-  content: "";
-  width: 24px;
-  height: 1px;
-  background: var(--blue);
-  flex: none;
+  font-size: var(--text-callout);
+  line-height: var(--text-callout--line-height);
+  letter-spacing: var(--text-callout--letter-spacing);
+  font-weight: 600;
+  color: var(--text-2);
 }
 
 /* 段落 h2 與說明(kicker 之後的固定節奏):h2 在 title1 與 headline 之間隨視窗走 */
 .section-h2 {
   font-size: clamp(var(--text-title1), 3.6vw, var(--text-headline));
-  line-height: 1.2;
+  line-height: 1.15;
   letter-spacing: var(--text-headline--letter-spacing);
-  margin-top: 16px;
+  margin-top: 12px;
 }
+/* 說明取 title3(17):比內文大一階,行高走 --leading-prose。--text-2 對白底 7.31 */
 .section-desc {
-  margin-top: 18px;
-  font-size: var(--text-callout);
-  letter-spacing: var(--text-callout--letter-spacing);
-  line-height: 1.9;
+  margin-top: 16px;
+  font-size: var(--text-title3);
+  letter-spacing: var(--text-title3--letter-spacing);
+  line-height: var(--leading-prose);
   color: var(--text-2);
 }
 
@@ -317,15 +284,24 @@ summary::-webkit-details-marker { display: none; }
   }
 }
 
-/* ---------- 按鈕(藥丸;尺寸由各處自訂)----------
-   規範 §4:藥丸 CTA 是行銷站沿用 Apple.com 語彙的例外,僅限本站,不進 App。 */
+/* ---------- 按鈕(藥丸)----------
+   規範 §4:藥丸 CTA 是行銷站沿用 Apple.com 語彙的例外,僅限本站,不進 App。
+   一個情境只有一顆實心主鈕;輔助動作是「文字 + chevron」的文字連結(.btn-link),
+   不再有描邊鈕。尺寸統一 44px 高、callout 字級,不由各處自訂。
+   白字對 --primary 4.70、對 hover 6.95。 */
 .btn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: 6px;
+  height: 44px;
+  padding: 0 22px;
   border-radius: 100px;
+  font-size: var(--text-callout);
+  letter-spacing: var(--text-callout--letter-spacing);
   font-weight: 500;
   white-space: nowrap;
+  transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
 }
 .btn,
 .btn:hover { text-decoration: none; }
@@ -333,16 +309,22 @@ summary::-webkit-details-marker { display: none; }
   background: var(--primary);
   color: var(--primary-fg);
 }
-.btn-primary:hover {
+.btn-primary:hover,
+.btn-primary:active {
   background: var(--primary-hover);
   color: var(--primary-fg);
 }
-.btn-outline {
-  background: var(--surface);
-  border: 1px solid var(--border);
+/* 文字連結 + chevron(Apple.com 的「進一步了解 ›」);hover 只加底線。
+   --blue-text 對 --surface 6.95、對 --bg 6.38。 */
+.btn-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  min-height: 44px;
+  font-size: var(--text-callout);
+  letter-spacing: var(--text-callout--letter-spacing);
+  font-weight: 400;
   color: var(--blue-text);
+  white-space: nowrap;
 }
-.btn-outline:hover {
-  background: var(--blue-tint);
-  color: var(--blue-text);
-}
+.btn-link:hover { color: var(--blue-text); }

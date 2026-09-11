@@ -1,7 +1,9 @@
 ---
-// 共用 sticky header(README「版面骨架 → Header」)。
-// 當前頁的連結換成 --blue-tint 底 --blue-text 字的不可點 chip。
-// 預約頁只留兩個連結、不放 CTA(目的頁就是自己)。
+// 共用 sticky header(Apple.com 語彙:矮、半透明毛玻璃、純文字連結、一顆藥丸 CTA)。
+// 當前頁的連結換成不可點的文字,靠字重與 --text 色標示(aria-current 仍給),不做 chip 底。
+// 四頁導覽一致:同一組連結 + 登入 + CTA。
+// (2026-08-25:內頁原本多一個「三方協作」、預約頁原本沒有 CTA,
+//  使用者反映「每換一頁按鈕都不一樣」,故統一)
 import { SITE } from '../config';
 
 // '404' 走內頁分支:landing 分支的 #founder 是同頁錨點,在 404 頁沒有對應的 id
@@ -18,15 +20,12 @@ const links: NavLink[] = [
   { key: 'features', label: '功能全覽', href: '/features/' },
   { key: 'security', label: 'AI 邊界與資安', href: '/security/' },
 ];
-// 四頁導覽一致:同一組連結 + 登入 + CTA。
-// (2026-08-25:內頁原本多一個「三方協作」、預約頁原本沒有 CTA,
-//  使用者反映「每換一頁按鈕都不一樣」,故統一)
 ---
 
 <header class="site-header">
   <div class="wrap bar">
     <a class="brand" href="/">
-      <span class="mark"><svg width="32" height="32" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 12.4 L34.4 30.4 L13.6 30.4 Z" fill="none" stroke="var(--border)" stroke-width="3" stroke-linejoin="round"></path><circle cx="24" cy="12.4" r="5.2" fill="var(--party-contractor)"></circle><circle cx="34.4" cy="30.4" r="5.2" fill="var(--party-supervisor)"></circle><circle cx="13.6" cy="30.4" r="5.2" fill="var(--party-agency)"></circle></svg></span>
+      <span class="mark"><svg width="28" height="28" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 12.4 L34.4 30.4 L13.6 30.4 Z" fill="none" stroke="var(--border)" stroke-width="3" stroke-linejoin="round"></path><circle cx="24" cy="12.4" r="5.2" fill="var(--party-contractor)"></circle><circle cx="34.4" cy="30.4" r="5.2" fill="var(--party-supervisor)"></circle><circle cx="13.6" cy="30.4" r="5.2" fill="var(--party-agency)"></circle></svg></span>
       <span class="lockup">
         <span class="name">GovAgent</span>
         <span class="tag">公共工程專案管理</span>
@@ -51,14 +50,16 @@ const links: NavLink[] = [
 </header>
 
 <style>
+  /* 52px:Apple.com 是 44,但品牌鎖定是「名稱 + 一行標語」兩行,44 放不下。
+     底緣髮絲線是 chrome 與內容的分界(Marketing.dc.html 的 inset 0 -1px)。 */
   .site-header {
     position: sticky;
     top: 0;
     z-index: 20;
-    height: 66px;
+    height: 52px;
     /* 毛玻璃只給 chrome(規範 §4);不支援 backdrop-filter 就落回實心,無破壞 */
     background: var(--chrome-solid);
-    border-bottom: 1px solid var(--border-card);
+    border-bottom: 1px solid var(--border-2);
     display: flex;
     align-items: center;
   }
@@ -80,11 +81,11 @@ const links: NavLink[] = [
   .brand {
     display: flex;
     align-items: center;
-    gap: 11px;
+    gap: 10px;
   }
   .brand,
   .brand:hover {
-    color: var(--color-text);
+    color: var(--text);
     text-decoration: none;
   }
 
@@ -101,73 +102,80 @@ const links: NavLink[] = [
   .lockup {
     display: flex;
     flex-direction: column;
-    line-height: 1.15;
+    gap: 1px;
   }
+  /* 名稱 callout/semibold(Marketing.dc.html 的 15px 600);標語 caption,--text-3 對 chrome 底 5.09 */
   .name {
-    font-family: var(--font-heading);
-    font-size: 19px;
-    font-weight: 500;
-    letter-spacing: -.02em;
+    font-family: var(--font-display);
+    font-size: var(--text-callout);
+    line-height: var(--text-callout--line-height);
+    letter-spacing: var(--text-callout--letter-spacing);
+    font-weight: 600;
   }
   .tag {
-    font-size: 10.5px;
-    color: var(--color-neutral-700);
-    letter-spacing: .04em;
+    font-size: var(--text-caption);
+    line-height: var(--text-caption--line-height);
+    letter-spacing: var(--text-caption--letter-spacing);
+    color: var(--text-3);
   }
 
   .nav {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 22px;
     margin-left: auto;
   }
 
+  /* 純文字連結(Apple.com 導覽):body 級、--text-2(對 chrome 底 6.71),hover 轉 --text;
+     當前頁用 --text + semibold 標示,不做 chip。 */
   .navlink {
-    height: 36px;
-    padding: 0 12px;
-    border-radius: 100px;
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    font-size: 13.5px;
-    color: var(--color-neutral-800);
+    height: 32px;
+    font-size: var(--text-body);
+    letter-spacing: var(--text-body--letter-spacing);
+    color: var(--text-2);
+    transition: color var(--dur-fast) var(--ease-out);
   }
   a.navlink:hover {
-    background: var(--color-neutral-200);
-    color: var(--color-neutral-800);
+    color: var(--text);
     text-decoration: none;
   }
   .is-current {
-    background: var(--color-accent-100);
-    color: var(--c-info-text);
-    font-weight: 500;
+    color: var(--text);
+    font-weight: 600;
   }
 
+  /* 導覽列的藥丸 CTA 比內文 CTA 矮一號(Marketing.dc.html 是 26px/12px;這裡 32px/body) */
   .cta {
-    margin-left: 10px;
-    height: 38px;
-    padding: 0 18px;
+    height: 32px;
+    padding: 0 14px;
     border-radius: 100px;
     background: var(--primary);
-    color: var(--primary-fg);
-    display: flex;
+    color: var(--primary-fg); /* 4.70,hover 6.95 */
+    display: inline-flex;
     align-items: center;
-    font-size: 13.5px;
+    font-size: var(--text-body);
+    letter-spacing: var(--text-body--letter-spacing);
     font-weight: 500;
     white-space: nowrap;
+    transition: background-color var(--dur-fast) var(--ease-out);
   }
-  .cta:hover {
+  .cta:hover,
+  .cta:active {
     background: var(--primary-hover);
     color: var(--primary-fg);
     text-decoration: none;
   }
 
-  /* 720px 以下:三個文字連結(含當前頁 chip)隱藏,只留品牌與主色鈕 */
+  /* 720px 以下:三個文字連結(含當前頁)隱藏,只留品牌與主色鈕 */
   @media (max-width: 719px) {
     .navlink { display: none; }
   }
 
-  /* 768px 以下可點元素觸控目標 ≥ 44px */
+  /* 768px 以下可點元素觸控目標 ≥ 44px;header 跟著長高到 56 */
   @media (max-width: 768px) {
-    .cta { height: 44px; }
+    .site-header { height: 56px; }
+    .cta { height: 44px; padding: 0 18px; }
   }
 </style>

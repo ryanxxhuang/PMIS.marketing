@@ -1,5 +1,5 @@
 ---
-// 預約示範:1fr 380px 兩欄(980px 以下單欄),左邊 28px 圓角白色大卡表單。
+// 預約示範:1fr 380px 兩欄(980px 以下單欄),左邊 18px 圓角白色大卡表單。
 // 表單狀態與驗證邏輯照原型底部的 DCLogic class 轉譯:
 //   state = { role:'supervisor', picked:[], name, org, email, sent }
 //   ready = name && org && /.+@.+\..+/.test(email)
@@ -79,20 +79,20 @@ const concerns = [
 
           <div class="fields">
             <label class="fld-wrap">
-              <input class="fld" name="name" placeholder=" " autocomplete="name" required />
               <span class="fld-label">姓名（必填）</span>
+              <input class="fld" name="name" autocomplete="name" required />
             </label>
             <label class="fld-wrap">
-              <input class="fld" name="org" placeholder=" " autocomplete="organization" required />
               <span class="fld-label" data-org-label>事務所／公司名稱（必填）</span>
+              <input class="fld" name="org" autocomplete="organization" required />
             </label>
             <label class="fld-wrap">
-              <input class="fld" name="email" type="email" placeholder=" " autocomplete="email" required />
               <span class="fld-label">公務／公司信箱（必填）</span>
+              <input class="fld" name="email" type="email" autocomplete="email" required />
             </label>
             <label class="fld-wrap">
-              <input class="fld" name="phone" placeholder=" " autocomplete="tel" />
               <span class="fld-label">聯絡電話（選填）</span>
+              <input class="fld" name="phone" autocomplete="tel" />
             </label>
           </div>
 
@@ -110,8 +110,8 @@ const concerns = [
           </div>
 
           <label class="fld-wrap note-wrap">
-            <textarea class="fld" name="note" rows="4" placeholder=" "></textarea>
             <span class="fld-label">案子的狀況與想看的重點（選填）</span>
+            <textarea class="fld" name="note" rows="4"></textarea>
           </label>
 
           <div class="privacy">
@@ -334,44 +334,53 @@ const concerns = [
 </Base>
 
 <style>
-  .demo-main { background: var(--g-ground); }
+  /* 整頁坐在 --bg 灰底上,表單是白面大卡——這頁的「產品畫面」就是表單本身。
+     文字色對 --surface 的實算:--text 16.83、--text-2 7.31、--text-3 5.54、--blue-text 6.95;
+     對 --bg:--text-2 6.71、--text-3 5.09。 */
+  .demo-main { background: var(--bg); }
 
   .demo-grid {
     max-width: 1080px;
     margin: 0 auto;
-    padding: 56px 24px 80px;
+    padding: clamp(40px, 5vw, 64px) 24px clamp(56px, 6vw, 88px);
     display: grid;
     grid-template-columns: 1fr 380px;
     gap: 44px;
     align-items: start;
   }
 
-  /* ---------- 表單大卡 ---------- */
+  /* ---------- 表單大卡(規範 §4:登入卡 18px 圓角;白面 + 半像素描邊 + 輕影) ---------- */
 
   .form-card {
     background: var(--surface);
-    border: 1px solid var(--g-line);
-    border-radius: 28px;
-    box-shadow: var(--shadow-sm);
+    border-radius: 18px;
+    box-shadow: var(--shadow-md);
     padding: 40px 44px 36px;
   }
 
-  .form-title { font-size: 32px; line-height: 1.3; }
+  .form-title {
+    font-size: var(--text-title1);
+    line-height: var(--text-title1--line-height);
+    letter-spacing: var(--text-title1--letter-spacing);
+  }
 
-  /* 「再填一份」捲回表單時用 block:'start';站頂是 66px 的 sticky header,
-     留 90px 讓標題不會被壓在它下面 */
-  .form-body { scroll-margin-top: 90px; }
+  /* 「再填一份」捲回表單時用 block:'start';站頂是 52px 的 sticky header,
+     留 80px 讓標題不會被壓在它下面 */
+  .form-body { scroll-margin-top: 80px; }
 
   .form-lede {
-    margin: 14px 0 0;
-    font-size: 14.5px;
-    line-height: 1.9;
-    color: var(--color-neutral-800);
+    margin-top: 12px;
+    font-size: var(--text-callout);
+    letter-spacing: var(--text-callout--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-2);
   }
 
   .group-label {
-    font-size: 13px;
-    font-weight: 500;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    letter-spacing: var(--text-body--letter-spacing);
+    font-weight: 600;
     margin-bottom: 10px;
   }
   .role-group { margin-top: 30px; }
@@ -386,22 +395,23 @@ const concerns = [
   .role-btn {
     text-align: left;
     background: var(--surface);
-    border: 1px solid var(--color-divider);
+    border: 1px solid var(--border);
     border-radius: 12px;
     padding: 16px;
     cursor: pointer;
     font-family: var(--font-body);
-    color: var(--color-text);
+    color: var(--text);
     display: flex;
     flex-direction: column;
-    gap: 7px;
+    gap: 6px;
     position: relative;
+    transition: background-color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
   }
-  .role-btn:not(.is-on):hover { background: var(--color-neutral-200); }
+  .role-btn:not(.is-on):hover { background: var(--surface-2); }
   /* 選取態:2px 主色框 + 淺藍底;padding 減 1px 抵銷邊框增量,尺寸不跳動 */
   .role-btn.is-on {
-    background: var(--color-accent-100);
-    border: 2px solid var(--color-accent);
+    background: var(--blue-tint);
+    border: 2px solid var(--blue);
     padding: 15px;
   }
   .role-icon { color: var(--text-3); }
@@ -410,8 +420,18 @@ const concerns = [
     color: var(--blue);
     stroke-width: 2.25;
   }
-  .role-label { font-size: 14.5px; font-weight: 500; }
-  .role-desc { font-size: 11.5px; line-height: 1.7; color: var(--color-neutral-700); }
+  .role-label {
+    font-size: var(--text-callout);
+    line-height: var(--text-callout--line-height);
+    letter-spacing: var(--text-callout--letter-spacing);
+    font-weight: 600;
+  }
+  .role-desc {
+    font-size: var(--text-footnote);
+    letter-spacing: var(--text-footnote--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-3); /* 對 --blue-tint 4.86,選取態也過 */
+  }
   .role-check {
     position: absolute;
     top: 12px;
@@ -421,47 +441,50 @@ const concerns = [
   }
   .role-btn.is-on .role-check { display: inline-block; }
 
-  /* 浮動標籤輸入框 */
+  /* 標籤在上的輸入框(規範 §4:大輸入 10px 圓角)。與產品 ui.jsx 的 Field 同一形狀——
+     Material 的「標籤切進框線」是 Google 時代殘留,Apple 的表單標籤不切框線。 */
   .fields {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px;
     margin-top: 26px;
   }
-  .fld-wrap { display: block; position: relative; }
+  .fld-wrap { display: block; }
   .fld {
     width: 100%;
     box-sizing: border-box;
     height: 52px;
     padding: 0 16px;
-    font-size: 15px;
-    border-radius: 8px;
-    border: 1px solid var(--color-divider);
+    font-size: var(--text-callout);
+    letter-spacing: var(--text-callout--letter-spacing);
+    border-radius: 10px;
+    border: 1px solid var(--border);
     background: var(--surface);
-    color: var(--color-text);
+    color: var(--text);
     font-family: var(--font-body);
     outline: none;
+    transition: border-color var(--dur-fast) var(--ease-out);
   }
-  .fld:focus { border-color: var(--color-accent); }
+  .fld:focus { border-color: var(--blue); }
   /* README a11y:focus-visible 一律 2px 主色外框(outline:none 只擋滑鼠 focus) */
   .fld:focus-visible {
-    outline: 2px solid var(--focus-ring);
+    outline: 2px solid var(--focus);
     outline-offset: 2px;
   }
   textarea.fld {
     height: auto;
     padding: 14px 16px;
-    line-height: 1.7;
+    line-height: var(--leading-prose);
     resize: vertical;
   }
   .fld-label {
-    position: absolute;
-    top: -8px;
-    left: 10px;
-    padding: 0 6px;
-    background: var(--surface);
-    font-size: 11.5px;
-    color: var(--color-neutral-700);
+    display: block;
+    margin-bottom: 6px;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    letter-spacing: var(--text-body--letter-spacing);
+    font-weight: 500;
+    color: var(--text); /* 對 --surface 白底 21:1(規範 §2) */
   }
   .note-wrap { margin-top: 26px; }
 
@@ -472,21 +495,23 @@ const concerns = [
     padding: 0 14px;
     border-radius: 8px;
     background: var(--surface);
-    border: 1px solid var(--color-divider);
-    color: var(--color-neutral-800);
+    border: 1px solid var(--border);
+    color: var(--text-2);
     font-family: var(--font-body);
-    font-size: 12.5px;
+    font-size: var(--text-body);
+    letter-spacing: var(--text-body--letter-spacing);
     font-weight: 500;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     gap: 6px;
+    transition: background-color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
   }
-  .topic-chip:not(.is-on):hover { background: var(--color-neutral-200); }
+  .topic-chip:not(.is-on):hover { background: var(--surface-2); }
   .topic-chip.is-on {
-    background: var(--color-accent-100);
-    border-color: var(--color-accent);
-    color: var(--c-info-text);
+    background: var(--blue-tint);
+    border-color: var(--blue);
+    color: var(--blue-text); /* 對 --blue-tint 6.10 */
   }
   .topic-check { display: none; }
   .topic-chip.is-on .topic-check { display: inline-block; }
@@ -494,14 +519,19 @@ const concerns = [
   .privacy {
     margin-top: 22px;
     padding: 14px 16px;
-    background: var(--g-ground);
-    border-radius: 8px;
+    background: var(--bg);
+    border-radius: 10px;
     display: flex;
-    gap: 11px;
+    gap: 10px;
     align-items: flex-start;
   }
-  .privacy-icon { color: var(--text-3); flex: none; }
-  .privacy-text { font-size: 12px; line-height: 1.8; color: var(--color-neutral-700); }
+  .privacy-icon { color: var(--text-3); flex: none; margin-top: 2px; }
+  .privacy-text {
+    font-size: var(--text-footnote);
+    letter-spacing: var(--text-footnote--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-3); /* 對 --bg 5.09 */
+  }
 
   .submit-row {
     display: flex;
@@ -509,33 +539,42 @@ const concerns = [
     gap: 16px;
     margin-top: 26px;
   }
+  /* 送出鈕:形狀與尺寸同 .btn(44px 藥丸),是 <button> 所以自己寫一份;白字對 --primary 4.70 */
   .submit-btn {
     /* 未填欄位時 .submit-hint 較長,nowrap 才不會把「送出預約」擠成兩行(360-412px) */
     white-space: nowrap;
     flex: none;
-    height: 46px;
-    padding: 0 28px;
+    height: 44px;
+    padding: 0 22px;
     border-radius: 100px;
     background: var(--primary);
     border: 0;
     color: var(--primary-fg);
     font-family: var(--font-body);
-    font-size: 15px;
+    font-size: var(--text-callout);
+    letter-spacing: var(--text-callout--letter-spacing);
     font-weight: 500;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
+    transition: background-color var(--dur-fast) var(--ease-out);
   }
-  .submit-btn:not([disabled]):hover { background: var(--primary-hover); }
+  .submit-btn:not([disabled]):hover,
+  .submit-btn:not([disabled]):active { background: var(--primary-hover); }
   /* 停用鈕:灰底(圖形門檻色),白字對它 4.15;停用態不受 AA 約束但要看得出是鈕 */
   .submit-btn[disabled] {
     background: var(--dot-mute);
     cursor: not-allowed;
   }
-  .submit-hint { font-size: 12.5px; color: var(--color-neutral-700); }
+  .submit-hint {
+    font-size: var(--text-footnote);
+    letter-spacing: var(--text-footnote--letter-spacing);
+    line-height: var(--text-footnote--line-height);
+    color: var(--text-3);
+  }
 
-  /* 送出中:progress_activity 0.9s linear 旋轉,箭頭隱藏 */
+  /* 送出中:progress_activity 0.9s linear 旋轉,箭頭隱藏(進度回饋,不受減少動態影響) */
   .submit-spin { display: none; }
   .submit-btn.is-loading .submit-spin {
     display: inline-block;
@@ -546,23 +585,24 @@ const concerns = [
     to { transform: rotate(360deg); }
   }
 
-  /* 失敗狀態:--red-tint 底 + error 圖示 + 重試鈕 */
+  /* 失敗狀態:--red-tint 底 + error 圖示 + 重試鈕;--red-text 對 --red-tint 6.28 */
   /* hidden 屬性必須壓過 display:flex,否則錯誤條會常駐(2026-08-25 線上事故) */
   .submit-error[hidden] { display: none; }
   .submit-error {
     margin-top: 22px;
     padding: 12px 16px;
-    background: var(--c-danger-tint);
-    border-radius: 8px;
+    background: var(--red-tint);
+    border-radius: 10px;
     display: flex;
     align-items: center;
     gap: 10px;
   }
   .submit-error-icon { color: var(--red-text); flex: none; }
   .submit-error-text {
-    font-size: 13px;
-    line-height: 1.7;
-    color: var(--c-danger-text);
+    font-size: var(--text-body);
+    letter-spacing: var(--text-body--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--red-text);
     flex: 1;
   }
   .retry-btn {
@@ -570,15 +610,16 @@ const concerns = [
     padding: 0 16px;
     border-radius: 100px;
     background: var(--surface);
-    border: 1px solid var(--color-divider);
-    color: var(--c-danger-text);
+    border: 1px solid var(--border);
+    color: var(--red-text);
     font-family: var(--font-body);
-    font-size: 12.5px;
+    font-size: var(--text-body);
+    letter-spacing: var(--text-body--letter-spacing);
     font-weight: 500;
     cursor: pointer;
     flex: none;
   }
-  .retry-btn:hover { background: var(--c-danger-tint); }
+  .retry-btn:hover { background: var(--red-tint); }
   @media (max-width: 768px) {
     .retry-btn { min-height: 44px; }
   }
@@ -598,67 +639,82 @@ const concerns = [
     padding: 24px 0 12px;
     text-align: center;
   }
-  .success-icon { color: var(--success); }
-  .success-title { font-size: 28px; margin-top: 16px; }
+  .success-icon { color: var(--success); } /* 圖形 6.58 */
+  .success-title {
+    font-size: var(--text-title1);
+    line-height: var(--text-title1--line-height);
+    letter-spacing: var(--text-title1--letter-spacing);
+    margin-top: 16px;
+  }
   .success-desc {
-    margin: 14px auto 0;
-    font-size: 14.5px;
-    line-height: 1.9;
-    color: var(--color-neutral-800);
+    margin: 12px auto 0;
+    font-size: var(--text-callout);
+    letter-spacing: var(--text-callout--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-2);
     max-width: 440px;
   }
+  /* 「再填一份」是輔助動作:文字鈕(同 .btn-link 的外觀),不做描邊藥丸 */
   .again-btn {
-    margin-top: 26px;
-    height: 40px;
-    padding: 0 22px;
-    border-radius: 100px;
-    background: var(--surface);
-    border: 1px solid var(--border);
+    margin-top: 20px;
+    min-height: 44px;
+    padding: 0;
+    background: none;
+    border: 0;
     color: var(--blue-text);
     font-family: var(--font-body);
-    font-size: 14px;
-    font-weight: 500;
+    font-size: var(--text-callout);
+    letter-spacing: var(--text-callout--letter-spacing);
     cursor: pointer;
   }
-  .again-btn:hover { background: var(--color-accent-100); }
+  .again-btn:hover { text-decoration: underline; }
 
-  /* ---------- 側欄 ---------- */
+  /* ---------- 側欄:灰底上的白磚 ---------- */
 
   .demo-aside {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
   }
   .aside-card {
     background: var(--surface);
-    border: 1px solid var(--g-line);
-    border-radius: 12px;
+    border-radius: 16px;
+    box-shadow: var(--shadow-card);
     padding: 22px;
   }
   .aside-title {
-    font-size: 17px;
-    font-family: var(--font-heading);
-    font-weight: 500;
+    font-size: var(--text-title3);
+    line-height: var(--text-title3--line-height);
+    letter-spacing: var(--text-title3--letter-spacing);
   }
   .aside-steps {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 14px;
     margin-top: 16px;
   }
   .aside-step { display: flex; gap: 12px; align-items: flex-start; }
   .aside-step-num {
     font-family: var(--font-display);
-    font-size: 12.5px;
-    color: var(--color-accent-700);
+    font-size: var(--text-footnote);
+    line-height: var(--text-callout--line-height);
+    letter-spacing: var(--text-footnote--letter-spacing);
+    font-weight: 600;
+    color: var(--blue-text);
     width: 18px;
     flex: none;
   }
-  .aside-step-title { font-size: 13.5px; font-weight: 500; }
+  .aside-step-title {
+    font-size: var(--text-callout);
+    line-height: var(--text-callout--line-height);
+    letter-spacing: var(--text-callout--letter-spacing);
+    font-weight: 500;
+  }
   .aside-step-desc {
-    font-size: 12px;
-    color: var(--color-neutral-700);
-    line-height: 1.75;
+    font-size: var(--text-body);
+    letter-spacing: var(--text-body--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-3);
     margin-top: 2px;
   }
   .aside-concerns {
@@ -667,21 +723,29 @@ const concerns = [
     gap: 14px;
     margin-top: 14px;
   }
-  .concern-q { font-size: 13px; font-weight: 500; }
+  .concern-q {
+    font-size: var(--text-callout);
+    line-height: var(--text-callout--line-height);
+    letter-spacing: var(--text-callout--letter-spacing);
+    font-weight: 500;
+  }
   .concern-a {
-    font-size: 12.5px;
-    line-height: 1.8;
-    color: var(--color-neutral-700);
+    font-size: var(--text-body);
+    letter-spacing: var(--text-body--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-3);
     margin-top: 4px;
   }
+  /* --ai-text 對 --ai-tint 6.87 */
   .aside-mail {
     background: var(--ai-tint);
-    border-radius: 12px;
+    border-radius: 16px;
     padding: 20px;
   }
   .aside-mail p {
-    font-size: 12.5px;
-    line-height: 1.85;
+    font-size: var(--text-body);
+    letter-spacing: var(--text-body--letter-spacing);
+    line-height: var(--leading-prose);
     color: var(--ai-text);
   }
   .aside-mail a {
@@ -699,14 +763,12 @@ const concerns = [
   }
   @media (max-width: 760px) {
     .form-card { padding: 26px 20px 28px; }
-    .form-title { font-size: 27px; }
     .fields { grid-template-columns: 1fr; }
     .role-grid { grid-template-columns: 1fr; }
   }
 
-  /* a11y：768px 以下觸控目標 ≥ 44px（桌機外觀不動） */
+  /* a11y:768px 以下觸控目標 ≥ 44px(桌機外觀不動) */
   @media (max-width: 768px) {
     .topic-chip { min-height: 44px; }
-    .again-btn { height: 44px; }
   }
 </style>

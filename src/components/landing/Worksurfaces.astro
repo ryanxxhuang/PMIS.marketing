@@ -1,10 +1,8 @@
 ---
-// landing「六個工作面」段落。視覺照 handoff「PMIS.ai 官網.dc.html」第 374–417 行 1:1 重建，
-// inline style 改寫成下方 scoped class，值未做任何調整；文案逐字沿用。
+// landing「六個工作面」段落。文案逐字沿用 handoff「PMIS.ai 官網.dc.html」第 374–417 行。
 //
-// 白底段落 —— .section 不帶 --ground，底色吃 body 的 #fff。
-// 標題列右側的「功能全覽」用 global.css 的 .btn / .btn-outline（藥丸底型＋hover
-// --color-accent-100），只在本檔補尺寸；原型的 功能全覽.dc.html 換成站內 /features。
+// 標題列右側的「功能全覽」是文字連結 + chevron(global.css 的 .btn-link),
+// 原型的 功能全覽.dc.html 換成站內 /features。
 
 import Icon from '../Icon.astro';
 
@@ -52,9 +50,7 @@ const surfaces = [
           數量與財務資料以工項串接：標單長出工項，工項長出日誌，日誌長出估驗，估驗長出請款與進度。品質與工安的佐證掛回同一個工項。
         </p>
       </div>
-      <a class="btn btn-outline ws-cta" href="/features/"
-        >功能全覽<Icon name="arrow_forward" size={18} class="ws-cta-icon" /></a
-      >
+      <a class="btn-link" href="/features/">功能全覽<Icon name="chevron_right" size={16} /></a>
     </div>
 
     <div class="g-auto ws-grid">
@@ -80,51 +76,31 @@ const surfaces = [
     flex-wrap: wrap;
   }
 
-  .ws-intro {
-    max-width: 640px;
-  }
+  .ws-intro { max-width: 640px; }
 
-  /* 底型（藥丸、白底、--color-divider 框、主色字、hover --color-accent-100）由
-     global.css 的 .btn / .btn-outline 提供，這裡只補尺寸與字級 */
-  .ws-cta {
-    height: 40px;
-    padding: 0 20px;
-    font-size: 13.5px;
-  }
+  .ws-grid { margin-top: 40px; }
 
-  .ws-grid {
-    margin-top: 40px;
-  }
-
+  /* Apple 磚:--bg 灰底、不描邊不投影。--text-2 對 --bg 6.71 */
   .ws-card {
-    background: var(--g-ground);
-    border: 1px solid var(--g-line);
-    border-radius: 12px;
-    padding: 22px 22px 20px;
+    background: var(--bg);
+    border-radius: 16px;
+    padding: 24px 22px 22px;
   }
 
-  .ws-icon {
-    color: var(--blue);
-  }
+  .ws-icon { color: var(--blue); } /* 圖形 4.31 對 --bg,過 3:1 */
 
   .ws-title {
-    font-size: 16.5px;
-    font-family: var(--font-heading);
-    font-weight: 500;
+    font-size: var(--text-title3);
+    line-height: var(--text-title3--line-height);
+    letter-spacing: var(--text-title3--letter-spacing);
     margin-top: 14px;
   }
 
   .ws-desc {
-    margin-top: 9px;
-    font-size: 13px;
-    line-height: 1.85;
-    color: var(--color-neutral-800);
-  }
-
-  /* a11y：768px 以下觸控目標 ≥ 44px（桌機外觀不動） */
-  @media (max-width: 768px) {
-    .ws-cta {
-      height: 44px;
-    }
+    margin-top: 8px;
+    font-size: var(--text-callout);
+    letter-spacing: var(--text-callout--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-2);
   }
 </style>

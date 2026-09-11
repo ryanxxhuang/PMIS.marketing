@@ -1,14 +1,13 @@
 ---
-// landing「資安與稽核」段落。視覺照 handoff「PMIS.ai 官網.dc.html」第 455–492 行 1:1 重建，
-// inline style 改寫成下方 scoped class，值未做任何調整；文案逐字沿用。
+// landing「資安與稽核」段落。文案逐字沿用 handoff「PMIS.ai 官網.dc.html」第 455–492 行。
 //
 // 外框用 global.css 的 .section / .wrap / .split / .kicker / .section-h2 /
-// .section-desc / .btn + .btn-outline / .num / Icon，其餘樣式在本檔 scoped。
+// .section-desc / .btn-link / .num / Icon,其餘樣式在本檔 scoped。
 //
-// 「完整資安說明」在原型指向 handoff 檔「AI 邊界與資安.dc.html」，站上對應 /security
-// （與 Header／Footer 的路由一致）。
+// 「完整資安說明」在原型指向 handoff 檔「AI 邊界與資安.dc.html」,站上對應 /security
+// (與 Header／Footer 的路由一致)。
 //
-// 右欄的測試數字對應產品既定原則，數值與說明不得改動。
+// 右欄的測試數字對應產品既定原則,數值與說明不得改動。
 import Icon from '../Icon.astro';
 
 const guards = [
@@ -42,7 +41,7 @@ const tests = [
 ];
 ---
 
-<section class="section sec">
+<section class="section">
   <div class="wrap split">
     <div>
       <div class="kicker">資安與稽核</div>
@@ -63,7 +62,7 @@ const tests = [
         }
       </div>
 
-      <a class="btn btn-outline sec-link" href="/security/">完整資安說明<Icon name="arrow_forward" size={18} class="sec-link-icon" /></a>
+      <a class="btn-link sec-link" href="/security/">完整資安說明<Icon name="chevron_right" size={16} /></a>
     </div>
 
     <div class="tests">
@@ -84,11 +83,6 @@ const tests = [
 </section>
 
 <style>
-  /* 白底段落（前一段是 .section--ground，白／灰交替） */
-  .sec {
-    background: var(--surface);
-  }
-
   .sec-list {
     display: flex;
     flex-direction: column;
@@ -103,42 +97,39 @@ const tests = [
   }
 
   .sec-icon {
-    color: var(--success);
+    color: var(--success); /* 圖形 6.58 對白底 */
     flex: none;
+    margin-top: 2px;
   }
 
+  /* --text-2 對 --surface 7.31 */
   .sec-text {
-    font-size: 13.5px;
-    line-height: 1.85;
-    color: var(--color-neutral-800);
+    font-size: var(--text-callout);
+    letter-spacing: var(--text-callout--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-2);
   }
 
-  /* 原型是 <strong style="font-weight:500">，不用瀏覽器預設的 bold */
   .sec-term {
-    font-weight: 500;
+    font-weight: 600;
+    color: var(--text);
   }
 
-  /* 尺寸以外的外觀（藥丸、白底、--border 框、--blue-text 字、hover --blue-tint）
-     都由 global.css 的 .btn + .btn-outline 提供 */
-  .sec-link {
-    margin-top: 28px;
-    height: 40px;
-    padding: 0 20px;
-    font-size: 13.5px;
-  }
+  .sec-link { margin-top: 20px; }
 
+  /* 測試數字:灰磚。文字色對 --bg 的實算:--text 15.46、--text-2 6.71、--text-3 5.09 */
   .tests {
-    border: 1px solid var(--g-line);
-    border-radius: 12px;
-    background: var(--g-ground);
+    border-radius: 16px;
+    background: var(--bg);
     padding: 24px 26px;
   }
 
   .tests-title {
-    font-size: 10.5px;
-    font-weight: 500;
-    color: var(--color-neutral-700);
-    letter-spacing: .06em;
+    font-size: var(--text-callout);
+    line-height: var(--text-callout--line-height);
+    letter-spacing: var(--text-callout--letter-spacing);
+    font-weight: 600;
+    color: var(--text-2);
   }
 
   .tests-list {
@@ -153,37 +144,34 @@ const tests = [
     gap: 16px;
     padding: 16px 0;
   }
-  /* 前三列有分隔線，最後一列沒有 */
+  /* 前三列有分隔線,最後一列沒有 */
   .tests-row:not(:last-child) {
-    border-bottom: 1px solid var(--g-line);
+    border-bottom: 1px solid var(--border);
   }
 
-  /* 數字吃 .num 的 tabular-nums */
+  /* 數字吃 .num 的 tabular-nums;headline(40)級的統計數字 */
   .tests-num {
     font-family: var(--font-display);
-    font-size: 32px;
-    letter-spacing: -.01em;
-    width: 64px;
+    font-size: var(--text-headline);
+    line-height: var(--text-headline--line-height);
+    letter-spacing: var(--text-headline--letter-spacing);
+    font-weight: 600;
+    min-width: 84px;
     flex: none;
   }
 
   .tests-desc {
-    font-size: 13px;
-    line-height: 1.7;
-    color: var(--color-neutral-800);
+    font-size: var(--text-body);
+    letter-spacing: var(--text-body--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-2);
   }
 
   .tests-foot {
     margin-top: 6px;
-    font-size: 11.5px;
-    line-height: 1.8;
-    color: var(--color-neutral-700);
-  }
-
-  /* a11y：768px 以下觸控目標 ≥ 44px（桌機外觀不動） */
-  @media (max-width: 768px) {
-    .sec-link {
-      height: 44px;
-    }
+    font-size: var(--text-footnote);
+    letter-spacing: var(--text-footnote--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-3);
   }
 </style>

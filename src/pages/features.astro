@@ -3,16 +3,17 @@
 // inline style 改寫成下方 scoped class,值未做任何調整;文案逐字沿用。
 //
 // 與原型的四處差異(都是刻意的):
-// 1. 頁首 h1 用 README「內頁 h1」規格 clamp(30px,5vw,44px)/1.22 取代原型的固定
-//    44px + 720px 降 32px;720px 以下仍保留 32px 的覆寫。
-// 2. 頁首 kicker 是純文字,不用 global 的 .kicker(那個帶 24px 橫線,內頁頁首沒有)。
+// 1. 頁首置中(Apple.com 內頁),h1 在 title1 與 headline 之間隨視窗走(同 global .section-h2),
+//    取代原型的固定 44px + 720px 降 32px。
+// 2. 眉標吃 global 的 .kicker(灰字 semibold,不畫線),頁首與清冊段共用。
 // 3. 對話卡裡的來源(原型是 href="#" 的假連結)改成外觀像連結的 <span>——
 //    這張卡是產品畫面示意,不該出現可點但沒去處的連結。
 // 4. 860px 以下的橫向捲動掛在表格外層的 .tbl-scroll(原型是掛在整張卡的
 //    overflow:hidden 上),避免卡片頁首與 AI 提示列跟著捲走露出白邊。
 //
 // 頁面內容欄用 global.css 的 .wrap;頁首與頁尾 CTA 兩段是自帶左右 24px 的
-// 滿版底色,所以各自寫 max-width:1180px 的內層,不套 .wrap(會變成 48px 內距)。
+// 滿版段落,所以各自寫內層,不套 .wrap(會變成 48px 內距)。頁尾 CTA 是深底,
+// 與 /security 頁尾、landing 的 Cta.astro 同一種,三頁收尾一致。
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -262,7 +263,7 @@ const aiInventory = [
   <main id="main" tabindex="-1">
     <section class="pg-head">
       <div class="pg-head-inner">
-        <div class="pg-kicker">功能全覽</div>
+        <div class="kicker">功能全覽</div>
         <h1 class="pg-h1">六個工作面，加上一個問答入口</h1>
         <p class="pg-lede">
           導覽的資訊架構就是工程的實際流程。每個工作面下面是分頁，不是新的一層權限。以下逐個說明各工作面實際做的事。
@@ -273,7 +274,7 @@ const aiInventory = [
     <div class="wrap">
       {
         sections.map((s, i) => (
-          <section class:list={['fsec', i === sections.length - 1 && 'fsec--last']}>
+          <section class="fsec">
             <div class="fsec-grid">
               <div>
                 <Icon name={s.icon} size={28} class={s.key === 'ask' ? 'fsec-icon fsec-icon--ai' : 'fsec-icon'} />
@@ -444,7 +445,7 @@ const aiInventory = [
       <div class="wrap">
         <div class="ail-head">
           <Icon name="auto_awesome" size={28} class="ail-icon" />
-          <div class="pg-kicker">AI 功能清冊</div>
+          <div class="kicker">AI 功能清冊</div>
           <h2 class="ail-h2 num" id="ail-h2">16 個 AI 功能，一項一項列給你看</h2>
           <p class="ail-lede num">
             AI 不是一顆按鈕，是嵌在既有工作流各節點的 16
@@ -510,8 +511,8 @@ const aiInventory = [
             30 分鐘線上示範，現場匯入你的 PCCES 標單或契約 PDF。
           </p>
         </div>
-        <a class="btn btn-primary pg-cta-btn" href="/demo/"
-          >{SITE.ctaLabel}<Icon name="arrow_forward" size={19} class="pg-cta-icon" /></a
+        <a class="btn pg-cta-btn" href="/demo/"
+          >{SITE.ctaLabel}</a
         >
       </div>
     </section>
@@ -520,52 +521,41 @@ const aiInventory = [
 </Base>
 
 <style>
-  /* ---------- 頁首 ---------- */
+  /* 文字色對 --surface 的實算:--text 16.83、--text-2 7.31、--text-3 5.54、--blue-text 6.95;
+     對 --bg(灰磚、表頭列):--text-2 6.71、--text-3 5.09 */
+
+  /* ---------- 頁首:置中(Apple.com 內頁),吃 global 的 .kicker ---------- */
 
   .pg-head {
-    padding: 64px 24px 48px;
-    border-bottom: 1px solid var(--g-line);
-    background: linear-gradient(180deg, var(--surface), var(--bg));
+    padding: clamp(48px, 6vw, 72px) 24px 0;
   }
 
-  /* 原型同時寫了 max-width:1180px;margin:0 auto 與 max-width:760px,生效的是 760px 置中 */
   .pg-head-inner {
     max-width: 760px;
     margin: 0 auto;
-  }
-
-  /* 內頁頁首的 kicker 沒有橫線,不用 global 的 .kicker */
-  .pg-kicker {
-    font-size: 11.5px;
-    font-weight: 500;
-    color: var(--color-accent-700);
+    text-align: center;
   }
 
   .pg-h1 {
-    font-size: clamp(30px, 5vw, 44px);
-    line-height: 1.22;
-    margin-top: 14px;
+    font-size: clamp(var(--text-title1), 5vw, var(--text-headline));
+    line-height: 1.15;
+    letter-spacing: var(--text-headline--letter-spacing);
+    margin-top: 12px;
+    text-wrap: balance;
   }
 
   .pg-lede {
-    margin: 20px 0 0;
-    font-size: 16px;
-    line-height: 1.9;
-    color: var(--color-neutral-800);
+    margin: 16px auto 0;
+    max-width: 660px;
+    font-size: var(--text-title3);
+    letter-spacing: var(--text-title3--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-2);
   }
 
-  /* ---------- 七個段落 ---------- */
+  /* ---------- 七個段落:大留白分層,不畫線(同 global .section) ---------- */
 
-  .fsec {
-    padding: 64px 0;
-    border-bottom: 1px solid var(--g-line);
-  }
-
-  /* 最後一段(問 GovAgent):下方留 88px、沒有下緣線 */
-  .fsec--last {
-    padding: 64px 0 88px;
-    border-bottom: 0;
-  }
+  .fsec { padding: clamp(44px, 5vw, 72px) 0; }
 
   .fsec-grid {
     display: grid;
@@ -577,23 +567,22 @@ const aiInventory = [
      讓整頁在窄視窗出現水平捲動;壓成 0 讓 .tbl-scroll 自己內部捲 */
   .fsec-grid > * { min-width: 0; }
 
-  .fsec-icon {
-    color: var(--blue);
-  }
-  .fsec-icon--ai {
-    color: var(--ai);
-  }
+  .fsec-icon { color: var(--blue); }       /* 圖形 4.70 */
+  .fsec-icon--ai { color: var(--ai); }     /* 圖形 6.04 */
 
   .fsec-h2 {
-    font-size: 26px;
+    font-size: clamp(var(--text-title1), 3.6vw, var(--text-headline));
+    line-height: 1.15;
+    letter-spacing: var(--text-headline--letter-spacing);
     margin-top: 12px;
   }
 
   .fsec-lede {
     margin: 12px 0 0;
-    font-size: 13.5px;
-    line-height: 1.9;
-    color: var(--color-neutral-700);
+    font-size: var(--text-callout);
+    letter-spacing: var(--text-callout--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-3);
   }
 
   .fsec-items {
@@ -603,26 +592,26 @@ const aiInventory = [
   }
 
   .fsec-item-t {
-    font-size: 15px;
-    font-family: var(--font-heading);
-    font-weight: 500;
+    font-size: var(--text-title3);
+    line-height: var(--text-title3--line-height);
+    letter-spacing: var(--text-title3--letter-spacing);
   }
 
   .fsec-item-d {
-    margin: 8px 0 0;
-    font-size: 13.5px;
-    line-height: 1.9;
-    color: var(--color-neutral-800);
+    margin: 6px 0 0;
+    font-size: var(--text-callout);
+    letter-spacing: var(--text-callout--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-2);
   }
 
-  /* ---------- 現場與品質:照片補充列 ---------- */
+  /* ---------- 現場與品質:照片補充列(灰磚) ---------- */
 
   .photo-note {
     margin-top: 24px;
-    padding: 16px 18px;
-    background: var(--g-ground);
-    border: 1px solid var(--g-line);
-    border-radius: 12px;
+    padding: 18px 20px;
+    background: var(--bg);
+    border-radius: 16px;
     display: flex;
     gap: 12px;
     align-items: flex-start;
@@ -631,36 +620,37 @@ const aiInventory = [
   .photo-note-icon {
     color: var(--text-3);
     flex: none;
+    margin-top: 2px;
   }
 
   .photo-note-text {
-    font-size: 13px;
-    line-height: 1.85;
-    color: var(--color-neutral-800);
+    font-size: var(--text-callout);
+    letter-spacing: var(--text-callout--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-2);
   }
 
-  /* ---------- 兩張資料卡的共用外框 ---------- */
+  /* ---------- 資料卡的共用外框(產品畫面:白面 + 半像素描邊 + 輕影) ---------- */
 
   .dcard {
     margin-top: 28px;
-    border: 1px solid var(--g-line);
-    border-radius: 12px;
+    border-radius: 16px;
     overflow: hidden;
     background: var(--surface);
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-md);
   }
 
   /* 捲動區加了 tabindex="0" 就會拿到 global 的 :focus-visible(2px 外框、offset 2px),
      但 .dcard 是 overflow:hidden,外擴的框會被整圈裁掉看不見。
      改成 offset -2px 畫在容器內側,焦點位置才看得出來。 */
   .tbl-scroll:focus-visible {
-    outline: 2px solid var(--focus-ring);
+    outline: 2px solid var(--focus);
     outline-offset: -2px;
   }
 
   .dcard-head {
-    padding: 13px 18px;
-    border-bottom: 1px solid var(--color-divider);
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
     display: flex;
     justify-content: space-between;
     align-items: baseline;
@@ -669,74 +659,65 @@ const aiInventory = [
 
   .dcard-title {
     margin: 0;
-    font-size: 15px;
-    font-weight: 500;
-    font-family: var(--font-heading);
+    font-size: var(--text-callout);
+    line-height: var(--text-callout--line-height);
+    letter-spacing: var(--text-callout--letter-spacing);
+    font-weight: 600;
+    font-family: var(--font-display);
   }
 
   .dcard-meta {
-    font-size: 11px;
-    color: var(--color-neutral-700);
+    font-size: var(--text-caption);
+    line-height: var(--text-caption--line-height);
+    letter-spacing: var(--text-caption--letter-spacing);
+    color: var(--text-3);
   }
 
-  /* 狀態色票:顏色與文字並存 */
+  /* 狀態色票:顏色與文字並存;*-text 對 *-tint 的實算在各行 */
   .chip {
     height: 22px;
     padding: 0 8px;
     border-radius: 6px;
-    font-size: 11px;
+    font-size: var(--text-caption);
+    letter-spacing: var(--text-caption--letter-spacing);
     font-weight: 500;
     display: inline-flex;
     align-items: center;
     white-space: nowrap;
   }
-  .chip--ok {
-    background: var(--c-ok-tint);
-    color: var(--c-ok-text);
-  }
-  .chip--warn {
-    background: var(--c-warn-tint);
-    color: var(--c-warn);
-  }
-  .chip--info {
-    background: var(--color-accent-100);
-    color: var(--c-info-text);
-  }
+  .chip--ok { background: var(--green-tint); color: var(--green-text); }    /* 5.90 */
+  .chip--warn { background: var(--amber-tint); color: var(--accent); }      /* 4.73 */
+  .chip--info { background: var(--blue-tint); color: var(--blue-text); }    /* 6.10 */
   /* AI 功能清冊「語言模型」欄:是=AI 面板色票,否=中性 chip
      (刻意不用 .chip--info——那是「狀態」色,這裡表達的是「有沒有打模型」) */
-  .chip--ai {
-    background: var(--ai-tint);
-    color: var(--ai-text);
-  }
-  .chip--off {
-    background: var(--g-chip);
-    color: var(--color-neutral-700);
-  }
+  .chip--ai { background: var(--ai-tint); color: var(--ai-text); }          /* 6.87 */
+  .chip--off { background: var(--surface-2); color: var(--text-2); }        /* 6.37 */
 
-  /* ---------- 契約重點表 ---------- */
+  /* ---------- 契約重點表(產品密度:body 13) ---------- */
 
   .ct {
     width: 100%;
     border-collapse: collapse;
-    font-size: 12.5px;
+    font-size: var(--text-body);
+    letter-spacing: var(--text-body--letter-spacing);
   }
 
-  .ct thead tr {
-    background: var(--bg);
-  }
+  .ct thead tr { background: var(--bg); }
 
   .ct th {
     text-align: left;
     padding: 9px 12px;
     font-weight: 500;
-    font-size: 11px;
-    color: var(--color-neutral-700);
-    border-bottom: 1px solid var(--g-line);
+    font-size: var(--text-caption);
+    letter-spacing: var(--text-caption--letter-spacing);
+    color: var(--text-3);
+    border-bottom: 1px solid var(--border-2);
   }
 
   .ct td {
     padding: 11px 12px;
-    border-bottom: 1px solid var(--g-line);
+    line-height: var(--text-body--line-height);
+    border-bottom: 1px solid var(--border-2);
   }
 
   /* 首尾欄與卡片內距對齊(18px) */
@@ -748,19 +729,17 @@ const aiInventory = [
     padding-right: 18px;
   }
 
-  .ct td:first-child {
-    color: var(--color-neutral-700);
-  }
+  .ct td:first-child { color: var(--text-3); }
 
-  .ct tbody tr:last-child td {
-    border-bottom: 0;
-  }
+  .ct tbody tr:last-child td { border-bottom: 0; }
 
   /* 來源頁碼:儲存格內的第二行 */
   .ct-src {
     display: block;
-    font-size: 11px;
-    color: var(--color-neutral-700);
+    font-size: var(--text-caption);
+    line-height: var(--text-caption--line-height);
+    letter-spacing: var(--text-caption--letter-spacing);
+    color: var(--text-3);
     margin-top: 3px;
   }
 
@@ -770,7 +749,8 @@ const aiInventory = [
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
-    font-size: 12.5px;
+    font-size: var(--text-body);
+    letter-spacing: var(--text-body--letter-spacing);
   }
 
   .vt-c1 { width: 88px; }
@@ -779,18 +759,17 @@ const aiInventory = [
   .vt-c5 { width: 78px; }
   .vt-c6 { width: 126px; }
 
-  .vt thead tr {
-    background: var(--bg);
-  }
+  .vt thead tr { background: var(--bg); }
 
   /* 數字欄右對齊,前兩欄靠左 */
   .vt th {
     text-align: right;
     padding: 9px 8px;
     font-weight: 500;
-    font-size: 11px;
-    color: var(--color-neutral-700);
-    border-bottom: 1px solid var(--g-line);
+    font-size: var(--text-caption);
+    letter-spacing: var(--text-caption--letter-spacing);
+    color: var(--text-3);
+    border-bottom: 1px solid var(--border-2);
   }
   .vt th:first-child,
   .vt th:nth-child(2) {
@@ -799,7 +778,8 @@ const aiInventory = [
 
   .vt td {
     padding: 10px 8px;
-    border-bottom: 1px solid var(--g-line);
+    line-height: var(--text-body--line-height);
+    border-bottom: 1px solid var(--border-2);
   }
 
   .vt th:first-child,
@@ -810,9 +790,7 @@ const aiInventory = [
     padding-right: 18px;
   }
 
-  .vt td:first-child {
-    color: var(--color-neutral-700);
-  }
+  .vt td:first-child { color: var(--text-3); }
 
   .vt-r {
     text-align: right;
@@ -831,31 +809,25 @@ const aiInventory = [
     width: 18px;
   }
 
-  .vt-parent {
-    background: var(--bg);
-  }
+  .vt-parent { background: var(--bg); }
   .vt-parent td:nth-child(2),
   .vt-parent td:last-child {
     font-weight: 500;
   }
 
-  .vt tr.vt-total {
-    background: var(--g-chip);
-  }
+  .vt tr.vt-total { background: var(--surface-2); }
   .vt tr.vt-total td {
     padding-top: 11px;
     padding-bottom: 11px;
     border-bottom: 0;
     font-weight: 500;
   }
-  .vt tr.vt-total td:first-child {
-    color: var(--color-text);
-  }
+  .vt tr.vt-total td:first-child { color: var(--text); }
 
-  /* 表下方的 AI 差異提示 */
+  /* 表下方的 AI 差異提示:--ai 圖示(6.04)、--ai-text 文字(6.87 對 --ai-tint) */
   .vt-ai {
     padding: 13px 18px;
-    border-top: 1px solid var(--g-line);
+    border-top: 1px solid var(--border-2);
     background: var(--ai-tint);
     display: flex;
     gap: 12px;
@@ -865,22 +837,23 @@ const aiInventory = [
   .vt-ai-icon {
     color: var(--ai);
     flex: none;
+    margin-top: 2px;
   }
 
   .vt-ai-text {
-    font-size: 12.5px;
-    line-height: 1.8;
+    font-size: var(--text-body);
+    letter-spacing: var(--text-body--letter-spacing);
+    line-height: var(--leading-prose);
     color: var(--ai-text);
   }
 
-  /* ---------- 問 GovAgent 對話卡 ---------- */
+  /* ---------- 問 GovAgent 對話卡(產品畫面) ---------- */
 
   .chat {
     margin-top: 28px;
-    border: 1px solid var(--g-line);
-    border-radius: 12px;
+    border-radius: 16px;
     background: var(--surface);
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-md);
     padding: 20px 22px;
   }
 
@@ -891,18 +864,20 @@ const aiInventory = [
 
   .chat-user {
     max-width: 70%;
-    border: 1px solid var(--color-divider);
+    background: var(--bg);
     border-radius: 12px;
     padding: 11px 14px;
-    font-size: 13.5px;
-    line-height: 1.8;
+    font-size: var(--text-body);
+    letter-spacing: var(--text-body--letter-spacing);
+    line-height: var(--leading-prose);
   }
 
   .chat-reply {
     margin-top: 18px;
-    font-size: 13.5px;
-    line-height: 1.9;
-    color: var(--color-neutral-900);
+    font-size: var(--text-body);
+    letter-spacing: var(--text-body--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text);
   }
 
   .chat-list {
@@ -914,53 +889,47 @@ const aiInventory = [
   }
 
   /* 產品畫面示意:外觀像來源連結,但不是可點連結;是文字,走 --blue-text 不走 --blue */
-  .chat-src {
-    color: var(--blue-text);
-  }
+  .chat-src { color: var(--blue-text); }
 
-  .chat-total {
-    margin-top: 12px;
-  }
+  .chat-total { margin-top: 12px; }
 
   /* 工具軌跡:靠 .num 的 tabular-nums 呈現等寬感,不換 mono 字型 */
   .chat-trace {
     margin-top: 16px;
     padding: 12px 14px;
-    background: var(--g-ground);
-    border-radius: 8px;
-    font-size: 11.5px;
-    line-height: 1.8;
-    color: var(--color-neutral-700);
+    background: var(--bg);
+    border-radius: 10px;
+    font-size: var(--text-footnote);
+    letter-spacing: var(--text-footnote--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-3);
   }
 
   /* ---------- AI 功能清冊 ---------- */
 
-  /* 上緣線是刻意的:最後一個 .fsec 沒有下緣線,清冊靠這條線與上方六個工作面切開,
-     讀者(與列印出來的那一頁)才看得出這是一份獨立的附件式清單 */
-  .ail {
-    padding: 64px 0 88px;
-    border-top: 1px solid var(--g-line);
-  }
+  /* 與上方六個工作面的分界靠留白與眉標(全站不畫段落分隔線);
+     列印時整頁只剩這一段,它自己就是文件的第一行 */
+  .ail { padding: clamp(44px, 5vw, 72px) 0; }
 
   /* 說明文字沿用頁首 760px 的行長,不跟著表格拉到 1180px */
-  .ail-head {
-    max-width: 760px;
-  }
+  .ail-head { max-width: 760px; }
 
-  .ail-icon {
-    color: var(--ai);
-  }
+  .ail-icon { color: var(--ai); }
 
   .ail-h2 {
-    font-size: 26px;
+    font-size: clamp(var(--text-title1), 3.6vw, var(--text-headline));
+    line-height: 1.15;
+    letter-spacing: var(--text-headline--letter-spacing);
     margin-top: 12px;
   }
+  .ail-head .kicker { margin-top: 12px; }
 
   .ail-lede {
-    margin: 14px 0 0;
-    font-size: 13.5px;
-    line-height: 1.9;
-    color: var(--color-neutral-800);
+    margin: 16px 0 0;
+    font-size: var(--text-title3);
+    letter-spacing: var(--text-title3--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-2);
   }
 
   /* 四欄:功能／做什麼／語言模型／可否單獨關閉。作法同 .ct(不用 table-layout:fixed,
@@ -968,30 +937,31 @@ const aiInventory = [
   .ail-t {
     width: 100%;
     border-collapse: collapse;
-    font-size: 12.5px;
+    font-size: var(--text-body);
+    letter-spacing: var(--text-body--letter-spacing);
   }
 
   .ail-c1 { width: 176px; }
   .ail-c3 { width: 92px; }
   .ail-c4 { width: 120px; }
 
-  .ail-t thead tr {
-    background: var(--bg);
-  }
+  .ail-t thead tr { background: var(--bg); }
 
   .ail-t th {
     text-align: left;
     padding: 9px 12px;
     font-weight: 500;
-    font-size: 11px;
-    color: var(--color-neutral-700);
-    border-bottom: 1px solid var(--g-line);
+    font-size: var(--text-caption);
+    letter-spacing: var(--text-caption--letter-spacing);
+    color: var(--text-3);
+    border-bottom: 1px solid var(--border-2);
     white-space: nowrap;
   }
 
   .ail-t td {
     padding: 11px 12px;
-    border-bottom: 1px solid var(--g-line);
+    line-height: var(--text-body--line-height);
+    border-bottom: 1px solid var(--border-2);
     vertical-align: top;
   }
 
@@ -1004,9 +974,7 @@ const aiInventory = [
     padding-right: 18px;
   }
 
-  .ail-t tbody tr:last-child td {
-    border-bottom: 0;
-  }
+  .ail-t tbody tr:last-child td { border-bottom: 0; }
 
   /* 功能名逐字沿用產品端註冊表,不折行(折行會讓人以為是兩個功能) */
   .ail-name {
@@ -1015,24 +983,27 @@ const aiInventory = [
   }
 
   .ail-what {
-    line-height: 1.75;
-    color: var(--color-neutral-800);
+    line-height: var(--leading-prose);
+    color: var(--text-2);
   }
 
   .ail-note {
     max-width: 760px;
     margin: 16px 0 0;
-    font-size: 11.5px;
-    line-height: 1.85;
-    color: var(--color-neutral-700);
+    font-size: var(--text-footnote);
+    letter-spacing: var(--text-footnote--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-3);
   }
 
-  /* ---------- 頁尾 CTA 帶 ---------- */
+  /* ---------- 頁尾 CTA 帶:深底,與 /security 頁尾、landing 的 Cta 同一種 ----------
+     對 --dark-bg 的實算:--dark-text 15.63、--dark-text-2 10.10;
+     --dark-primary-fg 對 --dark-blue 4.97、對 hover 6.24 */
 
   .pg-cta {
-    background: var(--g-ground);
-    padding: 64px 24px;
-    border-top: 1px solid var(--g-line);
+    background: var(--dark-bg);
+    color: var(--dark-text);
+    padding: clamp(44px, 5vw, 72px) 24px;
   }
 
   .pg-cta-inner {
@@ -1046,22 +1017,29 @@ const aiInventory = [
   }
 
   .pg-cta-h2 {
-    font-size: 28px;
+    font-size: clamp(var(--text-title1), 3.6vw, var(--text-headline));
+    line-height: 1.15;
+    letter-spacing: var(--text-headline--letter-spacing);
+    color: var(--dark-text);
   }
 
   .pg-cta-desc {
-    margin: 10px 0 0;
-    font-size: 14.5px;
-    line-height: 1.85;
-    color: var(--color-neutral-800);
+    margin: 12px 0 0;
+    font-size: var(--text-title3);
+    letter-spacing: var(--text-title3--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--dark-text-2);
   }
 
-  /* 底型(藥丸、實心主色、hover --color-accent-700)由 global.css 的
-     .btn / .btn-primary 提供,這裡只補尺寸與字級 */
+  /* 深底上不用 .btn-primary(亮底實心主色鈕),尺寸沿用 .btn,配色改產品深色模式的 primary */
   .pg-cta-btn {
-    height: 46px;
-    padding: 0 26px;
-    font-size: 15px;
+    background: var(--dark-blue);
+    color: var(--dark-primary-fg);
+  }
+  .pg-cta-btn:hover,
+  .pg-cta-btn:active {
+    background: var(--dark-blue-hover);
+    color: var(--dark-primary-fg);
   }
 
   /* ---------- 響應式 ---------- */
@@ -1089,14 +1067,6 @@ const aiInventory = [
   }
 
   @media (max-width: 720px) {
-    .pg-h1 {
-      font-size: 32px;
-    }
-    .fsec-h2,
-    .ail-h2,
-    .pg-cta-h2 {
-      font-size: 23px;
-    }
     .fsec-items {
       grid-template-columns: 1fr;
     }
@@ -1109,9 +1079,10 @@ const aiInventory = [
      用 display:none 而不是 body *{visibility:hidden} + 該段 visible:後者會把被
      隱藏元素的版面空間留在紙上(整頁空白 + 清冊被推到第三頁),display:none 直接
      不參與版面,列印結果從第一頁第一行就是清冊。
-     Header/Footer/skip-link 是別的元件輸出的節點,scoped style 選不到,要 :global()。
+     Header/Footer/skip-link/.kicker 是別處輸出或定義的節點,scoped style 選不到,要 :global()。
      本區塊放在最後,靠來源順序覆蓋上面的 max-width 查詢(列印時的頁寬通常 < 860px,
-     那組規則會同時命中)。 */
+     那組規則會同時命中)。
+     #fff / #000 / #999 是紙面的墨色,刻意不吃 token(螢幕 token 與紙無關)。 */
   @media print {
     @page {
       margin: 14mm;
@@ -1134,7 +1105,6 @@ const aiInventory = [
 
     .ail {
       padding: 0;
-      border-top: 0;
     }
 
     /* 圖示是裝飾,紙本不需要 */
@@ -1153,7 +1123,7 @@ const aiInventory = [
       max-width: none;
     }
 
-    .pg-kicker,
+    .ail-head :global(.kicker),
     .ail-h2,
     .ail-lede,
     .ail-note,

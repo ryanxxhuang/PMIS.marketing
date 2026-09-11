@@ -14,7 +14,7 @@ import { SITE } from '../../config';
 import Icon from '../Icon.astro';
 ---
 
-<section id="founder" class="section section--ground about">
+<section id="founder" class="section about">
   <div class="wrap about-inner">
     <div class="about-head">
       <div class="kicker">關於</div>
@@ -36,7 +36,7 @@ import Icon from '../Icon.astro';
         UCLA MBA · Georgia Tech 資訊工程碩士 · 交通大學、中央大學 土木工程
       </p>
       <a class="about-mail" href={`mailto:${SITE.contactEmail}`}>
-        <Icon name="mail" size={16} class="about-mail-icon" />{SITE.contactEmail}
+        <Icon name="mail" size={16} />{SITE.contactEmail}
       </a>
     </div>
   </div>
@@ -56,44 +56,52 @@ import Icon from '../Icon.astro';
     }
   }
 
+  /* 這段刻意低調:h2 停在 title1(28),不上 headline */
   .about-h2 {
-    font-size: clamp(23px, 2.4vw, 26px);
-    line-height: 1.3;
-    margin-top: 16px;
+    font-size: var(--text-title1);
+    line-height: var(--text-title1--line-height);
+    letter-spacing: var(--text-title1--letter-spacing);
+    margin-top: 12px;
   }
 
-  /* 全站唯一一句省工使命宣言。輕量引言：左側細線＋內距，不做成引言卡 */
+  /* 全站唯一一句省工使命宣言:title3 深字撐起來,不畫引言線 */
   .about-lede {
-    border-left: 2px solid var(--blue);
-    padding-left: 18px;
-    margin-bottom: 20px;
-    font-size: 13.5px;
-    line-height: 1.9;
-    color: var(--color-neutral-800);
+    margin-bottom: 16px;
+    font-size: var(--text-title3);
+    letter-spacing: var(--text-title3--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text);
     max-width: 660px;
   }
 
+  /* --text-2 對 --surface 7.31 */
   .about-desc {
-    font-size: 14px;
-    line-height: 1.9;
-    color: var(--color-neutral-800);
+    font-size: var(--text-callout);
+    letter-spacing: var(--text-callout--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-2);
     max-width: 660px;
   }
-  .about-em { font-weight: 500; }
+  .about-em {
+    font-weight: 600;
+    color: var(--text);
+  }
 
   .about-meta {
     margin-top: 16px;
-    font-size: 12.5px;
-    line-height: 1.85;
-    color: var(--color-neutral-700);
+    font-size: var(--text-footnote);
+    letter-spacing: var(--text-footnote--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-3); /* 5.54 */
   }
 
   .about-mail {
     display: inline-flex;
     align-items: center;
-    gap: 7px;
-    margin-top: 14px;
-    font-size: 12.5px;
+    gap: 6px;
+    margin-top: 12px;
+    font-size: var(--text-body);
+    letter-spacing: var(--text-body--letter-spacing);
   }
   @media (max-width: 768px) {
     .about-mail { min-height: 44px; }

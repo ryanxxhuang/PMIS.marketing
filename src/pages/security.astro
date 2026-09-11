@@ -4,11 +4,11 @@
 //
 // 這頁是給機關拿去簽辦用的：工具白名單、測試數字與 AI 功能開關的文字與數值不得改動。
 //
-// 外框用 global.css 的 .wrap（1180px／左右 24px）、.num、Icon；
-// 頁首與深底 CTA 自己出血、不套 .wrap。段落節奏不套 .section
-// （原型是固定 64px，不是 landing 的 clamp(56px,8vw,88px)）。
+// 外框用 global.css 的 .wrap(1180px／左右 24px)、.kicker、.btn、.num、Icon;
+// 頁首與深底 CTA 自己出血、不套 .wrap。段落節奏(.sec)與 global 的 .section 同一組 clamp,
+// 只是這頁的段落在 .wrap 之內,所以自己寫一份。
 //
-// 頁首 kicker 是純文字，不用 global 的 .kicker——那個帶 24px 主色橫線。
+// 頁首置中(Apple.com 內頁),眉標吃 global 的 .kicker。
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -124,7 +124,7 @@ const features = [
   <main id="main" tabindex="-1">
     <section class="page-head">
       <div class="page-head-inner">
-        <div class="page-kicker">AI 邊界與資安</div>
+        <div class="kicker">AI 邊界與資安</div>
         <h1 class="page-h1">AI 能做什麼、不能做什麼，寫得出來</h1>
         <p class="page-desc">
           這一頁是為了讓你能拿去簽辦。機關要問的三件事——AI 會不會自己決定、資料在哪裡、出事查得到嗎——下面逐一回答。
@@ -276,8 +276,8 @@ const features = [
             示範時一併帶上資安符合性說明、AI 功能清單與稽核軌跡範例，讓你不用另外整理。
           </p>
         </div>
-        <a class="cta-btn" href="/demo/">
-          {SITE.ctaLabel}<Icon name="arrow_forward" size={19} class="cta-icon" />
+        <a class="btn cta-btn" href="/demo/">
+          {SITE.ctaLabel}
         </a>
       </div>
     </section>
@@ -286,69 +286,58 @@ const features = [
 </Base>
 
 <style>
-  /* ---------- 頁首 ---------- */
+  /* 文字色對 --surface 的實算:--text 16.83、--text-2 7.31、--text-3 5.54、--blue-text 6.95;
+     對 --bg(灰磚):--text-2 6.71、--text-3 5.09、--blue-text 6.38 */
+
+  /* ---------- 頁首:置中(Apple.com 內頁),吃 global 的 .kicker ---------- */
 
   .page-head {
-    padding: 64px 24px 48px;
-    border-bottom: 1px solid var(--g-line);
-    background: linear-gradient(180deg, var(--surface), var(--bg));
+    padding: clamp(48px, 6vw, 72px) 24px 0;
   }
 
   .page-head-inner {
     max-width: 760px;
     margin: 0 auto;
+    text-align: center;
   }
 
-  /* 純文字 kicker，沒有 global .kicker 的橫線 */
-  .page-kicker {
-    font-size: 11.5px;
-    font-weight: 500;
-    color: var(--color-accent-700);
-  }
-
-  /* 原型是 44px + 720px 以下 32px；這裡改成同區間的 clamp */
   .page-h1 {
-    font-size: clamp(30px, 5vw, 44px);
-    line-height: 1.22;
-    margin-top: 14px;
+    font-size: clamp(var(--text-title1), 5vw, var(--text-headline));
+    line-height: 1.15;
+    letter-spacing: var(--text-headline--letter-spacing);
+    margin-top: 12px;
+    text-wrap: balance;
   }
 
   .page-desc {
-    margin: 20px 0 0;
-    font-size: 16px;
-    line-height: 1.9;
-    color: var(--color-neutral-800);
+    margin: 16px auto 0;
+    max-width: 660px;
+    font-size: var(--text-title3);
+    letter-spacing: var(--text-title3--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-2);
   }
 
-  /* ---------- 段落節奏（原型固定 64px，非 landing 的 clamp） ---------- */
+  /* ---------- 段落節奏:大留白,不畫線(同 global .section) ---------- */
 
-  .sec {
-    padding: 64px 0;
-    border-bottom: 1px solid var(--g-line);
-  }
+  .sec { padding: clamp(44px, 5vw, 72px) 0; }
 
-  /* 最後一段：底部多留 24px，且沒有下緣線（下面接深底 CTA） */
-  .sec--last {
-    padding: 64px 0 88px;
-    border-bottom: 0;
-  }
+  /* 最後一段:下面接深底 CTA,底部留白再多一點 */
+  .sec--last { padding-bottom: clamp(56px, 6vw, 88px); }
 
   .sec-h2 {
-    font-size: 30px;
+    font-size: clamp(var(--text-title1), 3.6vw, var(--text-headline));
+    line-height: 1.15;
+    letter-spacing: var(--text-headline--letter-spacing);
   }
 
   .sec-desc {
     margin: 14px 0 0;
-    font-size: 15px;
-    line-height: 1.9;
-    color: var(--color-neutral-800);
+    font-size: var(--text-title3);
+    letter-spacing: var(--text-title3--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-2);
     max-width: 700px;
-  }
-
-  @media (max-width: 720px) {
-    .sec-h2 {
-      font-size: 24px;
-    }
   }
 
   /* ---------- 1. Agent 的工具白名單 ---------- */
@@ -362,60 +351,50 @@ const features = [
   @media (max-width: 900px) {
     .tools {
       grid-template-columns: 1fr;
-      gap: 28px;
+      gap: 20px;
     }
   }
 
+  /* 兩張清單卡是「產品畫面」:白面 + 半像素描邊 + 輕影 */
   .tool-card {
-    border: 1px solid var(--g-line);
-    border-radius: 12px;
+    border-radius: 16px;
+    box-shadow: var(--shadow-md);
+    background: var(--surface);
     overflow: hidden;
   }
 
   .tool-head {
-    padding: 13px 18px;
+    padding: 14px 18px;
     display: flex;
     align-items: center;
     gap: 10px;
   }
-  .tool-head--ok {
-    background: var(--c-ok-tint);
-  }
-  .tool-head--deny {
-    background: var(--c-danger-tint);
-  }
+  .tool-head--ok { background: var(--green-tint); }
+  .tool-head--deny { background: var(--red-tint); }
 
-  .tool-icon--ok {
-    color: var(--success);
-  }
-  /* 圖示走 --danger(圖形色),與 --red-text 的標題成對 */
-  .tool-icon--deny {
-    color: var(--danger);
-  }
+  .tool-icon--ok { color: var(--success); }   /* 圖形,對 --green-tint 也 > 3:1 */
+  .tool-icon--deny { color: var(--danger); }  /* 圖形 4.71 對 --red-tint */
 
   .tool-title {
-    font-size: 15px;
-    font-family: var(--font-heading);
-    font-weight: 500;
+    font-size: var(--text-callout);
+    line-height: var(--text-callout--line-height);
+    letter-spacing: var(--text-callout--letter-spacing);
+    font-family: var(--font-display);
+    font-weight: 600;
   }
-  .tool-title--ok {
-    color: var(--green-text);
-  }
-  .tool-title--deny {
-    color: var(--c-danger-text);
-  }
+  .tool-title--ok { color: var(--green-text); }   /* 5.90 對 --green-tint */
+  .tool-title--deny { color: var(--red-text); }   /* 6.28 對 --red-tint */
 
-  .tool-list {
-    padding: 6px 0;
-  }
+  .tool-list { padding: 6px 0; }
 
   .tool-row {
-    padding: 11px 18px;
-    font-size: 13.5px;
-    line-height: 1.7;
+    padding: 12px 18px;
+    font-size: var(--text-callout);
+    letter-spacing: var(--text-callout--letter-spacing);
+    line-height: var(--leading-prose);
   }
   .tool-row:not(:last-child) {
-    border-bottom: 1px solid var(--g-line);
+    border-bottom: 1px solid var(--border-2);
   }
 
   /* ---------- 2. 草稿到核定五步 ---------- */
@@ -433,43 +412,41 @@ const features = [
     }
   }
 
+  /* 灰磚;第三步是唯一的 AI 面板色 */
   .step {
-    border: 1px solid var(--g-line);
-    border-radius: 12px;
+    border-radius: 16px;
     padding: 18px;
-    background: var(--g-ground);
+    background: var(--bg);
   }
-  /* 第三步是唯一的 AI 面板色 */
-  .step--ai {
-    background: var(--ai-tint);
-  }
+  .step--ai { background: var(--ai-tint); }
 
   .step-num {
     font-family: var(--font-display);
-    font-size: 12.5px;
-    color: var(--color-accent-700);
-    font-weight: 500;
+    font-size: var(--text-footnote);
+    line-height: var(--text-footnote--line-height);
+    letter-spacing: var(--text-footnote--letter-spacing);
+    color: var(--blue-text);
+    font-weight: 600;
   }
-  .step--ai .step-num {
-    color: var(--ai-text);
-  }
+  .step--ai .step-num { color: var(--ai-text); } /* 6.87 對 --ai-tint */
 
   .step-title {
-    font-size: 14.5px;
-    font-family: var(--font-heading);
-    font-weight: 500;
+    font-size: var(--text-callout);
+    line-height: var(--text-callout--line-height);
+    letter-spacing: var(--text-callout--letter-spacing);
+    font-family: var(--font-display);
+    font-weight: 600;
     margin-top: 8px;
   }
 
   .step-desc {
     margin: 6px 0 0;
-    font-size: 12.5px;
-    line-height: 1.8;
-    color: var(--color-neutral-700);
+    font-size: var(--text-body);
+    letter-spacing: var(--text-body--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-2);
   }
-  .step--ai .step-desc {
-    color: var(--ai-text);
-  }
+  .step--ai .step-desc { color: var(--ai-text); }
 
   /* ---------- 3. 權限的邊界在資料庫 ／ 可以查證的部分 ---------- */
 
@@ -482,7 +459,7 @@ const features = [
   @media (max-width: 900px) {
     .guards-split {
       grid-template-columns: 1fr;
-      gap: 28px;
+      gap: 56px;
     }
   }
 
@@ -493,22 +470,19 @@ const features = [
     margin-top: 28px;
   }
 
-  .guard {
-    border-left: 2px solid var(--color-accent);
-    padding-left: 18px;
-  }
-
+  /* 三層邊界:純文字階層(標題 title3 + 說明),不畫左側裝飾線 */
   .guard-title {
-    font-size: 16px;
-    font-family: var(--font-heading);
-    font-weight: 500;
+    font-size: var(--text-title3);
+    line-height: var(--text-title3--line-height);
+    letter-spacing: var(--text-title3--letter-spacing);
   }
 
   .guard-desc {
-    margin: 8px 0 0;
-    font-size: 13.5px;
-    line-height: 1.9;
-    color: var(--color-neutral-800);
+    margin: 6px 0 0;
+    font-size: var(--text-callout);
+    letter-spacing: var(--text-callout--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-2);
   }
 
   .tests {
@@ -517,39 +491,37 @@ const features = [
     gap: 16px;
     margin-top: 28px;
   }
-  /* 原型的 [style*="grid-template-columns:1fr 1fr"] 規則同時吃到這四張卡 */
-  @media (max-width: 900px) {
-    .tests {
-      grid-template-columns: 1fr;
-      gap: 28px;
-    }
-  }
 
+  /* 灰磚 */
   .test-card {
-    border: 1px solid var(--g-line);
-    border-radius: 12px;
+    border-radius: 16px;
     padding: 20px;
+    background: var(--bg);
   }
 
-  /* 數字吃 .num 的 tabular-nums */
+  /* 數字吃 .num 的 tabular-nums;headline(40)級的統計數字 */
   .test-num {
     font-family: var(--font-display);
-    font-size: 30px;
-    letter-spacing: -.01em;
+    font-size: var(--text-headline);
+    line-height: var(--text-headline--line-height);
+    letter-spacing: var(--text-headline--letter-spacing);
+    font-weight: 600;
   }
 
   .test-desc {
-    font-size: 12.5px;
-    color: var(--color-neutral-700);
+    font-size: var(--text-body);
+    letter-spacing: var(--text-body--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-2);
     margin-top: 6px;
-    line-height: 1.7;
   }
 
   .tests-foot {
     margin-top: 16px;
-    font-size: 12px;
-    line-height: 1.8;
-    color: var(--color-neutral-700);
+    font-size: var(--text-footnote);
+    letter-spacing: var(--text-footnote--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-3);
   }
 
   /* ---------- 4. 資料在哪裡、留多久 ---------- */
@@ -566,36 +538,35 @@ const features = [
     }
   }
 
+  /* 灰磚 */
   .data-card {
-    border: 1px solid var(--g-line);
-    border-radius: 12px;
-    padding: 22px;
-    background: var(--g-ground);
+    border-radius: 16px;
+    padding: 24px 22px 22px;
+    background: var(--bg);
   }
 
-  .data-icon {
-    color: var(--success);
-  }
+  .data-icon { color: var(--success); } /* 圖形 6.05 對 --bg */
 
   .data-title {
-    font-size: 16px;
-    font-family: var(--font-heading);
-    font-weight: 500;
-    margin-top: 12px;
+    font-size: var(--text-title3);
+    line-height: var(--text-title3--line-height);
+    letter-spacing: var(--text-title3--letter-spacing);
+    margin-top: 14px;
   }
 
   .data-desc {
-    margin: 9px 0 0;
-    font-size: 13px;
-    line-height: 1.85;
-    color: var(--color-neutral-800);
+    margin: 8px 0 0;
+    font-size: var(--text-callout);
+    letter-spacing: var(--text-callout--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-2);
   }
 
   .data-note {
     margin-top: 20px;
-    padding: 16px 18px;
-    border: 1px solid var(--g-line);
-    border-radius: 12px;
+    padding: 18px 20px;
+    border-radius: 16px;
+    background: var(--bg);
     display: flex;
     gap: 12px;
     align-items: flex-start;
@@ -604,42 +575,49 @@ const features = [
   .data-note-icon {
     color: var(--text-3);
     flex: none;
+    margin-top: 2px;
   }
 
   .data-note-text {
-    font-size: 13px;
-    line-height: 1.85;
-    color: var(--color-neutral-800);
+    font-size: var(--text-callout);
+    letter-spacing: var(--text-callout--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-2);
   }
 
-  /* ---------- 5. AI 功能開關表 ---------- */
+  /* ---------- 5. AI 功能開關表(產品畫面:白面 + 描邊 + 輕影) ---------- */
 
   .toggle-card {
     margin-top: 32px;
-    border: 1px solid var(--g-line);
-    border-radius: 12px;
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: var(--shadow-sm);
+    background: var(--surface);
+    box-shadow: var(--shadow-md);
   }
 
   .toggle-head {
-    padding: 13px 18px;
-    border-bottom: 1px solid var(--g-line);
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
     display: flex;
     justify-content: space-between;
     align-items: baseline;
+    gap: 12px;
   }
 
   .toggle-head-title {
     margin: 0;
-    font-size: 15px;
-    font-weight: 500;
-    font-family: var(--font-heading);
+    font-size: var(--text-callout);
+    line-height: var(--text-callout--line-height);
+    letter-spacing: var(--text-callout--letter-spacing);
+    font-weight: 600;
+    font-family: var(--font-display);
   }
 
   .toggle-head-meta {
-    font-size: 11px;
-    color: var(--color-neutral-700);
+    font-size: var(--text-caption);
+    line-height: var(--text-caption--line-height);
+    letter-spacing: var(--text-caption--letter-spacing);
+    color: var(--text-3);
   }
 
   .toggle-row {
@@ -650,9 +628,9 @@ const features = [
     align-items: center;
   }
   .toggle-row:not(:last-child) {
-    border-bottom: 1px solid var(--g-line);
+    border-bottom: 1px solid var(--border-2);
   }
-  /* 900px 以下收成兩欄，次數自然換到下一列 */
+  /* 900px 以下收成兩欄,次數自然換到下一列 */
   @media (max-width: 900px) {
     .toggle-row {
       grid-template-columns: 1fr auto;
@@ -660,12 +638,16 @@ const features = [
   }
 
   .toggle-name {
-    font-size: 13.5px;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    letter-spacing: var(--text-body--letter-spacing);
   }
 
   .toggle-sub {
-    font-size: 11.5px;
-    color: var(--color-neutral-700);
+    font-size: var(--text-footnote);
+    line-height: var(--text-footnote--line-height);
+    letter-spacing: var(--text-footnote--letter-spacing);
+    color: var(--text-3);
     margin-top: 2px;
   }
 
@@ -673,37 +655,33 @@ const features = [
     height: 22px;
     padding: 0 8px;
     border-radius: 6px;
-    font-size: 11px;
+    font-size: var(--text-caption);
+    letter-spacing: var(--text-caption--letter-spacing);
     font-weight: 500;
     display: inline-flex;
     align-items: center;
     justify-self: start;
   }
-  .toggle-chip--ok {
-    background: var(--c-ok-tint);
-    color: var(--c-ok-text);
-  }
-  .toggle-chip--warn {
-    background: var(--c-warn-tint);
-    color: var(--c-warn);
-  }
-  /* 停用是 mute 色票：--g-chip 底、--color-neutral-700 字 */
-  .toggle-chip--off {
-    background: var(--g-chip);
-    color: var(--color-neutral-700);
-  }
+  .toggle-chip--ok { background: var(--green-tint); color: var(--green-text); }   /* 5.90 */
+  .toggle-chip--warn { background: var(--amber-tint); color: var(--accent); }     /* 4.73 */
+  /* 停用是 mute 色票:--surface-2 底、--text-2 字(6.37) */
+  .toggle-chip--off { background: var(--surface-2); color: var(--text-2); }
 
   .toggle-count {
-    font-size: 12px;
-    color: var(--color-neutral-700);
+    font-size: var(--text-footnote);
+    line-height: var(--text-footnote--line-height);
+    letter-spacing: var(--text-footnote--letter-spacing);
+    color: var(--text-3);
     text-align: right;
   }
 
-  /* ---------- 深底 CTA（在 .wrap 之外，自己出血） ---------- */
+  /* ---------- 深底 CTA(在 .wrap 之外,自己出血)----------
+     對 --dark-bg 的實算:--dark-text 15.63、--dark-text-2 10.10;
+     --dark-primary-fg 對 --dark-blue 4.97、對 hover 6.24 */
 
   .cta {
     background: var(--dark-bg);
-    padding: 64px 24px;
+    padding: clamp(44px, 5vw, 72px) 24px;
     color: var(--dark-text);
   }
 
@@ -718,42 +696,29 @@ const features = [
   }
 
   .cta-h2 {
-    font-size: 30px;
+    font-size: clamp(var(--text-title1), 3.6vw, var(--text-headline));
+    line-height: 1.15;
+    letter-spacing: var(--text-headline--letter-spacing);
     color: var(--dark-text);
   }
 
   .cta-desc {
     margin: 12px 0 0;
-    font-size: 14.5px;
-    line-height: 1.85;
+    font-size: var(--text-title3);
+    letter-spacing: var(--text-title3--letter-spacing);
+    line-height: var(--leading-prose);
     color: var(--dark-text-2);
     max-width: 620px;
   }
 
-  /* 深底上不用 global 的 .btn-primary（亮底實心主色鈕），改產品深色模式的 primary(淺藍底深藍字) */
+  /* 深底上不用 .btn-primary(亮底實心主色鈕),尺寸沿用 .btn,配色改產品深色模式的 primary */
   .cta-btn {
-    height: 46px;
-    padding: 0 26px;
-    border-radius: 100px;
     background: var(--dark-blue);
     color: var(--dark-primary-fg);
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 15px;
-    font-weight: 500;
-    text-decoration: none;
   }
-  .cta-btn:hover {
+  .cta-btn:hover,
+  .cta-btn:active {
     background: var(--dark-blue-hover);
     color: var(--dark-primary-fg);
-    text-decoration: none;
-  }
-
-  /* 原型的 720px 規則吃到全部 h2，深底 CTA 標題也一起收 */
-  @media (max-width: 720px) {
-    .cta-h2 {
-      font-size: 24px;
-    }
   }
 </style>

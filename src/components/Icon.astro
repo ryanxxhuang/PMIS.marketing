@@ -35,6 +35,7 @@ const ICONS = {
   auto_awesome: '<path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"/><path d="M20 2v4"/><path d="M22 4h-4"/><circle cx="4" cy="20" r="2"/>', // sparkles
   block: '<circle cx="12" cy="12" r="10"/><path d="M4.929 4.929 19.07 19.071"/>', // ban
   check: '<path d="M20 6 9 17l-5-5"/>', // check
+  chevron_right: '<path d="m9 18 6-6-6-6"/>', // chevron-right(文字連結尾端的「›」)
   check_circle: '<circle cx="12" cy="12" r="10"/><path d="m16 9-5.5 5.5L8 12"/>', // circle-check
   checklist: '<path d="M13 5h8"/><path d="M13 12h8"/><path d="M13 19h8"/><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/>', // list-checks
   description: '<path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>', // file-text
@@ -56,7 +57,10 @@ const ICONS = {
   shield: '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>', // shield
 };
 
-const { name, size = 16, fill = false, class: className } = Astro.props;
+// ...rest 一定要展開到 <svg>:父層有 scoped <style> 時 Astro 會把 data-astro-cid-* 當 prop 傳進來,
+// 不展開的話父層寫給 <Icon class="x"> 的樣式(例如 .submit-spin { display:none })全部對不上——
+// 實際發生過:送出鈕的轉圈在未送出時就露出來,因為 scoped 選擇器帶的 cid 屬性 svg 上沒有。
+const { name, size = 16, fill = false, class: className, ...rest } = Astro.props;
 
 // 漏對映的退路:畫一個中性圓圈 + build 警告——版面不塌,但看得出來是缺的。
 // 刻意不用 shield 之類長得像真圖示的東西當退路,那會讓漏對映看起來正常。
@@ -69,6 +73,7 @@ const strokeWidth = ((fill ? 2.25 : 1.5) * 24) / size;
 ---
 
 <svg
+  {...rest}
   class:list={['icon', className]}
   width={size}
   height={size}

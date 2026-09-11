@@ -88,9 +88,9 @@ const canonical = noindex ? null : new URL(Astro.url.pathname, Astro.site);
         background: var(--surface);
         border: 1px solid var(--border);
         border-radius: 0 0 8px 0;
-        font-size: 14px;
+        font-size: var(--text-body);
         font-weight: 500;
-        color: var(--blue-text);
+        color: var(--blue-text); /* 對 --surface 6.95 */
       }
       .skip-link:focus {
         left: 0;

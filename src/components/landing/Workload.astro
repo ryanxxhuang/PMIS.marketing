@@ -107,56 +107,60 @@ const jobs = [
     .wl-grid { grid-template-columns: repeat(4, 1fr); }
   }
 
+  /* Apple 磚:--bg 灰底、16px 圓角、不描邊不投影。文字色對 --bg 的實算:
+     --text 15.46、--text-2 6.71、--text-3 5.09、--blue-text 6.38、--green-text 對 --bg 6.05 */
   .wl-card {
-    background: var(--surface);
-    border: 1px solid var(--g-line);
-    border-radius: 12px;
-    box-shadow: var(--shadow-sm);
-    padding: 22px 22px 20px;
+    background: var(--bg);
+    border-radius: 16px;
+    padding: 24px 22px 22px;
     display: flex;
     flex-direction: column;
   }
 
-  .wl-icon {
-    color: var(--blue);
-  }
+  .wl-icon { color: var(--blue); } /* 圖形 4.31 對 --bg,過 3:1 */
 
   .wl-title {
-    font-size: 16.5px;
-    font-family: var(--font-heading);
-    font-weight: 500;
+    font-size: var(--text-title3);
+    line-height: var(--text-title3--line-height);
+    letter-spacing: var(--text-title3--letter-spacing);
     margin-top: 14px;
   }
 
   .wl-row { margin-top: 16px; }
 
   .wl-label {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: .04em;
-    margin-bottom: 5px;
+    font-size: var(--text-caption);
+    line-height: var(--text-caption--line-height);
+    letter-spacing: var(--text-caption--letter-spacing);
+    font-weight: 600;
+    margin-bottom: 4px;
   }
-  .wl-label--done { color: var(--color-accent-700); }
-  .wl-label--yours { color: var(--c-ok-text); }
-  .wl-label--not { color: var(--color-neutral-700); }
+  .wl-label--done { color: var(--blue-text); }
+  .wl-label--yours { color: var(--green-text); }
+  .wl-label--not { color: var(--text-3); }
 
+  /* 四欄時每張卡只有 ~270px 寬,內文取 body(13)維持密度 */
   .wl-text {
-    font-size: 13px;
-    line-height: 1.85;
-    color: var(--color-neutral-800);
+    font-size: var(--text-body);
+    letter-spacing: var(--text-body--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-2);
   }
 
-  /* 「不做的」:左側細線 + 弱色,視覺上退一階但不隱藏 */
-  .wl-row--not {
-    margin-top: auto;
-    padding-top: 16px;
-    border-left: 2px solid var(--color-divider);
-    padding-left: 12px;
-    margin-left: -2px;
+  /* 「不做的」:貼卡底(margin-top:auto 讓同列四張卡的這一列對齊)、上方髮絲線分隔、
+     字退一階(footnote/--text-3),不隱藏。線用 ::before 畫,才能同時保證線上 ≥16px、線下 14px
+     (直接用 border-top 的話,最高那張卡的 auto margin 是 0,線會貼到上一列的字)。 */
+  .wl-row--not { margin-top: auto; }
+  .wl-row--not::before {
+    content: "";
+    display: block;
+    height: 1px;
+    margin: 16px 0 14px;
+    background: var(--border);
   }
   .wl-text--not {
-    font-size: 12px;
-    line-height: 1.8;
-    color: var(--color-neutral-700);
+    font-size: var(--text-footnote);
+    letter-spacing: var(--text-footnote--letter-spacing);
+    color: var(--text-3);
   }
 </style>
