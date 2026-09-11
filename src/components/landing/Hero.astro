@@ -1,14 +1,12 @@
 ---
 // Hero(原型 1.1):kicker chip、H1、說明、雙鈕、信任列 + 產品畫面。
 //
-// 產品畫面是 1440×908 的固定內容整體等比縮放(不能用 calc(100cqi/1440px),
-// CSS 不允許長度相除,所以用 media query 階梯調 --s);760px 以下換成
-// 330px 手機版畫面,不縮放桌機版。兩張圖的切換照 README:桌機版
-// display:block/none、手機版 none/flex。
+// 產品畫面是從真實 App 截的圖(public/appshots/,由 PMIS repo 的 npm run capture:appshots
+// 產生,見根目錄 README),不再手繪:手繪版每次產品改版就漂一次,截圖不會。
+// 桌機 1440×900、手機 390×844,皆 2x;760px 以下換手機版畫面,不縮放桌機版。
+// 外框只是行銷 chrome(圓角+陰影,吃 global.css 的 token),內容是 App 本人。
 import { SITE } from '../../config';
 import Icon from '../Icon.astro';
-import AppshotDesktop from './AppshotDesktop.astro';
-import AppshotPhone from './AppshotPhone.astro';
 ---
 
 <section id="top" class="hero">
@@ -30,16 +28,35 @@ import AppshotPhone from './AppshotPhone.astro';
       </div>
     </div>
 
-    <div class="only-wide" role="img" aria-label="GovAgent 產品畫面:監造角色的今日待辦,含指標卡、待辦清單、風險警示與 AI 已代辦">
+    {/* 桌機版在首屏,是 LCP 候選:eager + fetchpriority=high。width/height 給邏輯像素,
+        瀏覽器先保留 16:10 的版位,圖到了不跳版(CLS)。 */}
+    <div class="only-wide">
       <div class="appshot">
-        <div class="appshot-scale">
-          <AppshotDesktop />
-        </div>
+        <img
+          src="/appshots/dashboard-desktop@2x.png"
+          width="1440"
+          height="900"
+          alt="GovAgent 桌機版:監造角色的今日待辦。側欄先問球在誰手上(現在輪到我 9 件、等待對方 6 件、今天已完成),主欄列出待監造審定的施工計畫與材料送審、待回覆的 RFI、查驗不合格複查與監造月報,下方是風險警示卡:進度落後、試體逾期未試驗、缺失逾期未結案"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+        />
       </div>
     </div>
 
-    <div class="only-narrow" role="img" aria-label="GovAgent 手機版畫面:今日待辦清單與 AI 已代辦摘要">
-      <AppshotPhone />
+    {/* 手機版在 hero 文案之下、多半在首屏外:lazy。display:none 的 lazy 圖不會被抓,
+        所以桌機視窗不會白載這張。 */}
+    <div class="only-narrow">
+      <div class="phone">
+        <img
+          src="/appshots/dashboard-phone@2x.png"
+          width="390"
+          height="844"
+          alt="GovAgent 手機版:監造角色的今日待辦。頁首是專案名與三方,分段切換現在輪到我／等待對方／今天已完成,清單列出待審定的送審、待回覆的 RFI、查驗不合格複查與監造月報,底部導覽列是輪到我、現場、審查、金流"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
     </div>
   </div>
 </section>
@@ -120,32 +137,43 @@ import AppshotPhone from './AppshotPhone.astro';
     color: var(--success);
   }
 
-  /* ---------- 產品畫面:1440×908 整體等比縮放 ---------- */
+  /* ---------- 產品畫面:真實 App 截圖 ----------
+     圖本身是流體的(width:100% + height:auto,比例由 width/height 屬性保留),
+     不需要以前那套 transform: scale 階梯。桌機版最寬 1120px,與內容欄對齊。 */
+  .only-wide { margin-top: clamp(36px, 5vw, 52px); }
 
-  /* 縮放階梯:≥1168px 時內容 1120px 寬 */
-  .only-wide { --s: 0.7778; margin-top: clamp(36px, 5vw, 52px); }
-  @media (max-width: 1167px) { .only-wide { --s: 0.6778; } }
-  @media (max-width: 1023px) { .only-wide { --s: 0.5917; } }
-  @media (max-width: 899px)  { .only-wide { --s: 0.4944; } }
-
+  /* 桌機外框:視窗式——上緣圓角、坐在 hero 底線上(下緣不封口),深度靠 overlay 陰影 */
   .appshot {
-    width: calc(1440px * var(--s));
-    height: calc(908px * var(--s));
+    max-width: 1120px;
     margin: 0 auto;
     overflow: hidden;
-    position: relative;
     border: 1px solid var(--border-card);
-    border-top-left-radius: 14px;
-    border-top-right-radius: 14px;
     border-bottom: 0;
+    border-radius: 14px 14px 0 0;
     box-shadow: var(--shadow-overlay);
     background: var(--surface);
   }
-  .appshot-scale {
-    width: 1440px;
-    height: 908px;
-    transform: scale(var(--s));
-    transform-origin: top left;
+  .appshot img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* 手機外框:深色細邊框當機身(取產品深色底 token),內外兩層圓角同心 */
+  .phone {
+    width: 100%;
+    max-width: 330px;
+    overflow: hidden;
+    border: 8px solid var(--dark-bg);
+    border-radius: 36px;
+    background: var(--dark-bg);
+    box-shadow: var(--shadow-overlay);
+  }
+  .phone img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 28px;
   }
 
   /* 760px 以下換手機版畫面 */

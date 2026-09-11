@@ -1,3 +1,5 @@
-<!-- apple-touch-icon 產生源:180×180,截圖指令見 og-cover.html 檔頭(同法,window-size=180,180 → public/apple-touch-icon.png) -->
+<!-- apple-touch-icon 算圖源:180×180,npm run render:assets(scripts/render-assets.mjs)→ public/apple-touch-icon.png。
+     來源是 public/brand/app-icon.svg:白底方塊 + 三色標記(頂=廠商、右下=監造、左下=機關),
+     不用藍底白標記的 app-icon-blue.svg —— 藍底會蓋掉三色的語意(同 Header 不加藍底方塊的理由)。 -->
 <!DOCTYPE html><html><head><meta charset="utf-8"><style>html,body{margin:0;padding:0}img{display:block;width:180px;height:180px}</style></head>
-<body><img src="../public/brand/app-icon-blue.svg" width="180" height="180"></body></html>
+<body><img src="../public/brand/app-icon.svg" width="180" height="180"></body></html>

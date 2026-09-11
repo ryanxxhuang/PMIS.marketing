@@ -1,53 +1,44 @@
 <!doctype html>
 <!--
-  PMIS.ai — Open Graph 封面（1080 × 1080）／截圖源檔
+  GovAgent — Open Graph 封面（1080 × 1080）／算圖源檔
   ============================================================
   用途
-    截圖這一頁輸出 og.png，供 <meta property="og:image"> 使用
-    （Base.astro 目前那行 og:image 還是待補的註解）。
+    算成 public/og.png,供 Base.astro 的 <meta property="og:image"> 使用。
 
   來源
     design_handoff_pmis_marketing_site/社群輪播圖.dc.html 的第一張
-    （data-screen-label="01"，深底封面）。文案、尺寸、色值逐字沿用，
+    （data-screen-label="01"，深底封面）。文案、尺寸逐字沿用，
     只拿掉最後的「左滑 →」列 —— 那是輪播情境的 UI，OG 單張不適用。
+    色值不再寫死:直接 <link> 站上的 global.css,吃 --dark-* 那組 token
+    (行銷站深底段落 = 產品深色模式的值),token 改了、重算就跟上,不會再像
+    2026-09 那樣停在 Google 舊色。品牌標記引用 public/brand/pmis-mark-dark.svg
+    （深底版三色:頂=廠商、右下=監造、左下=機關），不在這裡再畫一份。
 
   位置
     刻意放在 assets-src/：不在 public/、也不在 src/pages/，
-    所以 astro build 不會把它發佈出去，它只是產圖的源檔。
+    所以 astro build 不會把它發佈出去，它只是算圖的源檔。
 
   再生成
-    1) 用瀏覽器開啟本檔（視窗設 1080 × 1080，頁面本身就是滿版無捲軸），
-       等 Google Fonts 的 Noto Sans TC 載完再截圖，否則會截到 fallback 字型。
-    2) 或用無頭瀏覽器一行搞定：
-         npx playwright screenshot --viewport-size=1080,1080 \
-           assets-src/og-cover.html public/og.png
-    3) 存成 public/og.png（1080 × 1080，Facebook／LINE／X 都吃得下），
-       再到 Base.astro 補 <meta property="og:image" content="/og.png">。
+    npm run render:assets   （scripts/render-assets.mjs,Playwright 無頭 Chromium）
+    腳本會等 Noto Sans TC 真的載進來才截，載不到就失敗，不會悄悄出一張 fallback 字型的圖。
 
   字型
-    Google Sans Text 非公開授權、不能 self-host，本機沒裝就退回 Noto Sans TC
-    （與站上 --font-body / --font-heading 的 stack 一致）。
-    截圖環境若沒裝 Google Sans Text，出圖就是 Noto Sans TC —— 這是預期行為。
+    與站上同一套 stack(global.css 的 --font-body / --font-display):Apple 平台
+    英數是 SF,中文落到 Google Fonts 的 Noto Sans TC(需要網路)。
 -->
 <html lang="zh-Hant-TW">
   <head>
     <meta charset="utf-8" />
-    <title>PMIS.ai — OG 封面 1080 × 1080</title>
+    <title>GovAgent — OG 封面 1080 × 1080</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
+    <!-- token 的唯一來源;file:// 開啟時相對路徑照樣解析得到 -->
+    <link rel="stylesheet" href="../src/styles/global.css" />
     <style>
-      :root {
-        --font-body: "Google Sans Text", "Noto Sans TC", system-ui, sans-serif;
-        --font-heading: "Google Sans Text", "Noto Sans TC", system-ui, sans-serif;
-        --font-display: "Google Sans Display", "Google Sans", "Google Sans Text",
-          "Noto Sans TC", system-ui, sans-serif;
-        --color-accent-900: #041e49;
-      }
-
       html {
         margin: 0;
         padding: 0;
@@ -59,8 +50,8 @@
         width: 1080px;
         height: 1080px;
         overflow: hidden;
-        background: var(--color-accent-900);
-        color: #fff;
+        background: var(--dark-bg);
+        color: var(--dark-text);
         font-family: var(--font-body);
         -webkit-font-smoothing: antialiased;
       }
@@ -71,7 +62,7 @@
         height: 1080px;
         box-sizing: border-box;
         padding: 88px;
-        background: var(--color-accent-900);
+        background: var(--dark-bg);
         display: flex;
         flex-direction: column;
         position: relative;
@@ -86,6 +77,7 @@
 
       .brand-mark {
         flex: none;
+        display: block;
       }
 
       .brand-name {
@@ -95,17 +87,18 @@
       }
 
       .brand-name-ai {
-        color: #a8c7fa;
+        color: var(--dark-blue-text);
       }
 
       .copy {
         margin-top: auto;
       }
 
-      .kicker {
+      /* 不叫 .kicker:global.css 的 .kicker 是段落節奏標記(前面帶 24px 橫線),這裡不要 */
+      .cover-kicker {
         font-size: 26px;
         font-weight: 500;
-        color: #a8c7fa;
+        color: var(--dark-blue-text);
       }
 
       .headline {
@@ -115,7 +108,7 @@
         font-weight: 400;
         line-height: 1.16;
         letter-spacing: -0.02em;
-        color: #fff;
+        color: var(--dark-text);
       }
 
       .desc {
@@ -123,31 +116,19 @@
         max-width: 760px;
         font-size: 30px;
         line-height: 1.7;
-        color: #c2d9fd;
+        color: var(--dark-text-2);
       }
     </style>
   </head>
   <body>
     <div class="cover">
       <div class="brand">
-        <!-- 深底版三點標誌：灰描邊 + 藍／紅／黃三點（照輪播圖 01 的深色版） -->
-        <svg class="brand-mark" width="40" height="40" viewBox="0 0 48 48" aria-hidden="true">
-          <path
-            d="M24 12.4 L34.4 30.4 L13.6 30.4 Z"
-            fill="none"
-            stroke="#5f6368"
-            stroke-width="3.4"
-            stroke-linejoin="round"
-          ></path>
-          <circle cx="24" cy="12.4" r="5.6" fill="#8ab4f8"></circle>
-          <circle cx="34.4" cy="30.4" r="5.6" fill="#f28b82"></circle>
-          <circle cx="13.6" cy="30.4" r="5.6" fill="#fdd663"></circle>
-        </svg>
+        <img class="brand-mark" src="../public/brand/pmis-mark-dark.svg" width="40" height="40" alt="" />
         <span class="brand-name">PMIS<span class="brand-name-ai">.ai</span></span>
       </div>
 
       <div class="copy">
-        <div class="kicker">公共工程 · 三方協作</div>
+        <div class="cover-kicker">公共工程 · 三方協作</div>
         <h1 class="headline">同一個工程<br />三方看到三份<br />不一樣的數字</h1>
         <p class="desc">機關看契約、監造看查驗、廠商看估驗。對不起來的時候，開會對帳。</p>
       </div>
