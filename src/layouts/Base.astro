@@ -33,6 +33,14 @@ const canonical = noindex ? null : new URL(Astro.url.pathname, Astro.site);
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {/* CSP(PMIS D-025):第三方腳本只能由這裡明示引入,不接受 Cloudflare 邊緣自動注入。
+        GitHub Pages 設不了回應標頭,所以走 meta(frame-ancestors/report-uri 在 meta 無效,略)。
+        白名單:Web Analytics beacon(static.cloudflareinsights.com 載入、cloudflareinsights.com 回報)、
+        Google Fonts、預約表單的 Supabase Edge Function。樣式與腳本都由 astro.config 輸出成檔案。 */}
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://cloudflareinsights.com https://buylyonwoyvqdbvkkkbx.supabase.co; upgrade-insecure-requests"
+    />
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
     {noindex && <meta name="robots" content="noindex" />}
@@ -70,6 +78,13 @@ const canonical = noindex ? null : new URL(Astro.url.pathname, Astro.site);
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    {/* Cloudflare Web Analytics(免費、無 cookie):Cloudflare 後台的站設定為「Enable with JS Snippet
+        installation」,只有行銷站手動載入;app／demo 的 CSP 為 script-src 'self',不載分析腳本。 */}
+    <script
+      type="module"
+      src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon='{"token": "5c10a8ddc6cf4c3782687cb7f76bfe33"}'
+    ></script>
   </head>
   <body>
     {/* 跳過導覽:視覺上隱藏,鍵盤 focus 時才出現。各頁 <main> 帶 id="main" */}
