@@ -41,6 +41,10 @@ const links: NavLink[] = [
           )
         )
       }
+      {/* 線上試用(2026-09-16):demo 站上線後,訪客不必先留資料就能看到產品。
+          放在登入之前 —— 這是給沒帳號的人的路,登入是給有帳號的人的路。
+          720px 以下與其他 navlink 一起隱藏,由 hero 的第二行動與 footer 承接。 */}
+      <a class="navlink" href={SITE.demoUrl}>{SITE.tryLabel}</a>
       {/* 登入是對 handoff 設計的必要增補:產品搬到 app 子網域後,
           既有使用者從根網域需要回到系統的路(720px 以下由 footer 的登入承接) */}
       <a class="navlink" href={SITE.appUrl}>登入</a>
@@ -124,6 +128,14 @@ const links: NavLink[] = [
     align-items: center;
     gap: 22px;
     margin-left: auto;
+  }
+
+  /* 2026-09-16 加了「線上試用」後導覽是四個文字連結 + 一顆藥丸。
+     880px 以下(iPad 直向 834、1024 橫向仍寬鬆)品牌鎖定與導覽會開始互相擠,
+     先收 gap 再說 —— 比隱藏連結溫和,且 720px 以下本來就整組收掉。 */
+  @media (max-width: 879px) {
+    .bar { gap: 16px; }
+    .nav { gap: 14px; }
   }
 
   /* 純文字連結(Apple.com 導覽):body 級、--text-2(對 chrome 底 6.71),hover 轉 --text;

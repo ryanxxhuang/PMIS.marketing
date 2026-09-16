@@ -56,13 +56,14 @@ const guards = [
   },
 ];
 
-// 測試數字為 2026-08-25 基線（實測：761 unit / 32 pgTAP / 38 e2e），
+// 測試數字為 2026-09-16 基線（PMIS repo docs/BASELINE.md 實測：
+// 單元 119 檔 1,241 項、pgTAP 40 檔 1,048 項、Demo E2E 全部 10 檔 70 項），
 // 與 landing SecurityAudit.astro 同源。只能依實測結果更新，不得為了好看而灌水。
 const tests = [
-  { num: '761', desc: '單元測試項，涵蓋計價、期限與罰則等確定性引擎' },
-  { num: '32', desc: '組資料庫測試，專門驗證資料列級安全性與狀態轉移' },
-  { num: '38', desc: '端到端流程測試，含三角色實際後端冒煙測試' },
-  { num: '16', desc: '個 AI 功能，每一個都能單獨開關與計量' },
+  { num: '1,241', desc: '單元測試項，涵蓋計價、期限與罰則等確定性引擎' },
+  { num: '1,048', desc: '項資料庫測試（pgTAP，40 檔），專門驗證資料列級安全性與狀態轉移' },
+  { num: '70', desc: '端到端流程測試，含三角色實際後端冒煙測試' },
+  { num: '17', desc: '個 AI 功能，每一個都能單獨開關與計量' },
 ];
 
 const dataCards = [
@@ -213,7 +214,7 @@ const features = [
                 ))
               }
             </div>
-            <p class="tests-foot">數字為 2026-08-25 基線，隨版本更新。示範時可以現場跑給你看。</p>
+            <p class="tests-foot">數字為 2026-09-16 基線，隨版本更新。示範時可以現場跑給你看。</p>
           </div>
         </div>
       </section>
@@ -276,9 +277,16 @@ const features = [
             示範時一併帶上資安符合性說明、AI 功能清單與稽核軌跡範例，讓你不用另外整理。
           </p>
         </div>
-        <a class="btn cta-btn" href="/demo/">
-          {SITE.ctaLabel}
-        </a>
+        {/* 2026-09-16:與 /features 頁尾同一種——預約(留資料)與試用(現在就看)並置。
+            機關法制看完這頁常想立刻點進去看畫面,不該只剩「填表等回信」一條路。 */}
+        <div class="cta-actions-row">
+          <a class="btn cta-btn" href="/demo/">
+            {SITE.ctaLabel}
+          </a>
+          <a class="cta-try" href={SITE.demoUrl}
+            >{SITE.tryLabel}<Icon name="chevron_right" size={16} /></a
+          >
+        </div>
       </div>
     </section>
   </main>
@@ -712,6 +720,24 @@ const features = [
   }
 
   /* 深底上不用 .btn-primary(亮底實心主色鈕),尺寸沿用 .btn,配色改產品深色模式的 primary */
+  /* 深底上的一主一輔:實心鈕 + 文字連結(--dark-blue-text 對 --dark-bg 7.82) */
+  .cta-actions-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 22px;
+  }
+  .cta-try {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    min-height: 44px;
+    font-size: var(--text-callout);
+    letter-spacing: var(--text-callout--letter-spacing);
+    color: var(--dark-blue-text);
+    white-space: nowrap;
+  }
+
   .cta-btn {
     background: var(--dark-blue);
     color: var(--dark-primary-fg);

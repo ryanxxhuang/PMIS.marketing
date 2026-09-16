@@ -10,6 +10,11 @@ export const SITE = {
   showPipelineNote: true,
   // 產品(app 子網域)。header/footer 的「登入」連到這裡。
   appUrl: 'https://app.gov-agent.ai',
+  // 線上試用站(demo 子網域,2026-09-16 上線)。三角色選人登入、記憶體種子,
+  // 不需註冊也碰不到正式資料。⚠️ demo 站不隨產品 main 自動更新,
+  // 產品改版後要在 PMIS repo 重佈(見該 repo DEVELOPMENT),否則站上連過去的是舊畫面。
+  demoUrl: 'https://demo.gov-agent.ai',
+  tryLabel: '線上試用',
 } as const;
 
 // 預約表單後端:Supabase Edge Function(專案 PMIS.ai)。

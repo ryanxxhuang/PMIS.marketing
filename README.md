@@ -10,6 +10,16 @@ npm run preview   # 預覽 dist/
 
 設計 token 在 `src/styles/global.css`,值與產品(PMIS repo)的 `src/index.css` 對齊;規範是 PMIS repo 的 `docs/UIUX-Apple-設計規範.md`。
 
+## 線上試用站 `demo.gov-agent.ai`
+
+全站(header／footer／hero 第二行動／CTA 段／預約頁)的「線上試用」都指向
+`SITE.demoUrl` = `https://demo.gov-agent.ai`,由 **PMIS repo** 的 Cloudflare Worker
+`pmis-demo` 提供(Supabase 留空建置、三角色選人登入、記憶體種子)。
+
+⚠️ **這個站不隨產品 `main` 自動更新。** 產品改版後要在 PMIS repo 依該 repo 的
+DEVELOPMENT 重佈,否則行銷站送過去的訪客看到的是舊畫面 —— 行銷站這邊沒有任何機制
+察覺這件事。
+
 ## 產品畫面 `public/appshots/`
 
 Hero 的兩張產品畫面是**從真實 App 截的圖**,不是手繪:

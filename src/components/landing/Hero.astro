@@ -3,6 +3,11 @@
 // 置中的 chip、display 級大標、兩段副標、一顆藥丸主鈕 + 一個帶 chevron 的文字連結、
 // 灰字信任列;下方的產品畫面坐在「上白下灰」的漸層帶上。
 //
+// 2026-09-16:第二行動從「功能全覽」換成「線上試用」(demo.gov-agent.ai 當日上線)。
+// 功能全覽沒有消失 —— 導覽列與「六個工作面」段各有一個入口;
+// 而首屏的第二個位置給「現在就能看到產品」比給「再讀一頁文案」值錢。
+// 主鈕仍是預約示範:自助試用降低門檻,但留資料的人才是名單。
+//
 // 副標是同一段文案拆成兩個 <p>(在「草稿與清單。」句點處斷),字一個沒動:
 // 設計稿就是「一句 20px 深字 + 一句 15px 灰字」的節奏,一整段 100 多字塞成一塊會糊掉。
 //
@@ -27,8 +32,9 @@ import Icon from '../Icon.astro';
     <p class="hero-desc">金額由程式算；AI 從契約與規範抽出的每一條履約要求，引註都由程式回原文逐字比對過。你做的是改、是核、是簽。</p>
     <div class="hero-actions">
       <a class="btn btn-primary" href="/demo/">{SITE.ctaLabel}</a>
-      <a class="btn-link" href="/features/">功能全覽<Icon name="chevron_right" size={16} /></a>
+      <a class="btn-link" href={SITE.demoUrl}>{SITE.tryLabel}<Icon name="chevron_right" size={16} /></a>
     </div>
+    <p class="hero-try">三個角色都可以進去看，不必註冊，也碰不到任何真實專案。</p>
     <div class="hero-trust">
       <span><Icon name="shield" size={15} />資通系統防護基準 · 普通級</span>
       <span><Icon name="location_on" size={15} />個資境內存放，未境外傳輸</span>
@@ -126,13 +132,25 @@ import Icon from '../Icon.astro';
     margin-top: 26px;
   }
 
-  /* 信任列:footnote/--text-3(5.54),圖示同色(圖形門檻 3:1 也過) */
+  /* 試用註腳:緊跟在行動列下方(10px),說明點過去會看到什麼。
+     訪客對「線上試用」最先起的疑問是要不要註冊、會不會碰到真資料,
+     這兩句先答掉,點擊率才上得來。footnote/--text-3(5.54 對 --surface)。 */
+  .hero-try {
+    margin-top: 10px;
+    font-size: var(--text-footnote);
+    line-height: var(--text-footnote--line-height);
+    letter-spacing: var(--text-footnote--letter-spacing);
+    color: var(--text-3);
+  }
+
+  /* 信任列:footnote/--text-3(5.54),圖示同色(圖形門檻 3:1 也過)。
+     上方多了 .hero-try 之後從 24 收到 20,兩段小字不要等距(否則讀起來像同一組) */
   .hero-trust {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 12px 26px;
-    margin-top: 24px;
+    margin-top: 20px;
     font-size: var(--text-footnote);
     line-height: var(--text-footnote--line-height);
     letter-spacing: var(--text-footnote--letter-spacing);

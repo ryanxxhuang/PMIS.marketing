@@ -1,21 +1,34 @@
 ---
-// 「AI 從一張現場照片讀到什麼」段(2026-08-25)。
+// 「AI 從一張告示板照片填好日誌」段(2026-08-25 建,2026-09-16 改寫)。
 //
-// ⚠️ 產品現況(2026-08-25 使用者確認):照片辨識**可以**,自動填表**還不行**。
-// 所以本段只呈現「辨識結果」,不宣稱任何欄位已被寫進表單。
-// 收件匣的措辭是「待你確認後帶入」,不是「已帶入」。
-// 等填表真的能動,把 dp-form-head 與收件匣那兩句改掉即可升級。
+// ⚠️ 2026-09-16 改寫的理由:原本這段寫的是「查驗」欄位(查驗項目/位置/結果),
+// 而且只敢說「已辨識,待你確認後帶入」。兩點都與產品不符 ——
+// 產品的告示板辨識(Edge `read-whiteboard` + SiteLog.jsx 的 onWhiteboard)吐的是
+// **施工日誌**欄位,而且是**直接寫進表單 state**,按鈕本人就叫「AI 拍照自動填寫」。
+// 改寫等於把聲稱往上調,不是往下修。
 //
+// 每一格都對得上 onWhiteboard 的實際行為:
+// - log_date 只在符合 YYYY-MM-DD 時才設(SiteLog.jsx:406)
+// - weather 直接設(:407)
+// - work_summary 用 `s || result.work_summary`:你已經寫了字它就不動(:408)
+// - items 逐項 matchLeaf 模糊比對本案標單葉節點,配到才填數量(:410-413)
+// - 配不到的進 missed,訊息逐一列出「未對應:…」,不硬塞最接近的工項(:413, :416)
+// - 全程只動表單 state,落庫由人按「存檔」
+//
+// 「不覆蓋你寫過的摘要」與「配不到就明列」是這一段的說服點,不要為了精簡刪掉。
 // 判定(合格/不合格)一律留給人 —— 這是產品紅線,不隨功能進度改變。
 import Icon from '../Icon.astro';
 
+// src 是 nowrap 的膠囊標籤(flex:none),窄視窗會直接撐開卡片 —— 一律控制在 6 字以內,
+// 要解釋的話寫進下方的 dp-note。
 const fields = [
-  { label: '查驗項目', value: '4F 柱牆鋼筋查驗', src: '讀自白板', tone: 'ai' },
-  { label: '查驗位置', value: '4F 東側 C3～C7 構面', src: '讀自白板', tone: 'ai' },
-  { label: '查驗日期', value: '2026-08-24', src: '讀自白板', tone: 'ai' },
-  { label: '板上工項', value: '柱牆鋼筋組立 SD420W', src: '讀自白板', tone: 'ai' },
-  { label: '對應標單工項', value: '03-02 鋼筋加工組立 SD420W', src: '比對標單', tone: 'ai' },
-  { label: '查驗結果', value: null, src: '不辨識，由你判定', tone: 'warn' },
+  { label: '日期', value: '2026-08-24', src: '讀自告示板', tone: 'ai' },
+  { label: '天氣', value: '晴，午後陣雨', src: '讀自告示板', tone: 'ai' },
+  { label: '施工位置', value: '4F 東側 C3～C7 構面', src: '讀自告示板', tone: 'ai' },
+  { label: '工作摘要', value: '4F 柱牆鋼筋組立', src: '你沒寫才帶入', tone: 'ai' },
+  { label: '03-02 鋼筋加工組立', value: '2.4 t', src: '對回本案標單', tone: 'ai' },
+  { label: '03-03 模板組立', value: '86 m²', src: '對回本案標單', tone: 'ai' },
+  { label: '板上「植筋」', value: null, src: '標單裡沒有', tone: 'warn' },
 ];
 ---
 
@@ -23,15 +36,15 @@ const fields = [
   <div class="wrap">
     <div class="dp-intro">
       <div class="kicker">AI 做了什麼</div>
-      <h2 class="section-h2">AI 從一張現場照片，讀到這些</h2>
+      <h2 class="section-h2">拍一張告示板，今天的日誌先填好</h2>
       <p class="section-desc">
-        查驗時本來就要拍照，照片裡通常有一塊寫著查驗項目、位置與日期的白板。把那張照片丟進來，AI 讀出板上的字，並比對本案標單找出對應的工項。合格與否不在它的工具裡——那一格它不碰。
+        現場本來就要拍照，照片裡通常有一塊寫著日期、天氣與今日工項的告示板。把那張照片丟進來，AI 讀出板上的字，把數量對回本案標單的工項，直接填進日誌表單。填進去的是表單，不是資料庫——存檔前每一格都還能改。
       </p>
     </div>
 
     <div class="split dp-split">
       <div class="dp-form">
-        <div class="dp-form-head">AI 從這張照片讀到的</div>
+        <div class="dp-form-head">AI 直接填進日誌表單的欄位</div>
         {
           fields.map((f) => (
             <div class="dp-row">
@@ -43,29 +56,29 @@ const fields = [
             </div>
           ))
         }
-        <p class="dp-note">查驗結果那一格是刻意空的。照片能證明查驗做了什麼、在哪裡，不能代替工程師判定合不合格。</p>
+        <p class="dp-note">最後一列是刻意空的。板上寫的「植筋」比對不到本案標單的任何工項，系統寧可列出來讓你自己歸類，也不把它硬塞給最接近的那一項。</p>
       </div>
 
       <div class="dp-inbox">
         <div class="dp-inbox-head">
-          <Icon name="auto_awesome" size={19} class="dp-inbox-icon" />已辨識，待你確認後帶入
+          <Icon name="auto_awesome" size={19} class="dp-inbox-icon" />AI 帶入 2 項，請確認數量後存檔
         </div>
         <p class="dp-inbox-summary">
-          從 1 張現場照片讀出 5 個欄位，並對應到標單工項 03-02。
+          從 1 張告示板照片讀出日期、天氣與工作摘要，並把 2 個工項的數量對回本案標單；板上另有 1 項對不到標單。
         </p>
         <p class="dp-inbox-basis">
-          依據：照片中白板的文字、本案標單工項清單
+          依據：照片中告示板的文字、本案標單工項清單
         </p>
-        {/* 靜態示意,不是可點按鈕 */}
+        {/* 靜態示意,不是可點按鈕。動作名沿用產品:落庫的那一顆就叫「存檔」 */}
         <div class="dp-actions" aria-hidden="true">
-          <span class="dp-btn dp-btn--accept">確認帶入</span>
+          <span class="dp-btn dp-btn--accept">存檔</span>
           <span class="dp-btn">重新辨識</span>
         </div>
       </div>
     </div>
 
     <p class="dp-foot">
-      辨識結果只有你看得到，你不確認就不會進到任何一張業務資料表。這不是介面規則，是資料庫權限：AI 的產出一律寫在待覆核清單，一般使用者對那張表沒有寫入權限，狀態轉移限本人執行且終態不可逆，每一次處理都寫進稽核軌跡。
+      這些值現在只在你的瀏覽器裡，一格也沒進資料庫。按下存檔的是你——存檔之後，這份日誌才會成為估驗對量與查驗的佐證來源。AI 也不覆蓋你已經寫過的字：工作摘要那一格只要你先寫了，它就不動。至於需要人判定的事（查驗合格與否、缺失成不成立），那些動作根本不在 AI 的工具清單裡。
     </p>
   </div>
 </section>
@@ -92,7 +105,10 @@ const fields = [
   }
   .dp-row {
     display: grid;
-    grid-template-columns: 104px 1fr auto;
+    /* 128 是「03-02 鋼筋加工組立」在 footnote 級不斷行的寬度。
+       2026-09-16 左欄從純欄位名改成也放工項名稱後從 104 放寬 ——
+       104 會把最後一個字擠成孤字。再加欄位名時記得回來核對。 */
+    grid-template-columns: 128px 1fr auto;
     gap: 12px;
     align-items: start;
     padding: 12px 18px;

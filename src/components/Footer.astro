@@ -26,6 +26,9 @@ const { note = '畫面中的專案、金額、人名與統計數字為示範資�
       <a href="/features/">功能全覽</a>
       <a href="/security/">AI 邊界與資安</a>
       <a href="/demo/">預約示範</a>
+      {/* 線上試用(2026-09-16):720px 以下 header 的 navlink 全數隱藏,
+          手機訪客的試用入口由這裡與 hero 的第二行動承接。 */}
+      <a href={SITE.demoUrl}>{SITE.tryLabel}</a>
       <a href={SITE.appUrl}>登入</a>
       <a href={`mailto:${SITE.contactEmail}`}>聯絡</a>
     </nav>

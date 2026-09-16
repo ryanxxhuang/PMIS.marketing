@@ -55,6 +55,13 @@ const concerns = [
           <h1 class="form-title" tabindex="-1">預約線上示範</h1>
           <p class="form-lede">30 分鐘，帶你自己的案子看一次。不用先簽任何東西。</p>
 
+          {/* 980px 以下側欄掉到表單之後,側欄那張「想先自己看?」卡就變成
+              「整份表單滑完才看得到」—— 那正好抓不到不想填表的人。
+              窄視窗改在這裡先給一行,桌機隱藏(側欄那張卡已在右上角)。 */}
+          <p class="form-try">
+            想先自己看？<a href={SITE.demoUrl}>{SITE.tryLabel}</a>不必註冊，用示範資料跑。
+          </p>
+
           <div class="role-group">
             <div class="group-label" id="role-group-label">你在專案裡是哪一方？</div>
             <div class="role-grid" role="group" aria-labelledby="role-group-label">
@@ -143,6 +150,20 @@ const concerns = [
       </div>
 
       <aside class="demo-aside">
+        {/* 2026-09-16:demo 站上線後,這張卡放在側欄最上面 ——
+            走到預約表單卻不想現在留資料的人,以前只能關掉分頁。
+            刻意寫清楚兩者的差別(示範資料 vs 你自己的標單),不讓它變成表單的替代品。 */}
+        <div class="aside-card aside-try">
+          <h2 class="aside-title">想先自己看？</h2>
+          <p class="aside-try-desc">
+            線上試用站用示範資料跑，機關、監造、廠商三個角色都可以進去，不必註冊。
+          </p>
+          <a class="aside-try-link" href={SITE.demoUrl}>
+            {SITE.tryLabel}<Icon name="chevron_right" size={16} />
+          </a>
+          <p class="aside-try-note">要看你自己的標單或契約跑起來的樣子，還是得預約——那需要我們把你的檔案匯進來。</p>
+        </div>
+
         <div class="aside-card">
           <h2 class="aside-title">示範會走完這四步</h2>
           <div class="aside-steps">
@@ -687,6 +708,32 @@ const concerns = [
     line-height: var(--text-title3--line-height);
     letter-spacing: var(--text-title3--letter-spacing);
   }
+  /* ---------- 「想先自己看?」卡(2026-09-16) ----------
+     不做強調底色:它在側欄最上面已經是第一個看到的東西,再加底色會跟
+     左欄的表單搶主行動。文字色對 --surface:--text-2 7.31、--text-3 5.54 */
+  .aside-try-desc {
+    margin-top: 10px;
+    font-size: var(--text-body);
+    letter-spacing: var(--text-body--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-2);
+  }
+  .aside-try-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    min-height: 44px;
+    font-size: var(--text-callout);
+    letter-spacing: var(--text-callout--letter-spacing);
+    color: var(--blue-text); /* 6.95 對 --surface */
+  }
+  .aside-try-note {
+    font-size: var(--text-footnote);
+    letter-spacing: var(--text-footnote--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--text-3);
+  }
+
   .aside-steps {
     display: flex;
     flex-direction: column;
@@ -753,12 +800,28 @@ const concerns = [
     text-decoration: underline;
   }
 
+  /* 窄視窗才出現的試用提示(見上方 .form-try 的註解);
+     footnote/--text-3(5.54 對 --surface),與 form-lede 之間留 14px */
+  .form-try { display: none; }
+  .form-try a {
+    color: var(--blue-text); /* 6.95 對 --surface */
+    text-decoration: underline;
+  }
+
   /* ---------- 響應式 ---------- */
 
   @media (max-width: 980px) {
     .demo-grid {
       grid-template-columns: 1fr;
       gap: 28px;
+    }
+    .form-try {
+      display: block;
+      margin-top: 14px;
+      font-size: var(--text-footnote);
+      line-height: var(--leading-prose);
+      letter-spacing: var(--text-footnote--letter-spacing);
+      color: var(--text-3);
     }
   }
   @media (max-width: 760px) {

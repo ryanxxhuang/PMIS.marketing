@@ -29,6 +29,11 @@ const steps = [
       <p class="cta-desc">
         30 分鐘線上示範。帶一份 PCCES 標單或契約 PDF，我們現場匯入，走完一次「文件 → 履約要求 → 工項 → 估驗」，不用你先簽任何東西。
       </p>
+      {/* 兩個行動長得像,要先講清楚差別,否則訪客會在原地猶豫:
+          試用站跑的是示範資料,預約示範跑的是訪客自己的標單。 */}
+      <p class="cta-diff">
+        線上試用站放的是示範資料，三方畫面都看得到；預約示範是用你自己的案子跑一次。
+      </p>
       {
         SITE.showPipelineNote && (
           <p class="cta-pipeline">目前有兩家建築師事務所與一個政府機關在導入洽談中。</p>
@@ -36,10 +41,15 @@ const steps = [
       }
       <div class="cta-actions">
         <a class="btn cta-primary" href="/demo/">{SITE.ctaLabel}</a>
-        <a class="cta-secondary" href={`mailto:${SITE.contactEmail}`}>
-          <Icon name="mail" size={16} />{SITE.contactEmail}
+        <a class="cta-secondary" href={SITE.demoUrl}>
+          {SITE.tryLabel}<Icon name="chevron_right" size={16} />
         </a>
       </div>
+      {/* 信箱從行動列移到下面一行:行動列同時放主鈕、試用與信箱會變成三選一,
+          最後一個(信箱)本來就是備援管道,不該與前兩個等權。 */}
+      <p class="cta-mail">
+        不想預約也不想登入？直接寄信：<a class="cta-mail-link" href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>
+      </p>
     </div>
 
     <div class="cta-card">
@@ -84,6 +94,16 @@ const steps = [
     max-width: 560px;
   }
 
+  /* 兩個行動的差別:比 desc 退一階(body/--dark-text-2),在洽談狀態之前 */
+  .cta-diff {
+    margin-top: 12px;
+    font-size: var(--text-body);
+    letter-spacing: var(--text-body--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--dark-text-2);
+    max-width: 560px;
+  }
+
   .cta-pipeline {
     margin-top: 14px;
     font-size: var(--text-body);
@@ -112,7 +132,17 @@ const steps = [
     color: var(--dark-primary-fg);
   }
 
-  /* 信箱是文字連結(--dark-blue-text 7.82),hover 加底線 */
+  /* 信箱那一行:body/--dark-text-2(8.28 對 --dark-bg),連結色 --dark-blue-text */
+  .cta-mail {
+    margin-top: 16px;
+    font-size: var(--text-body);
+    letter-spacing: var(--text-body--letter-spacing);
+    line-height: var(--leading-prose);
+    color: var(--dark-text-2);
+  }
+  .cta-mail-link { color: var(--dark-blue-text); }
+
+  /* 試用是文字連結(--dark-blue-text 7.82),hover 加底線 */
   .cta-secondary {
     display: inline-flex;
     align-items: center;
